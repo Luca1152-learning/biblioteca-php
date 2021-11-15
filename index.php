@@ -1,0 +1,5 @@
+<html lang="ro">
+<body>
+<h1>Hello, world!</h1>
+</body>
+</html>
