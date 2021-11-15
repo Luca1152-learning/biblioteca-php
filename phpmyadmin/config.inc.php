@@ -24,10 +24,12 @@ $i = 0;
  * First server
  */
 $i++;
-/* Authentication type */
-$cfg['Servers'][$i]['auth_type'] = 'cookie';
 /* Server parameters */
-$cfg['Servers'][$i]['host'] = 'localhost';
+// Sursa: https://www.doabledanny.com/Deploy-PHP-And-MySQL-to-Heroku
+$cfg['Servers'][$i]['host'] = 'eu-cdbr-west-01.cleardb.com';
+$cfg['Servers'][$i]['user'] = 'b9960eb5b31032';
+$cfg['Servers'][$i]['password'] = '58fe0ff1';
+$cfg['Servers'][$i]['config'] = 'cookie';
 $cfg['Servers'][$i]['compress'] = false;
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
 
