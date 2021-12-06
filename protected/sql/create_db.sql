@@ -5,7 +5,7 @@ CREATE TABLE roles
 
 INSERT INTO roles(role)
 VALUES ('user'),
-       ('bibliotecar');
+       ('bibliotecar') ('administrator');
 
 CREATE TABLE users
 (

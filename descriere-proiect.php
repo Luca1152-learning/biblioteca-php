@@ -11,7 +11,7 @@
             <h2 class="subtitle">Descriere proiect</h2>
             <p>Lib este un website de administrare a unei biblioteci.</p>
             <p>
-                Acesta poate fi accesat de <strong>membri</strong> cât și de <strong>administratori</strong>.
+                Acesta poate fi accesat de <strong>membri</strong> cât și de <strong>bibliotecari</strong>.
                 "Entitățile" aplicației sunt cărțile. În funcție de tipul de utilizator,
                 se poate interacționa cu aplicația după cum urmează:
             </p>
@@ -24,7 +24,7 @@
                     </ul>
                 </li>
                 <li>
-                    <strong>Membru (logat)</strong>
+                    <strong>Membru logat</strong>
                     <ul>
                         <li>Toate abilitățile unui utilizator nelogat</li>
                         <li>Poate vedea numărul de cărți disponibile în bibliotecă pentru un anumit titlu</li>
@@ -34,11 +34,18 @@
                 <li>
                     <strong>Bibliotecar</strong>
                     <ul>
-                        <li>Toate abilitățile unui utilizator nelogat si unui membru logat</li>
+                        <li>Toate abilitățile unui utilizator nelogat</li>
                         <li>Poate oferi cărți celor ce le-au rezervat online</li>
                         <li>Poate primi cărți, returnate în urma unui împrumut</li>
                         <li>Poate adăuga, modifica și șterge cărțile din bibliotecă</li>
                         <li>Poate adăuga comentarii cărților individuale (cum ar fi starea lor)</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Administrator</strong>
+                    <ul>
+                        <li>Toate abilitățile unui utilizator nelogat</li>
+                        <li>Poate schimba rolul utilizatorilor înregistrați</li>
                     </ul>
                 </li>
             </ul>
