@@ -3,28 +3,29 @@
     {
         echo '
         <!DOCTYPE html>
-        <html lang="ro">
+        <html lang="ro" class="container is-max-desktop">
         
         <head>
             <!-- Bulma-->
             <link rel="stylesheet" href="/stylesheets/bulma.css">
             <meta name="viewport" content="width=device-width, initial-scale=1">
+            <script src="/javascripts/navbar.js"></script>
         
             <title>' . $title . '</title>
         </head>
         
         <body>
-        <header class="section">
+        <header class="section" style="padding-bottom: 0;">
             <nav class="navbar is-transparent">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="/">
                         <h1 class="title is-4">Lib</h1>
                     </a>
-                    <div class="navbar-burger" data-target="navbarExampleTransparentExample">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+                    <a role="button" clasUps="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                      <span aria-hidden="true"></span>
+                      <span aria-hidden="true"></span>
+                      <span aria-hidden="true"></span>
+                    </a>
                 </div>
         
                 <div id="navbarExampleTransparentExample" class="navbar-menu">
