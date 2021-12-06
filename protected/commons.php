@@ -6,10 +6,12 @@
         <html lang="ro" class="container is-max-desktop">
         
         <head>
-            <!-- Bulma-->
+            <!-- Bulma -->
             <link rel="stylesheet" href="/stylesheets/bulma.css">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <script src="/javascripts/navbar.js"></script>
+            
+            <!-- Iconify -->
+            <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
         
             <title>' . $title . '</title>
         </head>
@@ -19,6 +21,7 @@
             <nav class="navbar is-transparent">
                 <div class="navbar-brand">
                     <a class="navbar-item" href="/">
+                        <span class="iconify" data-icon="bx:bxs-book" style="color: #07d1b2; width: 2.2rem; height: auto; padding-top: 4px; margin-right: 6px"></span>
                         <h1 class="title is-4">Lib</h1>
                     </a>
                     <a role="button" clasUps="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
