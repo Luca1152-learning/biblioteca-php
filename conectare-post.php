@@ -2,6 +2,8 @@
     include 'protected/database.php';
     $db = connect_database();
 
+    session_start();
+
     function log_in(mysqli $db)
     {
         // Check all fields were received
@@ -34,7 +36,10 @@
                 exit();
             }
 
-            $query->bind_result($first_name, $last_name, $email, $role);
+            $query->bind_result(
+                $_SESSION["first_name"], $_SESSION["last_name"],
+                $_SESSION["email"], $_SESSION["role"]
+            );
             $query->fetch();
 
             $query->close();

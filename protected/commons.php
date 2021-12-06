@@ -1,4 +1,6 @@
 <?php
+    session_start();
+
     function page_header($title)
     {
         echo '
@@ -51,11 +53,23 @@
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="field is-grouped">
-                                <p class="control">
-                                    <a class="button is-primary is-rounded" href="/inregistrare.php">
-                                        <span>Înregistrare</span>
-                                    </a>
-                                </p>
+                                <p class="control">';
+        // Utilizatorul e logat => afiseaza "Iesire [nume]"
+        if (isset($_SESSION) && isset($_SESSION["first_name"])) {
+            echo '
+                <a href="/iesire.php" class="button is-text is-rounded">
+                    Ieșire ' . $_SESSION["first_name"] . ' ' . $_SESSION["last_name"] . '
+                </a>
+            ';
+            // Utiliatorul nu e logat => afiseaza butonul de inregistrare
+        } else {
+            echo '
+                <a class="button is-primary is-rounded" href="/inregistrare.php">
+                    <span>Înregistrare</span>
+                </a>';
+        }
+
+        echo '</p>
                             </div>
                         </div>
                     </div>

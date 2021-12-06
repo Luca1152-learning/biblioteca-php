@@ -1,6 +1,7 @@
 <?php
     include 'protected/database.php';
     $db = connect_database();
+    session_start();
 
     function sign_up(mysqli $db)
     {
@@ -25,6 +26,11 @@
             );
             $query->execute();
             $query->close();
+
+            $_SESSION["first_name"] = $_POST["first_name"];
+            $_SESSION["last_name"] = $_POST["last_name"];
+            $_SESSION["email"] = $_POST["last_name"];
+            $_SESSION["role"] = "user";
         } catch (Exception $e) {
             echo $e->getMessage();
         }

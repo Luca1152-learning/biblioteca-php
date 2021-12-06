@@ -1,8 +1,5 @@
 <?php
     include 'protected/commons.php';
-    include 'protected/database.php';
-
-    connect_database();
 
     page_header("Lib - Biblioteca ta");
 ?>
