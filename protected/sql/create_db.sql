@@ -1,3 +1,11 @@
+DROP TABLE IF EXISTS borrows;
+DROP TABLE IF EXISTS book_instances;
+DROP TABLE IF EXISTS books;
+DROP TABLE IF EXISTS publishers;
+DROP TABLE IF EXISTS authors;
+DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS roles;
+
 CREATE TABLE roles
 (
     role VARCHAR(64) PRIMARY KEY
@@ -5,7 +13,8 @@ CREATE TABLE roles
 
 INSERT INTO roles(role)
 VALUES ('user'),
-       ('bibliotecar') ('administrator');
+       ('bibliotecar'),
+       ('administrator');
 
 CREATE TABLE users
 (
@@ -14,7 +23,7 @@ CREATE TABLE users
     password         VARCHAR(128)       NOT NULL,
     first_name       VARCHAR(64)        NOT NULL,
     last_name        VARCHAR(64)        NOT NULL,
-    role             VARCHAR(64),
+    role             VARCHAR(64)        NOT NULL DEFAULT 'user',
     sign_up_date     DATETIME           NOT NULL DEFAULT CURRENT_TIMESTAMP,
     last_online_date DATETIME           NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (user_id),
@@ -52,7 +61,7 @@ CREATE TABLE books
     FOREIGN KEY (author_id) REFERENCES authors (author_id),
     FOREIGN KEY (publisher_id) REFERENCES publishers (publisher_id),
     UNIQUE KEY unique_book (title, author_id, publisher_id)
-)
+);
 
 CREATE TABLE book_instances
 (
@@ -62,7 +71,7 @@ CREATE TABLE book_instances
     comments         TEXT,
     PRIMARY KEY (book_instance_id),
     FOREIGN KEY (book_id) REFERENCES books (book_id)
-)
+);
 
 CREATE TABLE borrows
 (

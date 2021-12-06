@@ -8,7 +8,7 @@
 ?>
 
     <main class="section">
-        <form method="POST" action="/inregistrare-post.php"
+        <form method="POST" action="/conectare-post.php"
               style="width: 50%; position: relative; margin-left: auto; margin-right: auto">
             <h1 class="title">Conectare</h1>
             <div class="field">
@@ -34,7 +34,7 @@
                     Nu ai cont? Înregistrează-te <a href="/inregistrare.php">aici</a>.
                 </div>
                 <div class="control">
-                    <button class="button is-primary is-rounded">Conectare</button>
+                    <input type="submit" value="Conectare" class="button is-primary is-rounded">
                 </div>
             </div>
         </form>

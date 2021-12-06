@@ -51,7 +51,7 @@
             <div class="field" style="margin-top: 1.5rem;">
                 <label class="label">Repetă parola
                     <div class="control has-icons-left has-icons-right">
-                        <input class="input" type="password" name="password" placeholder="Aceeași parolă..." required>
+                        <input class="input" type="password" name="r_password" placeholder="Aceeași parolă..." required>
                     </div>
                 </label>
             </div>
@@ -62,7 +62,7 @@
                     Ai deja cont? Conectează-te <a href="/conectare.php">aici</a>.
                 </div>
                 <div class="control">
-                    <button class="button is-primary is-rounded">Înregistrare</button>
+                    <input type="submit" value="Înregistrare" name="submit" class="button is-primary is-rounded">
                 </div>
             </div>
         </form>
