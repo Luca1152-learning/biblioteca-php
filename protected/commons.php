@@ -52,8 +52,8 @@
                         <div class="navbar-item">
                             <div class="field is-grouped">
                                 <p class="control">
-                                    <a class="button is-primary is-rounded" href="/conectare.php">
-                                        <span>Conectare</span>
+                                    <a class="button is-primary is-rounded" href="/inregistrare.php">
+                                        <span>Înregistrare</span>
                                     </a>
                                 </p>
                             </div>
