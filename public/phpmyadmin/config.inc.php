@@ -33,6 +33,9 @@ $cfg['Servers'][$i]['config'] = 'cookie';
 $cfg['Servers'][$i]['compress'] = false;
 $cfg['Servers'][$i]['AllowNoPassword'] = false;
 
+// Fix 'Failed to set session cookie. Maybe you are using HTTP instead of HTTPS to access phpMyAdmin'
+$cfg['Servers'][$i]['auth_type'] = 'http';
+
 /**
  * phpMyAdmin configuration storage settings.
  */
