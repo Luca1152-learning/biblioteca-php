@@ -14,7 +14,7 @@ create_header("Lib - Cărți disponibile");
         <div class="tile is-ancestor" style="flex-wrap: wrap;">
             <?php
             foreach ($books as $book) {
-                (new BookView($book))->render();
+                (new BookView($book))->render_tile();
             }
             ?>
         </div>

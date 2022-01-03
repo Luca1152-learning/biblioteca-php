@@ -10,7 +10,7 @@ class BookView
         $this->book = $book;
     }
 
-    public function render()
+    public function render_tile()
     { ?>
         <div class="tile is-3 is-parent">
             <a href="#">

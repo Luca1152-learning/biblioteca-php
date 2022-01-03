@@ -14,6 +14,7 @@ class UserController
     public function sign_up(UserModel $user)
     {
         try {
+            // Insert the user
             $query = $this->db->prepare("
                 INSERT INTO users(email, password, first_name, last_name)
                 VALUES (?, ?, ?, ?)
@@ -25,14 +26,8 @@ class UserController
             $query->execute();
             $query->close();
 
-            // Alter the session
-            $_SESSION["user_email"] = $user->email;
-            $_SESSION["user_role"] = "user";
-            $_SESSION["user_first_name"] = $user->first_name;
-            $_SESSION["user_last_name"] = $user->last_name;
-            // TODO use RETURNING to get the other attributes as well?
-
-            return true;
+            // If successful, log in (altering the session)
+            return $this->sign_in($user);
         } catch (Exception $e) {
             return false;
         }
