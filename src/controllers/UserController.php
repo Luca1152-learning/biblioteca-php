@@ -1,6 +1,6 @@
 <?php
 include_once __DIR__ . '/../models/UserModel.php';
-include_once __DIR__ . '/../database/Database.php';
+include_once __DIR__ . '/../utils/database/Database.php';
 
 class UserController
 {
@@ -8,8 +8,7 @@ class UserController
 
     public function __construct()
     {
-        $db = new Database();
-        $this->db = $db->get_handle();
+        $this->db = (new Database())->get_handle();
     }
 
     public function sign_up(UserModel $user)
@@ -27,10 +26,11 @@ class UserController
             $query->close();
 
             // Alter the session
-            $_SESSION["email"] = $user->email;
-            $_SESSION["role"] = "user";
-            $_SESSION["first_name"] = $user->first_name;
-            $_SESSION["last_name"] = $user->last_name;
+            $_SESSION["user_email"] = $user->email;
+            $_SESSION["user_role"] = "user";
+            $_SESSION["user_first_name"] = $user->first_name;
+            $_SESSION["user_last_name"] = $user->last_name;
+            // TODO use RETURNING to get the other attributes as well?
 
             return true;
         } catch (Exception $e) {
@@ -42,7 +42,7 @@ class UserController
     {
         try {
             $query = $this->db->prepare("
-                SELECT email, role, first_name, last_name
+                SELECT user_id, email, role, first_name, last_name, sign_up_date, last_online_date
                 FROM users
                 WHERE email = ? AND password = ?;
             ");
@@ -59,8 +59,9 @@ class UserController
             }
 
             $query->bind_result(
-                $_SESSION["email"], $_SESSION["role"],
-                $_SESSION["first_name"], $_SESSION["last_name"]
+                $_SESSION["user_id"], $_SESSION["user_email"], $_SESSION["user_role"],
+                $_SESSION["user_first_name"], $_SESSION["user_last_name"], $_SESSION["user_sign_up_date"],
+                $_SESSION["user_last_online_date"]
             );
             $query->fetch();
 

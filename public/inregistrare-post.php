@@ -1,6 +1,6 @@
 <?php
-include_once __DIR__ . '/../src/utils/models/UserModel.php';
-include_once __DIR__ . '/../src/utils/controllers/UserController.php';
+include_once __DIR__ . '/../src/models/UserModel.php';
+include_once __DIR__ . '/../src/controllers/UserController.php';
 
 session_start();
 $userController = new UserController();

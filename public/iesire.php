@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__ . '/../src/utils/controllers/UserController.php';
+include_once __DIR__ . '/../src/controllers/UserController.php';
 
 $userController = new UserController();
 $userController->sign_out();

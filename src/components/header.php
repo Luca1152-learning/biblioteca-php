@@ -27,12 +27,6 @@ function create_header($title)
                               style="color: #07d1b2; width: 2.2rem; height: auto; padding-top: 4px; margin-right: 6px"></span>
                 <h1 class="title is-4">Lib</h1>
             </a>
-            <a role="button" clasUps="navbar-burger" aria-label="menu" aria-expanded="false"
-               data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
         </div>
 
         <div id="navbarExampleTransparentExample" class="navbar-menu">
@@ -58,9 +52,9 @@ function create_header($title)
                         <p class="control">
                             <?php
                             // Utilizatorul e logat => afiseaza "Iesire [nume]"
-                            if (isset($_SESSION) && isset($_SESSION["first_name"])) { ?>
+                            if (isset($_SESSION) && isset($_SESSION["user_id"])) { ?>
                                 <a href="/iesire.php" class="button is-text is-rounded">
-                                    <?php echo 'Ieșire ' . $_SESSION["first_name"] . ' ' . $_SESSION["last_name"] ?>
+                                    <?php echo 'Ieșire ' . $_SESSION["user_first_name"] . ' ' . $_SESSION["user_last_name"] ?>
                                 </a>
                                 <?php
                                 // Utiliatorul nu e logat => afiseaza butonul de inregistrare

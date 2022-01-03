@@ -107,11 +107,16 @@ VALUES ('Jane Austen');
 INSERT INTO publishers(name)
 VALUES ('Modern Library Classics, USA / CAN');
 
+INSERT INTO publishers(name)
+VALUES ('Penguin Books');
+
 INSERT INTO categories(name)
 VALUES ('Classics'),
        ('Fiction'),
        ('Romance');
 
+
+-- Pride and Prejudice
 INSERT INTO books(title, cover_url, publisher_id, first_publication_year, pages_count)
 VALUES ('Pride and Prejudice',
         'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1320399351l/1885.jpg', 5, 1813, 279);
@@ -120,8 +125,24 @@ INSERT INTO books_authors(book_id, author_id)
 VALUES (5, 5);
 
 INSERT INTO books_categories(book_id, category_id)
-VALUEs (5, 5),
+VALUES (5, 5),
        (5, 15),
        (5, 25);
+
+
+-- Sense and Sensibility
+
+INSERT INTO books(title, cover_url, publisher_id, first_publication_year, pages_count)
+VALUES ('Sense and Sensibility',
+        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1397245675l/14935._SY475_.jpg', 15, 1811,
+        409);
+
+INSERT INTO books_authors(book_id, author_id)
+VALUES (15, 5);
+
+INSERT INTO books_categories(book_id, category_id)
+VALUES (15, 5),
+       (15, 15),
+       (15, 25);
 
 COMMIT;
