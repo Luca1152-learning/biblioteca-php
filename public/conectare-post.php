@@ -1,11 +1,14 @@
 <?php
-include '../src/utils/database/database.php';
-$db = new Database();
+include_once __DIR__ . '/../src/utils/models/UserModel.php';
+include_once __DIR__ . '/../src/utils/controllers/UserController.php';
 
+$userController = new UserController();
 session_start();
 
-function log_in(mysqli $db)
+function sign_in()
 {
+    global $userController;
+
     // Check all fields were received
     if (empty($_POST["email"]) || empty($_POST["password"])) {
         // Redirect to log in page
@@ -13,44 +16,17 @@ function log_in(mysqli $db)
         exit();
     }
 
-    $hashed_password = hash("sha256", $_POST["password"]);
-
-    try {
-        // Query
-        $query = $db->prepare("
-                SELECT first_name, last_name, email, role
-                FROM users
-                WHERE email = ? AND password = ?;
-            ");
-        $query->bind_param(
-            "ss",
-            $_POST["email"], $hashed_password
-        );
-        $query->execute();
-        $query->store_result();
-
-        // Invalid authentication, as no rows were found
-        if ($query->num_rows !== 1) {
-            // Redirect to sign in page
-            header('Location: /conectare.php');
-            exit();
-        }
-
-        $query->bind_result(
-            $_SESSION["first_name"], $_SESSION["last_name"],
-            $_SESSION["email"], $_SESSION["role"]
-        );
-        $query->fetch();
-
-        $query->close();
-    } catch (Exception $e) {
-        echo $e->getMessage();
+    $user = new UserModel($_POST["email"], $_POST["password"]);
+    if ($userController->sign_in($user)) {
+        // Redirect to index page
+        header('Location: /');
+        exit();
+    } else {
+        // Redirect to log in page
+        header('Location: /conectare.php');
+        exit();
     }
-
-    // Redirect to index page
-    header('Location: /');
-    exit();
 }
 
-log_in(Database::$db);
+sign_in();
 ?>

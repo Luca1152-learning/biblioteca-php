@@ -1,6 +1,6 @@
 <?php
-include '../src/components/header.php';
-include '../src/components/footer.php';
+include_once __DIR__ . '/../src/components/header.php';
+include_once __DIR__ . '/../src/components/footer.php';
 
 create_header("Lib - Biblioteca ta");
 ?>
