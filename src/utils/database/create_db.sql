@@ -50,13 +50,12 @@ CREATE TABLE categories
 
 CREATE TABLE books
 (
-    book_id          INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    title            VARCHAR(128) NOT NULL,
-    cover_url        VARCHAR(128),
-    publisher_id     INT          NOT NULL,
-    publication_year INT,
-    isbn             INT          NOT NULL,
-    pages_count      INT,
+    book_id                INT                 NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    title                  VARCHAR(128) UNIQUE NOT NULL,
+    cover_url              VARCHAR(256),
+    publisher_id           INT                 NOT NULL,
+    first_publication_year INT,
+    pages_count            INT,
     FOREIGN KEY (publisher_id) REFERENCES publishers (publisher_id)
 );
 
@@ -100,3 +99,29 @@ CREATE TABLE borrows
     FOREIGN KEY (user_id) REFERENCES users (user_id),
     FOREIGN KEY (copy_id) REFERENCES copies (copy_id)
 );
+
+-- Test values
+INSERT INTO authors(name)
+VALUES ('Jane Austen');
+
+INSERT INTO publishers(name)
+VALUES ('Modern Library Classics, USA / CAN');
+
+INSERT INTO categories(name)
+VALUES ('Classics'),
+       ('Fiction'),
+       ('Romance');
+
+INSERT INTO books(title, cover_url, publisher_id, first_publication_year, pages_count)
+VALUES ('Pride and Prejudice',
+        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1320399351l/1885.jpg', 5, 1813, 279);
+
+INSERT INTO books_authors(book_id, author_id)
+VALUES (5, 5);
+
+INSERT INTO books_categories(book_id, category_id)
+VALUEs (5, 5),
+       (5, 15),
+       (5, 25);
+
+COMMIT;
