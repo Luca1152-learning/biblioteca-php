@@ -3,8 +3,6 @@
     include '../src/components/footer.php';
     include '../src/utils/database/database.php';
 
-    connect_database();
-
     create_header("Lib - Biblioteca ta");
 ?>
 

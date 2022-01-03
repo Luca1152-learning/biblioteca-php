@@ -1,10 +1,9 @@
 <?php
-    include '../src/utils/database/database.php';
-    include '../src/components/header.php';
-    include '../src/components/footer.php';
-    connect_database();
+include '../src/utils/database/database.php';
+include '../src/components/header.php';
+include '../src/components/footer.php';
 
-    create_header("Lib - Descriere proiect");
+create_header("Lib - Descriere proiect");
 ?>
 
     <main class="section">
@@ -64,5 +63,5 @@
     </main>
 
 <?php
-    create_footer();
+create_footer();
 ?>
