@@ -18,9 +18,21 @@ class BookController
 
         // Query
         $query = $this->db->prepare("
-                SELECT book_id, title, cover_url, b.publisher_id, p.name, first_publication_year, pages_count
+                SELECT b.book_id, title, cover_url, b.publisher_id, p.name, first_publication_year, 
+                       pages_count,
+                       (SELECT COUNT(*)
+                        FROM copies c
+                        WHERE c.book_id = b.book_id) copies_count,
+                       (SELECT GROUP_CONCAT(name)
+                        FROM books_authors ba
+                        JOIN authors a ON ba.author_id = a.author_id
+                        WHERE ba.book_id = b.book_id) authors, 
+                       (SELECT GROUP_CONCAT(c.name)
+                        FROM books_categories bc
+                        JOIN categories c on bc.category_id = c.category_id
+                        WHERE bc.book_id = b.book_id) categories
                 FROM books b
-                JOIN publishers p ON b.publisher_id = p.publisher_id;
+                LEFT JOIN publishers p ON b.publisher_id = p.publisher_id;
             ");
         $query->execute();
 
@@ -29,11 +41,15 @@ class BookController
         $query->store_result();
         $query->bind_result(
             $book->book_id, $book->title, $book->cover_url, $book->publisher_id,
-            $book->publisher_name, $book->publication_year, $book->pages_count
+            $book->publisher_name, $book->publication_year, $book->pages_count, $book->available_copies_count,
+            $authors_string, $categories_string
         );
 
         // Fetch all rows
         while ($query->fetch()) {
+            $book->authors = explode(",", $authors_string);
+            $book->categories = explode(",", $categories_string);
+
             // unserialize(serialize(book)) = deep copy
             array_push($books_array, unserialize(serialize($book)));
         }

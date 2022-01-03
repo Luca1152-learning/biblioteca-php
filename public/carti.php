@@ -11,7 +11,7 @@ $books = $book_controller->get_all_books();
 create_header("Lib - Cărți disponibile");
 ?>
     <main class="section">
-        <div class="tile is-ancestor">
+        <div class="tile is-ancestor" style="flex-wrap: wrap;">
             <?php
             foreach ($books as $book) {
                 (new BookView($book))->render();
