@@ -18,8 +18,17 @@ class BookView
                     <figure class="is-child image">
                         <img src="<?php echo $this->book->cover_url ?>" alt="<?php echo $this->book->title ?> cover">
                     </figure>
-                    <p class="title is-5 is-child mt-2 pt-1 has-text-centered"><?php echo $this->book->title ?></p>
-                    <p class="subtitle is-6 is-child has-text-centered has-text-grey-dark"><?php echo $this->book->authors[0] ?></p>
+                    <p class="is-size-5 has-text-black has-text-weight-medium is-child pt-1 has-text-centered"><?php echo $this->book->title ?></p>
+                    <p class="is-size-6 is-child has-text-centered has-text-grey-dark"><?php echo $this->book->authors[0] ?></p>
+                    <?php if ($this->book->available_copies_count > 0) { // TODO: counts copies and not available copies ?>
+                        <button class="is-child button is-rounded is-primary is-small mt-3" style="align-self: center;">
+                            Împrumută
+                        </button>
+                    <?php } else { ?>
+                        <button class="is-child button is-rounded is-small mt-3" style="align-self: center;" disabled>
+                            Indisponibilă
+                        </button>
+                    <?php } ?>
                 </div>
             </a>
         </div>

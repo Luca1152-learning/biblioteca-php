@@ -129,6 +129,9 @@ VALUES (5, 5),
        (5, 15),
        (5, 25);
 
+INSERT INTO copies(book_id)
+VALUES (5);
+
 
 -- Sense and Sensibility
 
