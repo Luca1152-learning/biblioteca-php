@@ -1,0 +1,6 @@
+{
+  "require": {
+    "amenadiel/jpgraph": "^4",
+    "fpdf/fpdf": "^1.83"
+  }
+}
