@@ -75,7 +75,7 @@ class BookView
                 <?php
                 foreach ($book->categories as $category) {
                     ?>
-                    <p class="mb-1">
+                    <p class="mb-2">
                         <a href="/categorie.php?id=<?php echo $category->id; ?>">
                             <?php echo $category->name; ?>
                         </a>

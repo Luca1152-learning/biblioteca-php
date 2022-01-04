@@ -109,18 +109,20 @@ CREATE TABLE borrows
 
 -- Test values
 INSERT INTO authors(name)
-VALUES ('Jane Austen');
+VALUES ('Jane Austen'),
+       ('George Orwell');
 
 INSERT INTO publishers(name)
-VALUES ('Modern Library Classics, USA / CAN');
-
-INSERT INTO publishers(name)
-VALUES ('Penguin Books');
+VALUES ('Modern Library Classics, USA / CAN'),
+       ('Penguin Books'),
+       ('Houghton Mifflin Harcourt');
 
 INSERT INTO categories(name)
 VALUES ('Classics'),
        ('Fiction'),
-       ('Romance');
+       ('Romance'),
+       ('Science Fiction'),
+       ('Science Fiction > Dystopia');
 
 
 -- Pride and Prejudice
@@ -155,5 +157,27 @@ INSERT INTO books_categories(book_id, category_id, list_index)
 VALUES (15, 5, 0),
        (15, 15, 1),
        (15, 25, 2);
+
+-- 1984
+INSERT INTO books(title, description, cover_url, publisher_id, first_publication_year, pages_count)
+VALUES ('1984',
+        'Among the seminal texts of the 20th century, Nineteen Eighty-Four is a rare work that grows more haunting as its futuristic purgatory becomes more real. Published in 1949, the book offers political satirist George Orwell''s nightmarish vision of a totalitarian, bureaucratic world and one poor stiff''s attempt to find individuality. The brilliance of the novel is Orwell''s prescience of modern life—the ubiquity of television, the distortion of the language—and his ability to construct such a thorough version of hell. Required reading for students since it was published, it ranks among the most terrifying novels ever written.',
+        'https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1532714506l/40961427._SX318_.jpg', 25,
+        1949,
+        298);
+
+INSERT INTO books_authors(book_id, author_id, is_main_author)
+VALUES (25, 15, TRUE);
+
+INSERT INTO books_categories(book_id, category_id, list_index)
+VALUES (25, 5, 0),
+       (25, 15, 1),
+       (25, 35, 2),
+       (25, 45, 3);
+
+INSERT INTO copies(book_id)
+VALUES (25),
+       (25),
+       (25);
 
 COMMIT;
