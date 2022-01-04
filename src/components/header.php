@@ -33,9 +33,6 @@ function create_header($title)
 
         <div id="navbarExampleTransparentExample" class="navbar-menu">
             <div class="navbar-start">
-                <a class="navbar-item" href="/carti.php">
-                    Cărți
-                </a>
                 <div class="navbar-item has-dropdown is-hoverable">
                     <p class="navbar-link">
                         Despre

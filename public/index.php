@@ -1,16 +1,27 @@
 <?php
 include_once __DIR__ . '/../src/components/header.php';
 include_once __DIR__ . '/../src/components/footer.php';
+include_once __DIR__ . '/../src/controllers/BookController.php';
+include_once __DIR__ . '/../src/views/BookView.php';
 
-create_header("Lib - Biblioteca ta");
+$book_controller = new BookController();
+$books = $book_controller->get_all();
+
+
+create_header("Lib - Toate cărțile");
 ?>
-
     <main class="section">
-        <div class="container">
-            Descrierea proiectului se găsește <strong><a href="/descriere-proiect.php">aici</a></strong>.
+        <p class="is-size-4 has-text-black has-text-weight-semibold pb-2">
+            Toate cărțile
+        </p>
+        <div class="tile is-ancestor" style="flex-wrap: wrap;">
+            <?php
+            foreach ($books as $book) {
+                (new BookView())->render_tile($book);
+            }
+            ?>
         </div>
     </main>
-
 <?php
 create_footer();
 ?>
