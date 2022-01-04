@@ -5,7 +5,7 @@ include_once __DIR__ . '/../src/controllers/BookController.php';
 include_once __DIR__ . '/../src/views/BookView.php';
 
 $book_controller = new BookController();
-$books = $book_controller->get_all_books();
+$books = $book_controller->get_all();
 
 
 create_header("Lib - Cărți disponibile");
@@ -14,7 +14,7 @@ create_header("Lib - Cărți disponibile");
         <div class="tile is-ancestor" style="flex-wrap: wrap;">
             <?php
             foreach ($books as $book) {
-                (new BookView($book))->render_tile();
+                (new BookView())->render_tile($book);
             }
             ?>
         </div>

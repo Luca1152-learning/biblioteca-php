@@ -1,9 +1,10 @@
 <?php
 
+include_once __DIR__ . '/AbstractController.php';
 include_once __DIR__ . '/../models/BookModel.php';
 include_once __DIR__ . '/../utils/database/Database.php';
 
-class BookController
+class BookController implements AbstractController
 {
     private mysqli $db;
 
@@ -12,28 +13,28 @@ class BookController
         $this->db = (new Database())->get_handle();
     }
 
-    public function get_all_books()
+    public function get_all()
     {
         $books_array = [];
 
         // Query
         $query = $this->db->prepare("
-                SELECT b.book_id, title, cover_url, b.publisher_id, p.name, first_publication_year, 
-                       pages_count,
-                       (SELECT COUNT(*)
-                        FROM copies c
-                        WHERE c.book_id = b.book_id) copies_count,
-                       (SELECT GROUP_CONCAT(name)
-                        FROM books_authors ba
-                        JOIN authors a ON ba.author_id = a.author_id
-                        WHERE ba.book_id = b.book_id) authors, 
-                       (SELECT GROUP_CONCAT(c.name)
-                        FROM books_categories bc
-                        JOIN categories c on bc.category_id = c.category_id
-                        WHERE bc.book_id = b.book_id) categories
-                FROM books b
-                LEFT JOIN publishers p ON b.publisher_id = p.publisher_id;
-            ");
+            SELECT b.book_id, title, cover_url, b.publisher_id, p.name, first_publication_year, 
+                   pages_count,
+                   (SELECT COUNT(*)
+                    FROM copies c
+                    WHERE c.book_id = b.book_id) copies_count,
+                   (SELECT GROUP_CONCAT(name)
+                    FROM books_authors ba
+                    JOIN authors a ON ba.author_id = a.author_id
+                    WHERE ba.book_id = b.book_id) authors, 
+                   (SELECT GROUP_CONCAT(c.name)
+                    FROM books_categories bc
+                    JOIN categories c on bc.category_id = c.category_id
+                    WHERE bc.book_id = b.book_id) categories
+            FROM books b
+            LEFT JOIN publishers p ON b.publisher_id = p.publisher_id;
+        ");
         $query->execute();
 
         // Prepare the result
@@ -57,6 +58,13 @@ class BookController
         $query->close();
 
         return $books_array;
+    }
+
+    public function get_by_id(int $id)
+    {
+        return array_filter($this->get_all(), function ($it) use ($id) {
+            return $it->book_id = $id;
+        })[0];
     }
 }
 
