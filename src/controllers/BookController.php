@@ -1,6 +1,7 @@
 <?php
 
 include_once __DIR__ . '/AbstractController.php';
+include_once __DIR__ . '/AuthorController.php';
 include_once __DIR__ . '/../models/BookModel.php';
 include_once __DIR__ . '/../utils/database/Database.php';
 
@@ -24,10 +25,16 @@ class BookController implements AbstractController
                    (SELECT COUNT(*)
                     FROM copies c
                     WHERE c.book_id = b.book_id) copies_count,
-                   (SELECT GROUP_CONCAT(name)
+                   (SELECT GROUP_CONCAT(a.author_id)
                     FROM books_authors ba
                     JOIN authors a ON ba.author_id = a.author_id
-                    WHERE ba.book_id = b.book_id) authors, 
+                    WHERE ba.book_id = b.book_id
+                    ORDER BY ba.is_main_author DESC, b.book_id) authors_ids,
+                    (SELECT GROUP_CONCAT(a.name)
+                    FROM books_authors ba
+                    JOIN authors a ON ba.author_id = a.author_id
+                    WHERE ba.book_id = b.book_id
+                    ORDER BY ba.is_main_author DESC, b.book_id) authors_names,
                    (SELECT GROUP_CONCAT(c.name)
                     FROM books_categories bc
                     JOIN categories c on bc.category_id = c.category_id
@@ -43,13 +50,18 @@ class BookController implements AbstractController
         $query->bind_result(
             $book->book_id, $book->title, $book->description, $book->cover_url, $book->publisher_id,
             $book->publisher_name, $book->publication_year, $book->pages_count, $book->available_copies_count,
-            $authors_string, $categories_string
+            $authors_ids_string, $authors_names_string, $categories_string
         );
 
         // Fetch all rows
         while ($query->fetch()) {
-            $book->authors = explode(",", $authors_string);
-            $book->categories = explode(",", $categories_string);
+            $authors_ids = explode(",", $authors_ids_string);
+            $authors_names = explode(",", $authors_names_string);
+            $book->authors = [];
+
+            foreach ($authors_names as $index => $author_name) {
+                array_push($book->authors, (object)["id" => $authors_ids[$index], "name" => $author_name]);
+            }
 
             // unserialize(serialize(book)) = deep copy
             array_push($books_array, unserialize(serialize($book)));

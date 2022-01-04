@@ -12,7 +12,7 @@ class BookView
                         <img src="<?php echo $book->cover_url ?>" alt="<?php echo $book->title ?> cover">
                     </figure>
                     <p class="is-size-5 has-text-black has-text-weight-medium is-child pt-1 has-text-centered"><?php echo $book->title ?></p>
-                    <p class="is-size-6 is-child has-text-centered has-text-grey-dark"><?php echo $book->authors[0] ?></p>
+                    <p class="is-size-6 is-child has-text-centered has-text-grey-dark"><?php echo $book->authors[0]->name ?></p>
                     <?php if ($book->available_copies_count > 0) { // TODO: counts copies and not available copies ?>
                         <button class="is-child button is-rounded is-primary mt-3" style="align-self: center;">
                             Împrumută
@@ -52,8 +52,8 @@ class BookView
                     de
                     <?php foreach ($book->authors as $index => $author) { ?>
                         <span>
-                            <a href="/autor?id=<?php echo 5; // TODO ?>" class="has-text-grey-light">
-                                <?php echo $author; ?>
+                            <a href="/autor.php?id=<?php echo $author->id; ?>" class="has-text-grey-light">
+                                <?php echo $author->name; ?>
                             </a>
                             <?php if ($index != count($book->authors) - 1)
                                 echo ", ";
