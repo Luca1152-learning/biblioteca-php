@@ -62,9 +62,11 @@ class BookController implements AbstractController
 
     public function get_by_id(int $id)
     {
-        return array_filter($this->get_all(), function ($it) use ($id) {
-            return $it->book_id = $id;
-        })[0];
+        $filtered_book = array_filter($this->get_all(), function ($it) use ($id) {
+            return $it->book_id == $id;
+        });
+        $first_element = reset($filtered_book);
+        return $first_element;
     }
 }
 
