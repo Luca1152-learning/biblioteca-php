@@ -30,7 +30,7 @@ class BookView
     public function render_individual_book(BookModel $book)
     { ?>
         <div class="columns">
-            <div class="column is-one-third is-flex is-flex-direction-column">
+            <div class="column is-one-quarter is-flex is-flex-direction-column">
                 <figure class="image">
                     <img src="<?php echo $book->cover_url ?>" alt="<?php echo $book->title ?> cover">
                 </figure>
@@ -48,11 +48,11 @@ class BookView
                 <p class="is-size-4 has-text-black has-text-weight-bold">
                     <?php echo $book->title ?>
                 </p>
-                <p class="is-size-5 has-text-grey-light has-text-weight-semibold">
+                <p class="is-size-5 has-text-grey-dark has-text-weight-medium mb-2">
                     de
                     <?php foreach ($book->authors as $index => $author) { ?>
                         <span>
-                            <a href="/autor.php?id=<?php echo $author->id; ?>" class="has-text-grey-light">
+                            <a href="/autor.php?id=<?php echo $author->id; ?>">
                                 <?php echo $author->name; ?>
                             </a>
                             <?php if ($index != count($book->authors) - 1)
@@ -64,6 +64,21 @@ class BookView
                 <p class="is-size-6 has-text-black">
                     <?php echo nl2br($book->description); ?>
                 </p>
+            </div>
+            <div class="column is-one-fifth">
+                <p class="is-size-6 has-text-black has-text-weight-semibold">CATEGORII</p>
+                <hr class="m-0 mt-1">
+                <?php
+                foreach ($book->categories as $category) {
+                    ?>
+                    <p class="mb-1">
+                        <a href="/categorie.php?id=<?php echo $category->id; ?>">
+                            <?php echo $category->name; ?>
+                        </a>
+                    </p>
+                    <?php
+                }
+                ?>
             </div>
         </div>
     <?php }

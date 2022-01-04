@@ -25,20 +25,22 @@ class BookController implements AbstractController
                    (SELECT COUNT(*)
                     FROM copies c
                     WHERE c.book_id = b.book_id) copies_count,
-                   (SELECT GROUP_CONCAT(a.author_id)
+                   (SELECT GROUP_CONCAT(a.author_id ORDER BY ba.is_main_author DESC, b.book_id)
                     FROM books_authors ba
                     JOIN authors a ON ba.author_id = a.author_id
-                    WHERE ba.book_id = b.book_id
-                    ORDER BY ba.is_main_author DESC, b.book_id) authors_ids,
-                    (SELECT GROUP_CONCAT(a.name)
+                    WHERE ba.book_id = b.book_id) authors_ids,
+                    (SELECT GROUP_CONCAT(a.name ORDER BY ba.is_main_author DESC, b.book_id)
                     FROM books_authors ba
                     JOIN authors a ON ba.author_id = a.author_id
-                    WHERE ba.book_id = b.book_id
-                    ORDER BY ba.is_main_author DESC, b.book_id) authors_names,
-                   (SELECT GROUP_CONCAT(c.name)
+                    WHERE ba.book_id = b.book_id) authors_names,
+                    (SELECT GROUP_CONCAT(c.category_id ORDER BY bc.list_index)
                     FROM books_categories bc
                     JOIN categories c on bc.category_id = c.category_id
-                    WHERE bc.book_id = b.book_id) categories
+                    WHERE bc.book_id = b.book_id) categories_ids,
+                   (SELECT GROUP_CONCAT(c.name ORDER BY bc.list_index)
+                    FROM books_categories bc
+                    JOIN categories c on bc.category_id = c.category_id
+                    WHERE bc.book_id = b.book_id) categories_names
             FROM books b
             LEFT JOIN publishers p ON b.publisher_id = p.publisher_id;
         ");
@@ -50,17 +52,25 @@ class BookController implements AbstractController
         $query->bind_result(
             $book->book_id, $book->title, $book->description, $book->cover_url, $book->publisher_id,
             $book->publisher_name, $book->publication_year, $book->pages_count, $book->available_copies_count,
-            $authors_ids_string, $authors_names_string, $categories_string
+            $authors_ids_string, $authors_names_string, $categories_ids_string, $categories_names_string
         );
 
         // Fetch all rows
         while ($query->fetch()) {
+            // Set authors
             $authors_ids = explode(",", $authors_ids_string);
             $authors_names = explode(",", $authors_names_string);
             $book->authors = [];
-
             foreach ($authors_names as $index => $author_name) {
                 array_push($book->authors, (object)["id" => $authors_ids[$index], "name" => $author_name]);
+            }
+
+            // Set categories
+            $categories_ids = explode(",", $categories_ids_string);
+            $categories_names = explode(",", $categories_names_string);
+            $book->categories = [];
+            foreach ($categories_names as $index => $category_name) {
+                array_push($book->categories, (object)["id" => $categories_ids[$index], "name" => $category_name]);
             }
 
             // unserialize(serialize(book)) = deep copy

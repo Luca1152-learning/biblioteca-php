@@ -3,7 +3,7 @@ include_once __DIR__ . '/../src/components/header.php';
 include_once __DIR__ . '/../src/components/footer.php';
 
 // TODO $_GET
-create_header("Lib - [Autor]");
+create_header("Lib - [Categorie]");
 ?>
 
     <main class="section">
