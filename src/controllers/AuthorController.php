@@ -16,7 +16,7 @@ class AuthorController implements AbstractController
     public function get_by_id(int $id)
     {
         $filtered_author = array_filter($this->get_all(), function ($it) use ($id) {
-            return $it->author_id == $id;
+            return $it->author_id === $id;
         });
         return reset($filtered_author);
     }

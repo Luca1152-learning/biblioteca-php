@@ -6,7 +6,7 @@ class Database
 
     public function __construct()
     {
-        if (Database::$handle == null) {
+        if (Database::$handle === null) {
             // Source: https://www.doabledanny.com/Deploy-PHP-And-MySQL-to-Heroku
             // Get Heroku ClearDB connection information
             $cleardb_url = parse_url("mysql://b9960eb5b31032:58fe0ff1@eu-cdbr-west-01.cleardb.com/heroku_b52a27f697a2c16?reconnect=true");

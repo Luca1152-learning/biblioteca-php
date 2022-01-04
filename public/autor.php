@@ -18,7 +18,7 @@ $author_name = $author->name;
 $books = $book_controller->get_all();
 $books_by_author = array_filter($books, function ($book) use ($author_id) {
     foreach ($book->authors as $author) {
-        if ($author->id = $author_id) {
+        if ($author->id === $author_id) {
             return true;
         }
     }
