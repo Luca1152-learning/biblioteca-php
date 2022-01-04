@@ -28,6 +28,21 @@ class SecurityHelper
         header('Location: /eroare-404.php');
         exit();
     }
+
+    public static function assert_is_admin()
+    {
+        if (!self::is_admin()) self::redirect_to_403();
+    }
+
+    public static function assert_is_logged_in()
+    {
+        if (!self::is_logged_in()) self::redirect_to_403();
+    }
+
+    public static function assert_is_librarian()
+    {
+        if (!self::is_librarian()) self::redirect_to_403();
+    }
 }
 
 ?>

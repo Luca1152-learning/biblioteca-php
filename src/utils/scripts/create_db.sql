@@ -35,7 +35,9 @@ CREATE TABLE users
 
 -- Admin user
 INSERT INTO users(email, password, first_name, last_name, role)
-VALUES ('admin@lib.ro', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'admin', 'admin');
+VALUES ('admin@lib.ro', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'admin', 'admin'),
+       ('bibliotecar@lib.ro', '7c18cce240a62e5f56a4edc713b57ce141a52faca57174dad75db8454b4f3b94', 'bibliotecar',
+        'bibliotecar', 'bibliotecar');
 
 CREATE TABLE authors
 (

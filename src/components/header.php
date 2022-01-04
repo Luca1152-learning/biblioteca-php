@@ -44,6 +44,26 @@ function create_header($title)
                         </a>
                     </div>
                 </div>
+                <?php if (SecurityHelper::is_librarian() || SecurityHelper::is_admin()) { ?>
+                    <div class="navbar-start">
+                        <div class="navbar-item has-dropdown is-hoverable">
+                            <p class="navbar-link">
+                                Dashboard
+                            </p>
+                            <div class="navbar-dropdown is-boxed">
+                                <?php if (SecurityHelper::is_admin()) { ?>
+                                    <a class="navbar-item" href="/dashboard.php?meniu=utilizatori">Utilizatori</a>
+                                <?php } ?>
+                                <a class="navbar-item" href="/dashboard.php?meniu=carti">Cărți</a>
+                                <a class="navbar-item" href="/dashboard.php?meniu=autori">Autori</a>
+                                <a class="navbar-item" href="/dashboard.php?meniu=publisheri">Publisheri</a>
+                                <a class="navbar-item" href="/dashboard.php?meniu=categorii">Categorii</a>
+                                <a class="navbar-item" href="/dashboard.php?meniu=copii">Copii</a>
+                                <a class="navbar-item" href="/dashboard.php?meniu=imprumuturi">Împrumuturi</a>
+                            </div>
+                        </div>
+                    </div>
+                <?php } ?>
             </div>
 
             <div class="navbar-end">
