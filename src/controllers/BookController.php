@@ -19,7 +19,7 @@ class BookController implements AbstractController
 
         // Query
         $query = $this->db->prepare("
-            SELECT b.book_id, title, cover_url, b.publisher_id, p.name, first_publication_year, 
+            SELECT b.book_id, title, description, cover_url, b.publisher_id, p.name, first_publication_year, 
                    pages_count,
                    (SELECT COUNT(*)
                     FROM copies c
@@ -41,7 +41,7 @@ class BookController implements AbstractController
         $book = new BookModel();
         $query->store_result();
         $query->bind_result(
-            $book->book_id, $book->title, $book->cover_url, $book->publisher_id,
+            $book->book_id, $book->title, $book->description, $book->cover_url, $book->publisher_id,
             $book->publisher_name, $book->publication_year, $book->pages_count, $book->available_copies_count,
             $authors_string, $categories_string
         );

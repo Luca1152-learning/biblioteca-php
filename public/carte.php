@@ -18,7 +18,7 @@ create_header("Lib - " . $book->title);
 
     <main class="section">
         <div class="container">
-            TODO
+            <?php (new BookView())->render_individual_book($book); ?>
         </div>
     </main>
 
