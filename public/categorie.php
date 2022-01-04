@@ -6,7 +6,7 @@ include_once __DIR__ . '/../src/controllers/CategoryController.php';
 include_once __DIR__ . '/../src/views/BookView.php';
 
 if (!isset($_GET["id"]) or !is_numeric($_GET["id"])) {
-    exit(); // TODO more explicit fail
+    SecurityHelper::redirect_to_404();
 }
 
 $book_controller = new BookController();
@@ -14,6 +14,10 @@ $category_controller = new CategoryController();
 
 $category_id = $_GET["id"];
 $category = $category_controller->get_by_id($category_id);
+// There's no book with the given id
+if ($category == null) {
+    SecurityHelper::redirect_to_404();
+}
 $category_name = $category->name;
 $books = $book_controller->get_all();
 $books_by_category = array_filter($books, function ($book) use ($category_id) {

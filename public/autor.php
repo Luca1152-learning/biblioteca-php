@@ -6,14 +6,17 @@ include_once __DIR__ . '/../src/controllers/AuthorController.php';
 include_once __DIR__ . '/../src/views/BookView.php';
 
 if (!isset($_GET["id"]) or !is_numeric($_GET["id"])) {
-    exit(); // TODO more explicit fail
+    SecurityHelper::redirect_to_404();
 }
-
 $book_controller = new BookController();
 $author_controller = new AuthorController();
 
 $author_id = $_GET["id"];
 $author = $author_controller->get_by_id($author_id);
+// There's no author with the given id
+if ($author == null) {
+    SecurityHelper::redirect_to_404();
+}
 $author_name = $author->name;
 $books = $book_controller->get_all();
 $books_by_author = array_filter($books, function ($book) use ($author_id) {
