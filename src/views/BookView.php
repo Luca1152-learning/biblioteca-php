@@ -39,7 +39,7 @@ class BookView
                         Împrumută
                     </button>
                 <?php } else { ?>
-                    <button class="button is-rounded mt-3" style="align-self: center;" disabled>
+                    <button class="button is-rounded mt-3 is-align-self-stretch" style="align-self: center;" disabled>
                         Indisponibilă
                     </button>
                 <?php } ?>
@@ -64,10 +64,14 @@ class BookView
                 <p class="is-size-6 has-text-black">
                     <?php echo nl2br($book->description); ?>
                 </p>
+                <p class="is-size-7 has-text-weight-bold has-text-gray mt-2">
+                    <?php echo $book->publisher_name; ?>, <?php echo $book->publication_year; ?>
+                    , <?php echo $book->pages_count; ?> pagini
+                </p>
             </div>
             <div class="column is-one-fifth">
                 <p class="is-size-6 has-text-black has-text-weight-semibold">CATEGORII</p>
-                <hr class="m-0 mt-1">
+                <hr class="m-0 my-1">
                 <?php
                 foreach ($book->categories as $category) {
                     ?>
