@@ -65,8 +65,9 @@ class BookView
                     <?php echo nl2br($book->description); ?>
                 </p>
                 <p class="is-size-7 has-text-weight-bold has-text-gray mt-2">
-                    <?php echo $book->publisher_name; ?>, <?php echo $book->publication_year; ?>
-                    , <?php echo $book->pages_count; ?> pagini
+                    <?php echo $book->publisher_name, ', '; ?>
+                    <?php echo $book->publication_year, ', '; ?>
+                    <?php echo $book->pages_count, ' pagini' ?>
                 </p>
             </div>
             <div class="column is-one-fifth">
