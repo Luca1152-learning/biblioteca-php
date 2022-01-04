@@ -70,15 +70,17 @@ class BookView
                     <?php echo $book->pages_count, ' pagini' ?>
                 </p>
             </div>
-            <div class="column is-one-fifth">
+            <div class="column is-one-quarter">
                 <p class="is-size-6 has-text-black has-text-weight-semibold">CATEGORII</p>
                 <hr class="m-0 my-1">
                 <?php
                 foreach ($book->categories as $category) {
                     ?>
                     <p class="mb-2">
-                        <a href="/categorie.php?id=<?php echo $category->id; ?>">
-                            <?php echo $category->name; ?>
+                        <a href="/categorie.php?id=<?php echo $category->id; ?>"
+                           class="is-flex is-justify-content-space-between is-align-content-baseline">
+                            <span class="is-align-self-baseline"><?php echo $category->name; ?></span>
+                            <span class="has-text-grey-light is-size-7 is-align-self-baseline"><?php echo $category->votes; ?> voturi</span>
                         </a>
                     </p>
                     <?php

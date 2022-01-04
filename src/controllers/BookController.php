@@ -32,14 +32,18 @@ class BookController implements AbstractController
                     FROM books_authors ba
                     JOIN authors a ON ba.author_id = a.author_id
                     WHERE ba.book_id = b.book_id) authors_names,
-                    (SELECT GROUP_CONCAT(c.category_id ORDER BY bc.list_index)
+                    (SELECT GROUP_CONCAT(c.category_id ORDER BY bc.votes DESC)
                     FROM books_categories bc
                     JOIN categories c on bc.category_id = c.category_id
                     WHERE bc.book_id = b.book_id) categories_ids,
-                   (SELECT GROUP_CONCAT(c.name ORDER BY bc.list_index)
+                   (SELECT GROUP_CONCAT(c.name ORDER BY bc.votes DESC)
                     FROM books_categories bc
                     JOIN categories c on bc.category_id = c.category_id
-                    WHERE bc.book_id = b.book_id) categories_names
+                    WHERE bc.book_id = b.book_id) categories_names,
+                   (SELECT GROUP_CONCAT(bc.votes ORDER BY bc.votes DESC)
+                    FROM books_categories bc
+                    JOIN categories c on bc.category_id = c.category_id
+                    WHERE bc.book_id = b.book_id) categories_votes
             FROM books b
             LEFT JOIN publishers p ON b.publisher_id = p.publisher_id;
         ");
@@ -51,7 +55,8 @@ class BookController implements AbstractController
         $query->bind_result(
             $book->book_id, $book->title, $book->description, $book->cover_url, $book->publisher_id,
             $book->publisher_name, $book->publication_year, $book->pages_count, $book->available_copies_count,
-            $authors_ids_string, $authors_names_string, $categories_ids_string, $categories_names_string
+            $authors_ids_string, $authors_names_string, $categories_ids_string, $categories_names_string,
+            $categories_votes_string
         );
 
         // Fetch all rows
@@ -67,9 +72,14 @@ class BookController implements AbstractController
             // Set categories
             $categories_ids = explode(",", $categories_ids_string);
             $categories_names = explode(",", $categories_names_string);
+            $categories_votes = explode(",", $categories_votes_string);
             $book->categories = [];
             foreach ($categories_names as $index => $category_name) {
-                array_push($book->categories, (object)["id" => $categories_ids[$index], "name" => $category_name]);
+                array_push($book->categories, (object)[
+                    "id" => $categories_ids[$index],
+                    "name" => $category_name,
+                    "votes" => $categories_votes[$index]]
+                );
             }
 
             // unserialize(serialize(book)) = deep copy

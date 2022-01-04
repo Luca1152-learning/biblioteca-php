@@ -78,7 +78,7 @@ CREATE TABLE books_categories
 (
     book_id     INT NOT NULL,
     category_id INT NOT NULL,
-    list_index  INT NOT NULL,
+    votes       INT NOT NULL,
     PRIMARY KEY (book_id, category_id),
     FOREIGN KEY (book_id) REFERENCES books (book_id),
     FOREIGN KEY (category_id) REFERENCES categories (category_id)
@@ -134,10 +134,10 @@ VALUES ('Pride and Prejudice',
 INSERT INTO books_authors(book_id, author_id, is_main_author)
 VALUES (5, 5, TRUE);
 
-INSERT INTO books_categories(book_id, category_id, list_index)
-VALUES (5, 5, 0),
-       (5, 15, 1),
-       (5, 25, 2);
+INSERT INTO books_categories(book_id, category_id, votes)
+VALUES (5, 5, 56262),
+       (5, 15, 16551),
+       (5, 25, 13981);
 
 INSERT INTO copies(book_id)
 VALUES (5);
@@ -153,10 +153,10 @@ VALUES ('Sense and Sensibility',
 INSERT INTO books_authors(book_id, author_id, is_main_author)
 VALUES (15, 5, TRUE);
 
-INSERT INTO books_categories(book_id, category_id, list_index)
-VALUES (15, 5, 0),
-       (15, 15, 1),
-       (15, 25, 2);
+INSERT INTO books_categories(book_id, category_id, votes)
+VALUES (15, 5, 28210),
+       (15, 15, 7342),
+       (15, 25, 5327);
 
 -- 1984
 INSERT INTO books(title, description, cover_url, publisher_id, first_publication_year, pages_count)
@@ -169,11 +169,11 @@ VALUES ('1984',
 INSERT INTO books_authors(book_id, author_id, is_main_author)
 VALUES (25, 15, TRUE);
 
-INSERT INTO books_categories(book_id, category_id, list_index)
-VALUES (25, 5, 0),
-       (25, 15, 1),
-       (25, 35, 2),
-       (25, 45, 3);
+INSERT INTO books_categories(book_id, category_id, votes)
+VALUES (25, 5, 46261),
+       (25, 15, 24573),
+       (25, 35, 11155),
+       (25, 45, 9268);
 
 INSERT INTO copies(book_id)
 VALUES (25),
