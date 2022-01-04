@@ -1,7 +1,6 @@
 <?php
 
 include_once __DIR__ . '/AbstractController.php';
-include_once __DIR__ . '/AuthorController.php';
 include_once __DIR__ . '/../models/BookModel.php';
 include_once __DIR__ . '/../utils/database/Database.php';
 
