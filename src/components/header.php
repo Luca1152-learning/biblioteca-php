@@ -1,4 +1,5 @@
 <?php
+include_once __DIR__ . "/../utils/security/SecurityHelper.php";
 
 session_start();
 
@@ -51,13 +52,13 @@ function create_header($title)
                         <p class="control">
                             <?php
                             // Utilizatorul e logat => afiseaza "Iesire [nume]"
-                            if (isset($_SESSION) && isset($_SESSION["user_id"])) { ?>
+                            if (SecurityHelper::is_logged_in()) { ?>
                                 <a href="/iesire.php" class="button is-text is-rounded">
-                                    <?php echo 'Ieșire ' . $_SESSION["user_first_name"] . ' ' . $_SESSION["user_last_name"] ?>
+                                    <?php echo 'Ieșire ' . $_SESSION["user_first_name"] ?>
                                 </a>
                                 <?php
-                                // Utiliatorul nu e logat => afiseaza butonul de inregistrare
-                            } else { ?>
+                            } else {
+                                // Utiliatorul nu e logat => afiseaza butonul de inregistrare ?>
                                 <a class="button is-primary is-rounded" href="/inregistrare.php">
                                     <span>Înregistrare</span>
                                 </a>
