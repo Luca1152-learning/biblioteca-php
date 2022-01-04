@@ -17,6 +17,9 @@ class Database
 
             // Connect to DB and store the handle
             Database::$handle = mysqli_connect($cleardb_server, $cleardb_username, $cleardb_password, $cleardb_db);
+
+            // Set the charset to unicode, so special caracters can be properly received & displayed
+            mysqli_set_charset(Database::$handle, 'utf8');
         }
     }
 

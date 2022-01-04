@@ -62,7 +62,7 @@ class BookView
                     <?php } ?>
                 </p>
                 <p class="is-size-6 has-text-black">
-                    <?php echo $book->description ?>
+                    <?php echo nl2br($book->description); ?>
                 </p>
             </div>
         </div>

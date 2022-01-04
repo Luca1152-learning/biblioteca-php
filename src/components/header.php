@@ -8,6 +8,8 @@ function create_header($title)
     <html lang="ro" class="container is-max-desktop">
 
     <head>
+        <meta charset="UTF-8">
+
         <!-- Bulma -->
         <link rel="stylesheet" href="/stylesheets/bulma.css">
         <meta name="viewport" content="width=device-width, initial-scale=1">
