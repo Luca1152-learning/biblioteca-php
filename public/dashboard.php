@@ -18,16 +18,10 @@ if ($meniu === "utilizatori") {
 $users_view = new UsersView();
 
 create_header("Lib - Dashboard");
-?>
-    <main class="section">
-        <p class="is-size-4 has-text-black has-text-weight-semibold pb-2">
-            Dashboard
-            <?php
-            $users_view->render_users_table();
-            ?>
-        </p>
-        <p><?php print_r($_GET); ?></p>
-    </main>
-<?php
+
+if ($meniu === "utilizatori") {
+    $users_view->render_users_table();
+}
+
 create_footer();
 ?>

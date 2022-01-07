@@ -17,7 +17,7 @@ class UserModel
     )
     {
         $this->email = $email;
-        $this->hashedPassword = hash("sha256", $password);
+        $this->hashedPassword = ($password != null) ? hash("sha256", $password) : null;
         $this->first_name = $first_name;
         $this->last_name = $last_name;
     }
