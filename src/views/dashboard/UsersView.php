@@ -29,7 +29,8 @@ class UsersView
                         <b-table
                                 :data="data"
                                 :paginated="isPaginated"
-                                default-sort="user.id">
+                                default-sort="user_id"
+                        >
 
                             <b-table-column field="user_id" label="ID" width="40" sortable numeric v-slot="props">
                                 {{ props.row.user_id }}
