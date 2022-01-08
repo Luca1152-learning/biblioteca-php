@@ -19,7 +19,7 @@ class TableView
                         <b-table
                                 :data="data"
                                 :paginated="isPaginated"
-                                default-sort="user_id"
+                                default-sort=<?php echo array_key_first($table_columns) ?>
                         >
 
                             <?php foreach ($table_columns as $field => $info) { ?>
@@ -28,7 +28,8 @@ class TableView
                                         label="<?php echo $info["label"] ?>"
                                         v-slot="props"
                                         sortable
-                                    <?php if (isset($info["centered"]) && $info["centered"] === true) echo " centered"; ?>
+                                    <?php if (isset($info["centered"]) && $info["centered"] === true) echo " centered "; ?>
+                                    <?php if (isset($info["width"])) echo " width=\"" . $info["width"] . "\""; ?>
                                 >
                                     <?php if (isset($info["type"]) && $info["type"] === "date") { ?>
                                         <span class="tag is-success">
@@ -40,7 +41,7 @@ class TableView
                                 </b-table-column>
                             <?php } ?>
 
-                            <b-table-column field="edit" label="" v-slot="props">
+                            <b-table-column field="edit" label="" v-slot="props" width="45">
                                 <a href="#">
                                     <b-icon
                                             pack="fas"
@@ -50,7 +51,7 @@ class TableView
                                 </a>
                             </b-table-column>
 
-                            <b-table-column field="delete" label="" v-slot="props">
+                            <b-table-column field="delete" label="" v-slot="props" width="45">
                                 <a href="#">
                                     <b-icon
                                             pack="fas"
