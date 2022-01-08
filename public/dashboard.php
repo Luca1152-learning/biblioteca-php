@@ -52,6 +52,8 @@ if ($menu === "utilizatori") {
         $metadata = array(
             "page_title" => "Listă utilizatori",
             "columns" => $columns,
+            "modify_url" => "/dashboard.php?meniu=utilizatori&actiune=modifica&id=",
+            "delete_url" => "/dashboard.php?meniu=utilizatori&actiune=sterge"
         );
         $table_view->render_table($user_controller->get_all(), $metadata);
     } else {
@@ -81,7 +83,9 @@ if ($menu === "utilizatori") {
         $metadata = array(
             "page_title" => "Listă cărți",
             "new_button_label" => "Adaugă carte",
-            "columns" => $columns
+            "columns" => $columns,
+            "modify_url" => "/dashboard.php?meniu=carti&actiune=modifica&id=",
+            "delete_url" => "/dashboard.php?meniu=carti&actiune=sterge",
         );
         $table_view->render_table($book_controller->get_all(), $metadata);
     } else {
@@ -104,7 +108,9 @@ if ($menu === "utilizatori") {
         $metadata = array(
             "page_title" => "Listă autori",
             "new_button_label" => "Adaugă autor",
-            "columns" => $columns
+            "columns" => $columns,
+            "modify_url" => "/dashboard.php?meniu=autori&actiune=modifica&id=",
+            "delete_url" => "/dashboard.php?meniu=autori&actiune=sterge",
         );
         $table_view->render_table($author_controller->get_all(), $metadata);
     } else {

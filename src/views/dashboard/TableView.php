@@ -52,7 +52,7 @@ class TableView
                             <?php } ?>
 
                             <b-table-column field="edit" label="" v-slot="props" width="45">
-                                <a href="#">
+                                <a :href="`<?php echo $metadata["modify_url"] ?>${props.row.<?php echo array_key_first($metadata["columns"]) ?>}`">
                                     <b-icon
                                             pack="fas"
                                             icon="edit"
@@ -62,7 +62,7 @@ class TableView
                             </b-table-column>
 
                             <b-table-column field="delete" label="" v-slot="props" width="45">
-                                <a href="#">
+                                <a :href="`<?php echo $metadata["delete_url"] ?>`">
                                     <b-icon
                                             pack="fas"
                                             icon="trash-alt"
