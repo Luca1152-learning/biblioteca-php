@@ -3,25 +3,25 @@ include_once __DIR__ . '/../../controllers/UserController.php';
 
 class TableView
 {
-    public function render_table($page_title, $new_button_name, $data, $table_columns)
+    public function render_table($data, $metadata)
     {
         ?>
         <div id="app">
             <main class="section">
                 <div class="is-flex is-justify-content-space-between">
-                    <p class="is-size-4 has-text-black has-text-weight-semibold pb-2"><?php echo $page_title ?></p>
-                    <?php if ($new_button_name != "") { ?>
-                        <button class="button is-primary is-rounded"><?php echo $new_button_name ?></button>
+                    <p class="is-size-4 has-text-black has-text-weight-semibold pb-2"><?php echo $metadata["page_title"] ?></p>
+                    <?php if (isset($metadata["new_button_label"])) { ?>
+                        <button class="button is-primary is-rounded"><?php echo $metadata["new_button_label"] ?></button>
                     <?php } ?>
                 </div>
                 <template>
                     <section>
                         <b-table
                                 :data="data"
-                                default-sort=<?php echo array_key_first($table_columns) ?>
+                                default-sort=<?php echo array_key_first($metadata["columns"]) ?>
                         >
 
-                            <?php foreach ($table_columns as $field => $info) { ?>
+                            <?php foreach ($metadata["columns"] as $field => $info) { ?>
                                 <b-table-column
                                         field="<?php echo $field ?>"
                                         label="<?php echo $info["label"] ?>"
@@ -37,11 +37,11 @@ class TableView
                                     <?php } else if (isset($info["type"]) && $info["type"] === "list") { ?>
                                         <b-taglist>
                                             <b-tag v-for="item in props.row.<?php echo $field; ?>.slice(0,2)"
-                                                   :key="index" type="is-info is-light">
+                                                   :key="index" type="is-success">
                                                 {{item.name}}
                                             </b-tag>
                                             <b-tag v-if="props.row.<?php echo $field; ?>.length > 2"
-                                                   :key="index" type="is-info is-light">
+                                                   :key="index" type="is-success">
                                                 ...
                                             </b-tag>
                                         </b-taglist>
@@ -80,7 +80,7 @@ class TableView
         <script type="application/javascript" src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
         <script type="application/javascript">
             data = <?php echo json_encode($data) ?>;
-            columns = <?php echo json_encode($table_columns) ?>;
+            columns = <?php echo json_encode($metadata["columns"]) ?>;
 
             const vueParams = {
                 data() {

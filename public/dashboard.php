@@ -49,25 +49,11 @@ if ($menu === "utilizatori") {
     );
 
     if ($action === "vezi") {
-        $table_view->render_table("Listă utilizatori", "", $user_controller->get_all(), $columns);
-    } else {
-        SecurityHelper::redirect_to_404();
-    }
-} else if ($menu === "autori") {
-    // Authors
-    $author_controller = new AuthorController();
-    $columns = array(
-        "author_id" => array(
-            "label" => "ID",
-            "width" => 60
-        ),
-        "name" => array(
-            "label" => "Nume"
-        )
-    );
-
-    if ($action === "vezi") {
-        $table_view->render_table("Listă autori", "Adaugă autor", $author_controller->get_all(), $columns);
+        $metadata = array(
+            "page_title" => "Listă utilizatori",
+            "columns" => $columns,
+        );
+        $table_view->render_table($user_controller->get_all(), $metadata);
     } else {
         SecurityHelper::redirect_to_404();
     }
@@ -92,7 +78,35 @@ if ($menu === "utilizatori") {
         ),
     );
     if ($action === "vezi") {
-        $table_view->render_table("Listă autori", "Adaugă autor", $book_controller->get_all(), $columns);
+        $metadata = array(
+            "page_title" => "Listă cărți",
+            "new_button_label" => "Adaugă carte",
+            "columns" => $columns
+        );
+        $table_view->render_table($book_controller->get_all(), $metadata);
+    } else {
+        SecurityHelper::redirect_to_404();
+    }
+} else if ($menu === "autori") {
+    // Authors
+    $author_controller = new AuthorController();
+    $columns = array(
+        "author_id" => array(
+            "label" => "ID",
+            "width" => 60
+        ),
+        "name" => array(
+            "label" => "Nume"
+        )
+    );
+
+    if ($action === "vezi") {
+        $metadata = array(
+            "page_title" => "Listă autori",
+            "new_button_label" => "Adaugă autor",
+            "columns" => $columns
+        );
+        $table_view->render_table($author_controller->get_all(), $metadata);
     } else {
         SecurityHelper::redirect_to_404();
     }
