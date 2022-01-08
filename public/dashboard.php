@@ -3,6 +3,7 @@ include_once __DIR__ . '/../src/components/header.php';
 include_once __DIR__ . '/../src/components/footer.php';
 include_once __DIR__ . '/../src/controllers/UserController.php';
 include_once __DIR__ . '/../src/controllers/AuthorController.php';
+include_once __DIR__ . '/../src/controllers/BookController.php';
 include_once __DIR__ . '/../src/views/dashboard/TableView.php';
 
 if (!SecurityHelper::is_librarian() && !SecurityHelper::is_admin()) {
@@ -67,6 +68,31 @@ if ($menu === "utilizatori") {
 
     if ($action === "vezi") {
         $table_view->render_table("Listă autori", "Adaugă autor", $author_controller->get_all(), $columns);
+    } else {
+        SecurityHelper::redirect_to_404();
+    }
+} else if ($menu === "carti") {
+    // Books
+    $book_controller = new BookController();
+    $columns = array(
+        "book_id" => array(
+            "label" => "ID",
+            "width" => 60,
+        ),
+        "title" => array(
+            "label" => "Titlu"
+        ),
+        "authors" => array(
+            "label" => "Autor",
+            "type" => "list"
+        ),
+        "categories" => array(
+            "label" => "Categorii",
+            "type" => "list"
+        ),
+    );
+    if ($action === "vezi") {
+        $table_view->render_table("Listă autori", "Adaugă autor", $book_controller->get_all(), $columns);
     } else {
         SecurityHelper::redirect_to_404();
     }

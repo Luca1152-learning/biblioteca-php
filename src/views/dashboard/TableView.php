@@ -18,7 +18,6 @@ class TableView
                     <section>
                         <b-table
                                 :data="data"
-                                :paginated="isPaginated"
                                 default-sort=<?php echo array_key_first($table_columns) ?>
                         >
 
@@ -35,6 +34,17 @@ class TableView
                                         <span class="tag is-success">
                                         {{ props.row.<?php echo $field ?> }}
                                     </span>
+                                    <?php } else if (isset($info["type"]) && $info["type"] === "list") { ?>
+                                        <b-taglist>
+                                            <b-tag v-for="item in props.row.<?php echo $field; ?>.slice(0,2)"
+                                                   :key="index" type="is-info is-light">
+                                                {{item.name}}
+                                            </b-tag>
+                                            <b-tag v-if="props.row.<?php echo $field; ?>.length > 2"
+                                                   :key="index" type="is-info is-light">
+                                                ...
+                                            </b-tag>
+                                        </b-taglist>
                                     <?php } else { ?>
                                         {{ props.row.<?php echo $field ?> }}
                                     <?php } ?>
