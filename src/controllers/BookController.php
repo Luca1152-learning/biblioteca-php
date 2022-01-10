@@ -66,7 +66,7 @@ class BookController implements AbstractController
             $authors_names = explode(",", $authors_names_string);
             $book->authors = [];
             foreach ($authors_names as $index => $author_name) {
-                array_push($book->authors, (object)["id" => $authors_ids[$index], "name" => $author_name]);
+                array_push($book->authors, (object)["author_id" => intval($authors_ids[$index]), "name" => $author_name]);
             }
 
             // Set categories
@@ -76,7 +76,7 @@ class BookController implements AbstractController
             $book->categories = [];
             foreach ($categories_names as $index => $category_name) {
                 array_push($book->categories, (object)[
-                    "id" => $categories_ids[$index],
+                    "category_id" => intval($categories_ids[$index]),
                     "name" => $category_name,
                     "votes" => $categories_votes[$index]]
                 );

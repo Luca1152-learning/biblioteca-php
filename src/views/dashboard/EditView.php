@@ -62,7 +62,17 @@ class EditView
 
             data = <?php echo json_encode($data) ?>;
             fields = <?php echo json_encode($metadata["fields"]) ?>;
-            console.log(data.all);
+
+            // Fix failing equality because of how JSON.parse creates different objects (with different values for
+            // "observer", for example) - meaning that one could add an original tag twice
+            for (let field of Object.keys(data.instance)) {
+                if (Array.isArray(data.instance[field])) {
+                    const fieldToCompare = fields[field]["field_name"];
+                    for (const [i, value] of data.instance[field].entries()) {
+                        data.instance[field][i] = data.all[field].filter((option) => value[fieldToCompare] === option[fieldToCompare])[0]
+                    }
+                }
+            }
 
             const vueParams = {
                 data() {
