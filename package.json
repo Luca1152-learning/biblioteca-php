@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "buefy": "^0.9.14"
+    "buefy": "^0.9.14",
+    "vee-validate": "^3.4.14"
   }
 }

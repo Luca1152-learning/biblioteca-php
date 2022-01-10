@@ -56,14 +56,17 @@ function create_header($title)
                                 <div class="navbar-dropdown is-boxed">
                                     <?php if (SecurityHelper::is_admin()) { ?>
                                         <a class="navbar-item" href="/dashboard.php?meniu=utilizatori&actiune=vezi">Utilizatori</a>
+                                        <a class="navbar-item" href="/statistici.php">Statistici</a>
+                                    <?php } else if (SecurityHelper::is_librarian()) { ?>
+                                        <a class="navbar-item" href="/dashboard.php?meniu=carti&actiune=vezi">Cărți</a>
+                                        <a class="navbar-item"
+                                           href="/dashboard.php?meniu=autori&actiune=vezi">Autori</a>
+                                        <a class="navbar-item" href="/dashboard.php?meniu=publisheri&actiune=vezi">Publisheri</a>
+                                        <a class="navbar-item"
+                                           href="/dashboard.php?meniu=categorii&actiune=vezi">Categorii</a>
+                                        <a class="navbar-item" href="/dashboard.php?meniu=copii&actiune=vezi">Copii</a>
+                                        <a class="navbar-item" href="/dashboard.php?meniu=imprumuturi&actiune=vezi">Împrumuturi</a>
                                     <?php } ?>
-                                    <a class="navbar-item" href="/dashboard.php?meniu=carti&actiune=vezi">Cărți</a>
-                                    <a class="navbar-item" href="/dashboard.php?meniu=autori&actiune=vezi">Autori</a>
-                                    <a class="navbar-item" href="/dashboard.php?meniu=publisheri&actiune=vezi">Publisheri</a>
-                                    <a class="navbar-item"
-                                       href="/dashboard.php?meniu=categorii&actiune=vezi">Categorii</a>
-                                    <a class="navbar-item" href="/dashboard.php?meniu=copii&actiune=vezi">Copii</a>
-                                    <a class="navbar-item" href="/dashboard.php?meniu=imprumuturi&actiune=vezi">Împrumuturi</a>
                                 </div>
                             </div>
                         </div>
