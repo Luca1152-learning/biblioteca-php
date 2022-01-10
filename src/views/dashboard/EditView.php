@@ -15,16 +15,35 @@ class EditView
                     <?php } ?>
                 </div>
 
-                <section class="operations_half_width" style="width: 50%;">
+                <section style="width: 75%;">
                     <form @submit.prevent="onSubmit">
                         <?php foreach ($metadata["fields"] as $field => $info) { ?>
-                            <b-field label="<?php echo $info["label"] ?>" label-position="inside">
-                                <b-input
-                                        id="<?php echo $field ?>"
-                                        type="<?php echo $info["type"] ?>"
-                                    <?php if (isset($info["required"]) && $info["required"] === true) echo " required " ?>>
-                                </b-input>
-                            </b-field>
+                            <?php if ($info["type"] === "list") { ?>
+                                <b-field label="<?php echo $info["label"] ?>">
+                                    <b-taginput
+                                            v-model="tags"
+                                            field="name"
+                                            :data="filteredTags"
+                                            @typing="getFilteredTags"
+                                            type="is-success"
+                                            icon="plus-thick"
+                                            autocomplete
+                                            ellipsis
+                                            placeholder="<?php echo $info["add_label"] ?>">
+                                        <template v-slot="props">
+                                            {{props.option.name}}
+                                        </template>
+                                    </b-taginput>
+                                </b-field>
+                            <?php } else { ?>
+                                <b-field label="<?php echo $info["label"] ?>">
+                                    <b-input
+                                            id="<?php echo $field ?>"
+                                            type="<?php echo $info["type"] ?>"
+                                        <?php if (isset($info["required"]) && $info["required"] === true) echo " required " ?>>
+                                    </b-input>
+                                </b-field>
+                            <?php } ?>
                         <?php } ?>
 
                         <input type="submit" value="Modifică" class="button is-primary is-rounded">
@@ -35,6 +54,11 @@ class EditView
 
         <script type="application/javascript" src="https://unpkg.com/vue"></script>
         <script type="application/javascript" src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+        <script type="application/javascript"
+                src="https://unpkg.com/browse/buefy/dist/components/input/"></script>
+        <script type="application/javascript"
+                src="https://unpkg.com/browse/buefy/dist/components/autocomplete/"></script>
+        <script type="application/javascript" src="https://unpkg.com/browse/buefy/dist/components/tag/"></script>
         <script type="application/javascript">
 
             data = <?php echo json_encode($data) ?>;
@@ -43,19 +67,25 @@ class EditView
             const vueParams = {
                 data() {
                     return {
-                        components: {
-                            Form,
-                            Field,
-                        },
-                        data,
+                        instance: data.instance,
+                        filteredTags: [data.all.authors],
                         fields,
-                        methods: {
-                            onSubmit() {
-                                console.log('Submitted');
-                            },
-                        },
+                        tags: data.instance.authors
                     }
-                }
+                },
+                methods: {
+                    onSubmit() {
+                        console.log('Submitted');
+                    },
+                    getFilteredTags(text) {
+                        this.filteredTags = data.all.authors.filter((option) => {
+                            return option.name
+                                .toString()
+                                .toLowerCase()
+                                .indexOf(text.toLowerCase()) >= 0
+                        })
+                    }
+                },
             }
 
             const app = new Vue(vueParams)

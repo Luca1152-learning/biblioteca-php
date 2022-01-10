@@ -67,6 +67,7 @@ if ($menu === "utilizatori") {
 } else if ($menu === "carti") {
     // Books
     $book_controller = new BookController();
+    $author_controller = new AuthorController();
 
     if ($action === "vezi") {
         $columns = array(
@@ -102,6 +103,12 @@ if ($menu === "utilizatori") {
                 "type" => "text",
                 "required" => true,
             ),
+            "authors" => array(
+                "label" => "Autori",
+                "add_label" => "Adaugă autor",
+                "type" => "list",
+                "required" => true,
+            ),
             "cover_url" => array(
                 "label" => "URL Copertă",
                 "type" => "cover_url"
@@ -111,7 +118,14 @@ if ($menu === "utilizatori") {
             "page_title" => "Editează carte",
             "fields" => $fields
         );
-        $edit_view->render_table($book_controller->get_by_id($id), $metadata);
+
+        $data = array(
+            "instance" => $book_controller->get_by_id($id),
+            "all" => array(
+                "authors" => $author_controller->get_all()
+            )
+        );
+        $edit_view->render_table($data, $metadata);
     } else {
         SecurityHelper::redirect_to_404();
     }
