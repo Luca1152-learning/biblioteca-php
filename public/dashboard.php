@@ -111,6 +111,10 @@ if ($menu === "utilizatori") {
                 "type" => "list",
                 "field_name" => "name",
             ),
+            "description" => array(
+                "label" => "Descriere",
+                "type" => "textarea"
+            ),
             "categories" => array(
                 "label" => "Categorii",
                 "add_label" => "Adaugă categorie",
@@ -119,8 +123,13 @@ if ($menu === "utilizatori") {
             ),
             "cover_url" => array(
                 "label" => "URL Copertă",
-                "type" => "cover_url"
-            )
+                "type" => "text"
+            ),
+            "pages_count" => array(
+                "label" => "Număr pagini",
+                "type" => "number",
+                "required" => true
+            ),
         );
         $metadata = array(
             "page_title" => "Editează carte",
