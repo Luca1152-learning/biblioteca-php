@@ -15,7 +15,7 @@ class EditView
                     <?php } ?>
                 </div>
 
-                <section style="width: 75%;">
+                <section style="width: 60%;">
                     <form @submit.prevent="onSubmit">
                         <?php foreach ($metadata["fields"] as $field => $info) { ?>
                             <?php if ($info["type"] === "list") { ?>
@@ -40,6 +40,7 @@ class EditView
                                     <b-input
                                             id="<?php echo $field ?>"
                                             type="<?php echo $info["type"] ?>"
+                                            v-model="instance.<?php echo $field; ?>"
                                         <?php if (isset($info["required"]) && $info["required"] === true) echo " required " ?>>
                                     </b-input>
                                 </b-field>

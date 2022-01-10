@@ -4,6 +4,7 @@ include_once __DIR__ . '/../src/components/footer.php';
 include_once __DIR__ . '/../src/controllers/UserController.php';
 include_once __DIR__ . '/../src/controllers/AuthorController.php';
 include_once __DIR__ . '/../src/controllers/BookController.php';
+include_once __DIR__ . '/../src/controllers/CategoryController.php';
 include_once __DIR__ . '/../src/views/dashboard/TableView.php';
 include_once __DIR__ . '/../src/views/dashboard/EditView.php';
 
@@ -68,6 +69,7 @@ if ($menu === "utilizatori") {
     // Books
     $book_controller = new BookController();
     $author_controller = new AuthorController();
+    $category_controller = new CategoryController();
 
     if ($action === "vezi") {
         $columns = array(
@@ -107,7 +109,11 @@ if ($menu === "utilizatori") {
                 "label" => "Autori",
                 "add_label" => "Adaugă autor",
                 "type" => "list",
-                "required" => true,
+            ),
+            "categories" => array(
+                "label" => "Categorii",
+                "add_label" => "Adaugă categorie",
+                "type" => "list",
             ),
             "cover_url" => array(
                 "label" => "URL Copertă",
@@ -122,7 +128,8 @@ if ($menu === "utilizatori") {
         $data = array(
             "instance" => $book_controller->get_by_id($id),
             "all" => array(
-                "authors" => $author_controller->get_all()
+                "authors" => $author_controller->get_all(),
+                "categories" => $category_controller->get_all()
             )
         );
         $edit_view->render_table($data, $metadata);
