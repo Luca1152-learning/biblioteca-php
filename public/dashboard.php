@@ -109,11 +109,13 @@ if ($menu === "utilizatori") {
                 "label" => "Autori",
                 "add_label" => "Adaugă autor",
                 "type" => "list",
+                "field_name" => "name",
             ),
             "categories" => array(
                 "label" => "Categorii",
                 "add_label" => "Adaugă categorie",
                 "type" => "list",
+                "field_name" => "name",
             ),
             "cover_url" => array(
                 "label" => "URL Copertă",

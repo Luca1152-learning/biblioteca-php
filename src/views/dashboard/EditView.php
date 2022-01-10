@@ -21,24 +21,22 @@ class EditView
                             <?php if ($info["type"] === "list") { ?>
                                 <b-field label="<?php echo $info["label"] ?>">
                                     <b-taginput
-                                            v-model="tags"
+                                            v-model="chosenTags['<?php echo $field; ?>']"
                                             field="name"
-                                            :data="filteredTags"
-                                            @typing="getFilteredTags"
+                                            :data="filteredTags['<?php echo $field; ?>']"
+                                            @typing="getFilteredTags($event, '<?php echo $field; ?>', '<?php echo $info["field_name"]; ?>')"
                                             type="is-success"
                                             icon="plus-thick"
                                             autocomplete
                                             ellipsis
-                                            placeholder="<?php echo $info["add_label"] ?>">
-                                        <template v-slot="props">
-                                            {{props.option.name}}
-                                        </template>
+                                            placeholder="<?php echo $info["add_label"]; ?>">
+
                                     </b-taginput>
                                 </b-field>
                             <?php } else { ?>
                                 <b-field label="<?php echo $info["label"] ?>">
                                     <b-input
-                                            id="<?php echo $field ?>"
+                                            id="<?php echo $field; ?>"
                                             type="<?php echo $info["type"] ?>"
                                             v-model="instance.<?php echo $field; ?>"
                                         <?php if (isset($info["required"]) && $info["required"] === true) echo " required " ?>>
@@ -64,23 +62,23 @@ class EditView
 
             data = <?php echo json_encode($data) ?>;
             fields = <?php echo json_encode($metadata["fields"]) ?>;
+            console.log(data.all);
 
             const vueParams = {
                 data() {
                     return {
                         instance: data.instance,
-                        filteredTags: [data.all.authors],
-                        fields,
-                        tags: data.instance.authors
+                        filteredTags: Object.assign({}, data.all),
+                        chosenTags: data.instance
                     }
                 },
                 methods: {
                     onSubmit() {
                         console.log('Submitted');
                     },
-                    getFilteredTags(text) {
-                        this.filteredTags = data.all.authors.filter((option) => {
-                            return option.name
+                    getFilteredTags(text, obj, fieldName) {
+                        this.filteredTags[obj] = data.all[obj].filter((option) => {
+                            return option[fieldName]
                                 .toString()
                                 .toLowerCase()
                                 .indexOf(text.toLowerCase()) >= 0
