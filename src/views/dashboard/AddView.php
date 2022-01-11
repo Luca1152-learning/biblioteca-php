@@ -92,13 +92,13 @@ class AddView
                             body: JSON.stringify(params)
                         }).then(response => {
                             if (response.status !== 200) {
+                                location.reload(); // Refresh page
                                 throw response.text()
                             }
 
-                            response.text().then(console.log);
                             // Redirect on success
-                            // window.location.replace("<?php echo $metadata["crud"]["after_add_url"];?>");
-                        }).catch(x => x.then(console.log))
+                            window.location.replace("<?php echo $metadata["crud"]["after_add_url"];?>");
+                        }).catch(textPromise => textPromise.then(console.log))
                     },
                     getFilteredTags(text, obj, fieldName) {
                         this.filteredTags[obj] = data.all[obj].filter((option) => {

@@ -107,6 +107,7 @@ class TableView
                                 body: JSON.stringify(params)
                             }).then(response => {
                                 if (response.status !== 200) {
+                                    location.reload(); // Refresh page
                                     throw response.text
                                 }
 

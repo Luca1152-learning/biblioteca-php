@@ -83,6 +83,7 @@ else if ($menu === "carti") {
     $category_controller = new CategoryController();
     $publisher_controller = new PublisherController();
 
+    // ********************** TABEL **********************
     if ($action === "vezi") {
         $columns = array(
             "book_id" => array(
@@ -116,7 +117,8 @@ else if ($menu === "carti") {
             )
         );
         $table_view->render_table($book_controller->get_all(), $metadata);
-    } else if ($action === "modifica") {
+    } // ********************** UPDATE **********************
+    else if ($action === "modifica") {
         $id = $_GET["id"];
         $fields = array(
             "title" => array(
@@ -163,7 +165,12 @@ else if ($menu === "carti") {
         );
         $metadata = array(
             "page_title" => "Editează carte",
-            "fields" => $fields
+            "fields" => $fields,
+            "source" => "carti",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "after_update_url" => "/dashboard.php?meniu=carti&actiune=vezi"
+            )
         );
         $data = array(
             "instance" => $book_controller->get_by_id($id),
@@ -174,7 +181,8 @@ else if ($menu === "carti") {
             )
         );
         $edit_view->render($data, $metadata);
-    } else if ($action === "adauga") {
+    } // ********************** INSERT **********************
+    else if ($action === "adauga") {
         $fields = array(
             "title" => array(
                 "label" => "Titlu",

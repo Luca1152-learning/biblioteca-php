@@ -29,6 +29,13 @@ if ($source === "carti") {
             http_response_code(404); // Not Found
             exit();
         }
+    } else if ($action === "modifica") {
+        try {
+            $book_controller->update($data["data"]);
+        } catch (Exception $e) {
+            http_response_code(400); // Bad Request
+            exit();
+        }
     } else if ($action === "sterge") {
         $id = $data["id"];
 

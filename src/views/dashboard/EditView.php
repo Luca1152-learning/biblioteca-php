@@ -95,7 +95,25 @@ class EditView
                 },
                 methods: {
                     onSubmit() {
-                        console.log('Submitted');
+                        const params = {
+                            source: "<?php echo $metadata["source"]; ?>",
+                            action: "modifica",
+                            data: this.instance
+                        };
+                        fetch("<?php echo $metadata["crud"]["url"];?>", {
+                            method: "POST",
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify(params)
+                        }).then(response => {
+                            if (response.status !== 200) {
+                                location.reload(); // Refresh page
+                                response.text().then(console.log);
+                                throw response;
+                            }
+
+                            // Redirect on success
+                            window.location.replace("<?php echo $metadata["crud"]["after_update_url"];?>");
+                        }).catch(console.log)
                     },
                     getFilteredTags(text, obj, fieldName) {
                         this.filteredTags[obj] = data.all[obj].filter((option) => {

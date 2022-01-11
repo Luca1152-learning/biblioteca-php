@@ -177,7 +177,6 @@ class BookController implements AbstractController
             $query->close();
         }
 
-
         // Adauga-i categoriile
         foreach ($data["categories"] as $index => $category) {
             $query = $this->db->prepare("
@@ -186,6 +185,65 @@ class BookController implements AbstractController
             ");
             $votes = count($data["categories"]) - $index;
             $query->bind_param("iii", $book_id, $category["category_id"], $votes);
+            $query->execute();
+            $query->close();
+        }
+    }
+
+    public function update($data)
+    {
+        // Update book information
+        $query = $this->db->prepare("
+            UPDATE books
+            SET title=?, description=?, cover_url=?, publisher_id=?, first_publication_year=?, pages_count=?
+            WHERE book_id = ?
+        ");
+        $query->bind_param(
+            "sssiiii",
+            $data["title"], $data["description"], $data["cover_url"],
+            $data["publisher"]["publisher_id"], $data["publication_year"], $data["pages_count"], $data["book_id"]
+        );
+        $query->execute();
+        $query->close();
+
+        // Delete all book's existing authors
+        $query = $this->db->prepare("
+            DELETE FROM books_authors
+            WHERE book_id = ?;
+        ");
+        $query->bind_param("i", $data["book_id"]);
+        $query->execute();
+        $query->close();
+
+        // Add new authors
+        foreach ($data["authors"] as $index => $author) {
+            $query = $this->db->prepare("
+                INSERT INTO books_authors(book_id, author_id, is_main_author)
+                VALUES (?, ?, ?);
+            ");
+            $is_main_author = $index == 0;
+            $query->bind_param("iib", $data["book_id"], $author["author_id"], $is_main_author);
+            $query->execute();
+            $query->close();
+        }
+
+        // Delete all book's existing categories
+        $query = $this->db->prepare("
+            DELETE FROM books_categories
+            WHERE book_id = ?;
+        ");
+        $query->bind_param("i", $data["book_id"]);
+        $query->execute();
+        $query->close();
+
+        // Add new categories
+        foreach ($data["categories"] as $index => $category) {
+            $query = $this->db->prepare("
+                INSERT INTO books_categories(book_id, category_id, votes)
+                VALUES (?, ?, ?);
+            ");
+            $votes = count($data["categories"]) - $index;
+            $query->bind_param("iii", $data["book_id"], $category["category_id"], $votes);
             $query->execute();
             $query->close();
         }
