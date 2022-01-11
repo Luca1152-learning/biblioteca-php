@@ -15527,5 +15527,8 @@ MIT (https://github.com/Wikiki/bulma-steps/blob/master/LICENSE)
     z-index: -1;
   }
 }
+.b-table .table td {
+    vertical-align: middle;
+}
 
 /*# sourceMappingURL=buefy-build.css.map */

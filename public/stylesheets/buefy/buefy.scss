@@ -36,3 +36,11 @@
 @import "components/_timepicker";
 @import "components/_tooltip";
 @import "components/_upload";
+
+.b-table {
+  .table {
+    td {
+      vertical-align: middle;
+    }
+  }
+}

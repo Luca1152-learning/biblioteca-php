@@ -172,11 +172,22 @@ if ($menu === "utilizatori") {
 
     if ($action === "vezi") {
         $metadata = array(
+            "source" => "autori",
             "page_title" => "Listă autori",
             "new_button_label" => "Adaugă autor",
             "columns" => $columns,
             "modify_url" => "/dashboard.php?meniu=autori&actiune=modifica&id=",
             "delete_url" => "/dashboard.php?meniu=autori&actiune=sterge",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "delete" => array(
+                    "function" => function ($id) {
+                        global $author_controller;
+                        $author_controller->delete($id);
+                    },
+                    "confirm_message" => "Ești sigur că vrei să ștergi autorul selectat?"
+                )
+            )
         );
         $table_view->render_table($author_controller->get_all(), $metadata);
     } else {

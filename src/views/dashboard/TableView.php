@@ -52,23 +52,18 @@ class TableView
                             <?php } ?>
 
                             <b-table-column field="edit" label="" v-slot="props" width="45">
-                                <a :href="`<?php echo $metadata["modify_url"] ?>${props.row.<?php echo array_key_first($metadata["columns"]) ?>}`">
-                                    <b-icon
-                                            pack="fas"
-                                            icon="edit"
-                                            size="is-small">
-                                    </b-icon>
-                                </a>
+                                <b-button type="is-text" rounded style="text-decoration: none;"
+                                          tag="a"
+                                          :href="`<?php echo $metadata["modify_url"] ?>${props.row.<?php echo array_key_first($metadata["columns"]) ?>}`">
+                                    <b-icon type="is-info" pack="fas" icon="edit" size="is-small"></b-icon>
+                                </b-button>
                             </b-table-column>
 
                             <b-table-column field="delete" label="" v-slot="props" width="45">
-                                <a :href="`<?php echo $metadata["delete_url"] ?>`">
-                                    <b-icon
-                                            pack="fas"
-                                            icon="trash-alt"
-                                            size="is-small">
-                                    </b-icon>
-                                </a>
+                                <b-button type="is-text" rounded style="text-decoration: none;"
+                                          @click="confirmDelete(props.row.<?php echo array_key_first($metadata["columns"]) ?>)">
+                                    <b-icon type="is-danger" pack="fas" icon="trash-alt" size="is-small"></b-icon>
+                                </b-button>
                             </b-table-column>
                         </b-table>
                     </section>
@@ -78,6 +73,12 @@ class TableView
 
         <script type="application/javascript" src="https://unpkg.com/vue"></script>
         <script type="application/javascript" src="https://unpkg.com/buefy/dist/buefy.min.js"></script>
+        <script type="application/javascript"
+                src="https://unpkg.com/browse/buefy/dist/components/table/"></script>
+        <script type="application/javascript"
+                src="https://unpkg.com/browse/buefy/dist/components/button/"></script>
+        <script type="application/javascript"
+                src="https://unpkg.com/browse/buefy/dist/components/dialog/"></script>
         <script type="application/javascript">
             data = <?php echo json_encode($data) ?>;
             columns = <?php echo json_encode($metadata["columns"]) ?>;
@@ -87,6 +88,22 @@ class TableView
                     return {
                         data,
                         columns,
+                    }
+                },
+                methods: {
+                    confirmDelete: (id) => {
+                        if (confirm("<?php echo $metadata["crud"]["delete"]["confirm_message"]; ?>")) {
+                            params = {
+                                source: "<?php echo $metadata["source"]; ?>",
+                                id
+                            };
+                            fetch("<?php echo $metadata["crud"]["url"];?>", {
+                                method: "POST",
+                                headers: {'Content-Type': 'application/json'},
+                                body: JSON.stringify(params)
+                            }).then(res => res.json())
+                                .then(res => console.log(res))
+                        }
                     }
                 }
             }

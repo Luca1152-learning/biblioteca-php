@@ -72,7 +72,6 @@ class EditView
             data = <?php echo json_encode($data) ?>;
             fields = <?php echo json_encode($metadata["fields"]) ?>;
 
-            console.log(data);
 
             // Fix failing equality because of how JSON.parse creates different objects (with different values for
             // "observer", for example) - meaning that one could add an original tag twice
@@ -104,7 +103,6 @@ class EditView
                                 .toLowerCase()
                                 .indexOf(text.toLowerCase()) >= 0
                         })
-                        console.log(this.chosenTags[obj])
                     }
                 },
             }

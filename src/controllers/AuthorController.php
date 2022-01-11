@@ -51,6 +51,21 @@ class AuthorController implements AbstractController
 
         return $authors_array;
     }
+
+    public function insert($data)
+    {
+
+    }
+
+    public function delete($id)
+    {
+
+    }
+
+    public function update($new_data)
+    {
+
+    }
 }
 
 ?>
