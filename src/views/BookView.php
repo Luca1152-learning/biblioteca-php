@@ -65,7 +65,7 @@ class BookView
                     <?php echo nl2br($book->description); ?>
                 </p>
                 <p class="is-size-7 has-text-weight-bold has-text-gray mt-2">
-                    <?php echo $book->publisher_name, ', '; ?>
+                    <?php echo $book->publisher->name, ', '; ?>
                     <?php echo $book->publication_year, ', '; ?>
                     <?php echo $book->pages_count, ' pagini' ?>
                 </p>
@@ -80,7 +80,8 @@ class BookView
                         <a href="/categorie.php?id=<?php echo $category->id; ?>"
                            class="is-flex is-justify-content-space-between is-align-content-baseline">
                             <span class="is-align-self-baseline"><?php echo $category->name; ?></span>
-                            <span class="has-text-grey-light is-size-7 is-align-self-baseline"><?php echo $category->votes; ?> voturi</span>
+                            <span class="has-text-grey-light is-size-7 is-align-self-baseline"
+                                  style="white-space: nowrap;"><?php echo $category->votes; ?> voturi</span>
                         </a>
                     </p>
                     <?php
