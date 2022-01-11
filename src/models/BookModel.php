@@ -9,8 +9,7 @@ class BookModel
     public ?int $available_copies_count;
     public ?array $categories;
     public ?string $cover_url;
-    public ?int $publisher_id;
-    public ?string $publisher_name;
+    public $publisher; // Of type PublisherModel
     public ?int $publication_year;
     public ?int $pages_count;
 }

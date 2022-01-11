@@ -71,6 +71,7 @@ if ($menu === "utilizatori") {
     $book_controller = new BookController();
     $author_controller = new AuthorController();
     $category_controller = new CategoryController();
+    $publisher_controller = new PublisherController();
 
     if ($action === "vezi") {
         $columns = array(
@@ -112,6 +113,12 @@ if ($menu === "utilizatori") {
                 "type" => "list",
                 "field_name" => "name",
             ),
+            "publisher" => array(
+                "label" => "Publisher",
+                "type" => "text-autocomplete",
+                "field_name" => "name",
+                "required" => true
+            ),
             "description" => array(
                 "label" => "Descriere",
                 "type" => "textarea"
@@ -142,7 +149,8 @@ if ($menu === "utilizatori") {
             "instance" => $book_controller->get_by_id($id),
             "all" => array(
                 "authors" => $author_controller->get_all(),
-                "categories" => $category_controller->get_all()
+                "categories" => $category_controller->get_all(),
+                "publisher" => $publisher_controller->get_all()
             )
         );
         $edit_view->render_table($data, $metadata);

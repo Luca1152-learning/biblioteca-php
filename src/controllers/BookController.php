@@ -53,14 +53,19 @@ class BookController implements AbstractController
         $book = new BookModel();
         $query->store_result();
         $query->bind_result(
-            $book->book_id, $book->title, $book->description, $book->cover_url, $book->publisher_id,
-            $book->publisher_name, $book->publication_year, $book->pages_count, $book->available_copies_count,
+            $book->book_id, $book->title, $book->description, $book->cover_url, $publisher_id,
+            $publisher_name, $book->publication_year, $book->pages_count, $book->available_copies_count,
             $authors_ids_string, $authors_names_string, $categories_ids_string, $categories_names_string,
             $categories_votes_string
         );
 
         // Fetch all rows
         while ($query->fetch()) {
+            // Set publisher
+            $book->publisher = new PublisherModel();
+            $book->publisher->publisher_id = $publisher_id;
+            $book->publisher->name = $publisher_name;
+
             // Set authors
             $authors_ids = explode(",", $authors_ids_string);
             $authors_names = explode(",", $authors_names_string);

@@ -18,11 +18,11 @@ class EditView
                 <section style="width: 60%;">
                     <form @submit.prevent="onSubmit">
                         <?php foreach ($metadata["fields"] as $field => $info) { ?>
-                            <?php if ($info["type"] === "list") { ?>
-                                <b-field label="<?php echo $info["label"] ?>">
+                            <b-field label="<?php echo $info["label"] ?>">
+                                <?php if ($info["type"] === "list") { ?>
                                     <b-taginput
                                             v-model="chosenTags['<?php echo $field; ?>']"
-                                            field="name"
+                                            field="<?php echo $info["field_name"]; ?>"
                                             :data="filteredTags['<?php echo $field; ?>']"
                                             @typing="getFilteredTags($event, '<?php echo $field; ?>', '<?php echo $info["field_name"]; ?>')"
                                             type="is-success"
@@ -30,11 +30,19 @@ class EditView
                                             autocomplete
                                             ellipsis
                                             placeholder="<?php echo $info["add_label"]; ?>">
-
                                     </b-taginput>
-                                </b-field>
-                            <?php } else { ?>
-                                <b-field label="<?php echo $info["label"] ?>">
+                                <?php } else if ($info["type"] === "text-autocomplete") { ?>
+                                    <b-autocomplete
+                                            v-model="chosenTags['<?php echo $field; ?>']['<?php echo $info["field_name"]; ?>']"
+                                            field="<?php echo $info["field_name"]; ?>"
+                                            :data="filteredTags['<?php echo $field; ?>']"
+                                            @typing="getFilteredTags($event, '<?php echo $field; ?>', '<?php echo $info["field_name"]; ?>')"
+                                            @select="option => (chosenTags['<?php echo $field; ?>'] = option)"
+                                            :open-on-focus="true"
+                                            :clearable="true"
+                                        <?php if (isset($info["required"]) && $info["required"] === true) echo " required " ?>>
+                                    </b-autocomplete>
+                                <?php } else { ?>
                                     <b-input
                                             id="<?php echo $field; ?>"
                                             type="<?php echo $info["type"] ?>"
@@ -42,8 +50,8 @@ class EditView
                                             v-model="instance.<?php echo $field; ?>"
                                         <?php if (isset($info["required"]) && $info["required"] === true) echo " required " ?>>
                                     </b-input>
-                                </b-field>
-                            <?php } ?>
+                                <?php } ?>
+                            </b-field>
                         <?php } ?>
 
                         <input type="submit" value="Modifică" class="button is-primary is-rounded">
@@ -63,6 +71,8 @@ class EditView
 
             data = <?php echo json_encode($data) ?>;
             fields = <?php echo json_encode($metadata["fields"]) ?>;
+
+            console.log(data);
 
             // Fix failing equality because of how JSON.parse creates different objects (with different values for
             // "observer", for example) - meaning that one could add an original tag twice
@@ -94,6 +104,7 @@ class EditView
                                 .toLowerCase()
                                 .indexOf(text.toLowerCase()) >= 0
                         })
+                        console.log(this.chosenTags[obj])
                     }
                 },
             }
