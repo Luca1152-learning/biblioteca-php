@@ -128,6 +128,7 @@ if ($menu === "utilizatori") {
             "pages_count" => array(
                 "label" => "Număr pagini",
                 "type" => "number",
+                "min_value_number" => 1,
                 "required" => true
             ),
         );

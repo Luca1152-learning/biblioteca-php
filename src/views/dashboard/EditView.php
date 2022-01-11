@@ -38,6 +38,7 @@ class EditView
                                     <b-input
                                             id="<?php echo $field; ?>"
                                             type="<?php echo $info["type"] ?>"
+                                        <?php if (isset($info["min_value_number"])) echo ' min="' . $info["min_value_number"] . '" ' ?>
                                             v-model="instance.<?php echo $field; ?>"
                                         <?php if (isset($info["required"]) && $info["required"] === true) echo " required " ?>>
                                     </b-input>
