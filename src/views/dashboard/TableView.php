@@ -95,14 +95,20 @@ class TableView
                         if (confirm("<?php echo $metadata["crud"]["delete"]["confirm_message"]; ?>")) {
                             params = {
                                 source: "<?php echo $metadata["source"]; ?>",
+                                action: "sterge",
                                 id
                             };
                             fetch("<?php echo $metadata["crud"]["url"];?>", {
                                 method: "POST",
                                 headers: {'Content-Type': 'application/json'},
                                 body: JSON.stringify(params)
-                            }).then(res => res.json())
-                                .then(res => console.log(res))
+                            }).then(response => {
+                                if (response.status !== 200) {
+                                    throw response.text
+                                }
+
+                                location.reload(); // Refresh page
+                            }).catch(console.log)
                         }
                     }
                 }

@@ -59,7 +59,14 @@ class AuthorController implements AbstractController
 
     public function delete($id)
     {
-
+        // Query
+        $query = $this->db->prepare("
+            DELETE FROM authors
+            WHERE author_id = ?;
+        ");
+        $query->bind_param("i", $id);
+        $query->execute();
+        $query->close();
     }
 
     public function update($new_data)

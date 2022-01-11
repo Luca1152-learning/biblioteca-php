@@ -35,7 +35,8 @@ CREATE TABLE users
 
 -- Admin user
 INSERT INTO users(email, password, first_name, last_name, role)
-VALUES ('admin@lib.ro', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'admin', 'admin'),
+VALUES ('admin@lib.ro', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'admin',
+        'administrator'),
        ('bibliotecar@lib.ro', '7c18cce240a62e5f56a4edc713b57ce141a52faca57174dad75db8454b4f3b94', 'bibliotecar',
         'bibliotecar', 'bibliotecar');
 
@@ -66,7 +67,9 @@ CREATE TABLE books
     publisher_id           INT                 NOT NULL,
     first_publication_year INT,
     pages_count            INT,
-    FOREIGN KEY (publisher_id) REFERENCES publishers (publisher_id)
+    FOREIGN KEY (publisher_id)
+        REFERENCES publishers (publisher_id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE books_authors
@@ -76,8 +79,12 @@ CREATE TABLE books_authors
     is_main_author BOOL NOT NULL DEFAULT FALSE,
     qualifier      VARCHAR(64),
     PRIMARY KEY (book_id, author_id),
-    FOREIGN KEY (book_id) REFERENCES books (book_id),
-    FOREIGN KEY (author_id) REFERENCES authors (author_id)
+    FOREIGN KEY (book_id)
+        REFERENCES books (book_id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (author_id)
+        REFERENCES authors (author_id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE books_categories
@@ -86,8 +93,12 @@ CREATE TABLE books_categories
     category_id INT NOT NULL,
     votes       INT NOT NULL,
     PRIMARY KEY (book_id, category_id),
-    FOREIGN KEY (book_id) REFERENCES books (book_id),
-    FOREIGN KEY (category_id) REFERENCES categories (category_id)
+    FOREIGN KEY (book_id)
+        REFERENCES books (book_id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (category_id)
+        REFERENCES categories (category_id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE copies
@@ -97,7 +108,9 @@ CREATE TABLE copies
     date_added DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     comments   TEXT,
     PRIMARY KEY (copy_id),
-    FOREIGN KEY (book_id) REFERENCES books (book_id)
+    FOREIGN KEY (book_id)
+        REFERENCES books (book_id)
+        ON DELETE CASCADE
 );
 
 CREATE TABLE borrows
@@ -109,8 +122,12 @@ CREATE TABLE borrows
     return_due_date DATE,
     return_date     DATE,
     PRIMARY KEY (borrow_id),
-    FOREIGN KEY (user_id) REFERENCES users (user_id),
-    FOREIGN KEY (copy_id) REFERENCES copies (copy_id)
+    FOREIGN KEY (user_id)
+        REFERENCES users (user_id)
+        ON DELETE CASCADE,
+    FOREIGN KEY (copy_id)
+        REFERENCES copies (copy_id)
+        ON DELETE CASCADE
 );
 
 -- Test values
