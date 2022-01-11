@@ -8,6 +8,7 @@ include_once __DIR__ . '/../src/controllers/CategoryController.php';
 include_once __DIR__ . '/../src/controllers/PublisherController.php';
 include_once __DIR__ . '/../src/views/dashboard/TableView.php';
 include_once __DIR__ . '/../src/views/dashboard/EditView.php';
+include_once __DIR__ . '/../src/views/dashboard/AddView.php';
 
 if (!SecurityHelper::is_librarian() && !SecurityHelper::is_admin()) {
     SecurityHelper::redirect_to_403();
@@ -27,6 +28,7 @@ if ($menu === "utilizatori") {
 
 $table_view = new TableView();
 $edit_view = new EditView();
+$add_view = new AddView();
 
 create_header("Lib - Dashboard");
 if ($menu === "utilizatori") {
@@ -165,7 +167,7 @@ if ($menu === "utilizatori") {
                 "publisher" => $publisher_controller->get_all()
             )
         );
-        $edit_view->render_table($data, $metadata);
+        $edit_view->render($data, $metadata);
     } else {
         SecurityHelper::redirect_to_404();
     }
@@ -188,19 +190,54 @@ if ($menu === "utilizatori") {
             "page_title" => "Listă autori",
             "new_button_label" => "Adaugă autor",
             "columns" => $columns,
+            "new_url" => "/dashboard.php?meniu=autori&actiune=adauga",
             "modify_url" => "/dashboard.php?meniu=autori&actiune=modifica&id=",
             "crud" => array(
                 "url" => "/librarian_crud_post.php",
                 "delete" => array(
-                    "function" => function ($id) {
-                        global $author_controller;
-                        $author_controller->delete($id);
-                    },
                     "confirm_message" => "Ești sigur că vrei să ștergi autorul selectat? Cărțile acestui autor vor rămâne in bibliotecă, dar nu îl vor mai avea drept autor."
                 )
             )
         );
         $table_view->render_table($author_controller->get_all(), $metadata);
+    } else if ($action === "modifica") {
+        $id = $_GET["id"];
+        $fields = array(
+            "name" => array(
+                "label" => "Nume",
+                "type" => "text",
+                "required" => true,
+            )
+        );
+        $metadata = array(
+            "page_title" => "Editează autor",
+            "fields" => $fields
+        );
+        $data = array(
+            "instance" => $author_controller->get_by_id($id)
+        );
+        $edit_view->render($data, $metadata);
+    } else if ($action === "adauga") {
+        $fields = array(
+            "name" => array(
+                "label" => "Nume",
+                "type" => "text",
+                "required" => true,
+            )
+        );
+        $metadata = array(
+            "page_title" => "Adaugă autor",
+            "fields" => $fields,
+            "source" => "autori",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "after_add_url" => "/dashboard.php?meniu=autori&actiune=vezi"
+            )
+        );
+        $data = array(
+            "instance" => new stdClass()
+        );
+        $add_view->render($data, $metadata);
     } else {
         SecurityHelper::redirect_to_404();
     }

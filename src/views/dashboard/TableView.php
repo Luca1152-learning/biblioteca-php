@@ -11,7 +11,10 @@ class TableView
                 <div class="is-flex is-justify-content-space-between">
                     <p class="is-size-4 has-text-black has-text-weight-semibold pb-2"><?php echo $metadata["page_title"] ?></p>
                     <?php if (isset($metadata["new_button_label"])) { ?>
-                        <button class="button is-primary is-rounded"><?php echo $metadata["new_button_label"] ?></button>
+                        <b-button class="button is-primary is-rounded"
+                                  tag="a" href="<?php echo $metadata["new_url"]; ?>">
+                            <?php echo $metadata["new_button_label"] ?>
+                        </b-button>
                     <?php } ?>
                 </div>
                 <template>

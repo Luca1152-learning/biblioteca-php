@@ -1,7 +1,6 @@
 <?php
-include_once __DIR__ . '/../../controllers/UserController.php';
 
-class EditView
+class AddView
 {
     public function render($data, $metadata)
     {
@@ -54,7 +53,7 @@ class EditView
                             </b-field>
                         <?php } ?>
 
-                        <input type="submit" value="Modifică" class="button is-primary is-rounded">
+                        <input type="submit" value="Adaugă" class="button is-primary is-rounded">
                     </form>
                 </section>
             </main>
@@ -68,21 +67,8 @@ class EditView
                 src="https://unpkg.com/browse/buefy/dist/components/autocomplete/"></script>
         <script type="application/javascript" src="https://unpkg.com/browse/buefy/dist/components/tag/"></script>
         <script type="application/javascript">
-
             data = <?php echo json_encode($data) ?>;
             fields = <?php echo json_encode($metadata["fields"]) ?>;
-
-
-            // Fix failing equality because of how JSON.parse creates different objects (with different values for
-            // "observer", for example) - meaning that one could add an original tag twice
-            for (let field of Object.keys(data.instance)) {
-                if (Array.isArray(data.instance[field])) {
-                    const fieldToCompare = fields[field]["field_name"];
-                    for (const [i, value] of data.instance[field].entries()) {
-                        data.instance[field][i] = data.all[field].filter((option) => value[fieldToCompare] === option[fieldToCompare])[0]
-                    }
-                }
-            }
 
             const vueParams = {
                 data() {
@@ -94,7 +80,25 @@ class EditView
                 },
                 methods: {
                     onSubmit() {
-                        console.log('Submitted');
+                        const dataParams = this.instance;
+
+                        const params = {
+                            source: "<?php echo $metadata["source"]; ?>",
+                            action: "adauga",
+                            data: dataParams
+                        };
+                        fetch("<?php echo $metadata["crud"]["url"];?>", {
+                            method: "POST",
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify(params)
+                        }).then(response => {
+                            if (response.status !== 200) {
+                                throw response.text()
+                            }
+
+                            // Redirect on success
+                            window.location.replace("<?php echo $metadata["crud"]["after_add_url"];?>");
+                        }).catch(x => x.then(console.log))
                     },
                     getFilteredTags(text, obj, fieldName) {
                         this.filteredTags[obj] = data.all[obj].filter((option) => {

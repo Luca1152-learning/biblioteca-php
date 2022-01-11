@@ -30,11 +30,21 @@ if ($source === "carti") {
             http_response_code(400); // Bad Request
             exit();
         }
+    } else {
+        http_response_code(404); // Not Found
+        exit();
     }
 } else if ($source === "autori") {
     $author_controller = new AuthorController();
 
-    if ($action === "sterge") {
+    if ($action === "adauga") {
+        try {
+            $author_controller->insert($data["data"]);
+        } catch (Exception $e) {
+            http_response_code(400); // Bad Request
+            exit();
+        }
+    } else if ($action === "sterge") {
         $id = $data["id"];
 
         try {
@@ -43,6 +53,9 @@ if ($source === "carti") {
             http_response_code(400); // Bad Request
             exit();
         }
+    } else {
+        http_response_code(404); // Not Found
+        exit();
     }
 } else if ($source === "publisheri") {
     $publisher_controller = new PublisherController();
@@ -56,6 +69,9 @@ if ($source === "carti") {
             http_response_code(400); // Bad Request
             exit();
         }
+    } else {
+        http_response_code(404); // Not Found
+        exit();
     }
 } else if ($source === "categorii") {
     $category_controller = new CategoryController();
@@ -69,10 +85,13 @@ if ($source === "carti") {
             http_response_code(400); // Bad Request
             exit();
         }
+    } else {
+        http_response_code(404); // Not Found
+        exit();
     }
+} else {
+    http_response_code(404); // Not Found
+    exit();
 }
-
-echo json_encode($data);
-
 
 ?>

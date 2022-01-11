@@ -54,7 +54,13 @@ class AuthorController implements AbstractController
 
     public function insert($data)
     {
-
+        $query = $this->db->prepare("
+            INSERT INTO authors(name)
+            VALUES (?);
+        ");
+        $query->bind_param("s", $data["name"]);
+        $query->execute();
+        $query->close();
     }
 
     public function delete($id)
