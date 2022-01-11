@@ -173,6 +173,31 @@ if ($menu === "utilizatori") {
     } else {
         SecurityHelper::redirect_to_404();
     }
+} else if ($menu === "categorii") {
+    // Authors
+    $category_controller = new CategoryController();
+    $columns = array(
+        "category_id" => array(
+            "label" => "ID",
+            "width" => 60
+        ),
+        "name" => array(
+            "label" => "Nume"
+        )
+    );
+
+    if ($action === "vezi") {
+        $metadata = array(
+            "page_title" => "Listă categorii",
+            "new_button_label" => "Adaugă categorie",
+            "columns" => $columns,
+            "modify_url" => "/dashboard.php?meniu=categorii&actiune=modifica&id=",
+            "delete_url" => "/dashboard.php?meniu=categorii&actiune=sterge",
+        );
+        $table_view->render_table($category_controller->get_all(), $metadata);
+    } else {
+        SecurityHelper::redirect_to_404();
+    }
 } else {
     SecurityHelper::redirect_to_404();
 }
