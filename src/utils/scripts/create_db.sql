@@ -64,12 +64,12 @@ CREATE TABLE books
     title                  VARCHAR(128) UNIQUE NOT NULL,
     description            TEXT,
     cover_url              VARCHAR(256),
-    publisher_id           INT                 NOT NULL,
+    publisher_id           INT,
     first_publication_year INT,
     pages_count            INT,
     FOREIGN KEY (publisher_id)
         REFERENCES publishers (publisher_id)
-        ON DELETE CASCADE
+        ON DELETE SET NULL
 );
 
 CREATE TABLE books_authors

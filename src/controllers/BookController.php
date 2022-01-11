@@ -67,17 +67,32 @@ class BookController implements AbstractController
             $book->publisher->name = $publisher_name;
 
             // Set authors
-            $authors_ids = explode(",", $authors_ids_string);
-            $authors_names = explode(",", $authors_names_string);
+            $authors_ids = [];
+            if ($authors_ids_string != null) {
+                $authors_ids = explode(",", $authors_ids_string);
+            }
+            $authors_names = [];
+            if ($authors_names_string != null) {
+                $authors_names = explode(",", $authors_names_string);
+            }
             $book->authors = [];
             foreach ($authors_names as $index => $author_name) {
                 array_push($book->authors, (object)["author_id" => intval($authors_ids[$index]), "name" => $author_name]);
             }
 
             // Set categories
-            $categories_ids = explode(",", $categories_ids_string);
-            $categories_names = explode(",", $categories_names_string);
-            $categories_votes = explode(",", $categories_votes_string);
+            $categories_ids = [];
+            if ($categories_ids_string != null) {
+                $categories_ids = explode(",", $categories_ids_string);
+            }
+            $categories_names = [];
+            if ($categories_names_string != null) {
+                $categories_names = explode(",", $categories_names_string);
+            }
+            $categories_votes = [];
+            if ($categories_votes_string != null) {
+                $categories_votes = explode(",", $categories_votes_string);
+            }
             $book->categories = [];
             foreach ($categories_names as $index => $category_name) {
                 array_push($book->categories, (object)[
@@ -107,6 +122,18 @@ class BookController implements AbstractController
         } catch (Exception $e) {
             return null;
         }
+    }
+
+    public function delete($id)
+    {
+        // Query
+        $query = $this->db->prepare("
+            DELETE FROM books
+            WHERE book_id = ?;
+        ");
+        $query->bind_param("i", $id);
+        $query->execute();
+        $query->close();
     }
 }
 

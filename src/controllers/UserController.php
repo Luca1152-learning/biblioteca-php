@@ -112,6 +112,18 @@ class UserController implements AbstractController
         session_start();
         session_destroy();
     }
+
+    public function delete($id)
+    {
+        // Query
+        $query = $this->db->prepare("
+            DELETE FROM users
+            WHERE user_id = ?;
+        ");
+        $query->bind_param("i", $id);
+        $query->execute();
+        $query->close();
+    }
 }
 
 ?>

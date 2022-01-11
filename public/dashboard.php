@@ -60,7 +60,13 @@ if ($menu === "utilizatori") {
             "page_title" => "Listă utilizatori",
             "columns" => $columns,
             "modify_url" => "/dashboard.php?meniu=utilizatori&actiune=modifica&id=",
-            "delete_url" => "/dashboard.php?meniu=utilizatori&actiune=sterge"
+            "source" => "utilizatori",
+            "crud" => array(
+                "url" => "/admin_crud_post.php",
+                "delete" => array(
+                    "confirm_message" => "Ești sigur că vrei să ștergi utilizatorul selectat?"
+                )
+            )
         );
         $table_view->render_table($user_controller->get_all(), $metadata);
     } else {
@@ -96,7 +102,13 @@ if ($menu === "utilizatori") {
             "new_button_label" => "Adaugă carte",
             "columns" => $columns,
             "modify_url" => "/dashboard.php?meniu=carti&actiune=modifica&id=",
-            "delete_url" => "/dashboard.php?meniu=carti&actiune=sterge",
+            "source" => "carti",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "delete" => array(
+                    "confirm_message" => "Ești sigur că vrei să ștergi cartea selectată?"
+                )
+            )
         );
         $table_view->render_table($book_controller->get_all(), $metadata);
     } else if ($action === "modifica") {
@@ -177,7 +189,6 @@ if ($menu === "utilizatori") {
             "new_button_label" => "Adaugă autor",
             "columns" => $columns,
             "modify_url" => "/dashboard.php?meniu=autori&actiune=modifica&id=",
-            "delete_url" => "/dashboard.php?meniu=autori&actiune=sterge",
             "crud" => array(
                 "url" => "/librarian_crud_post.php",
                 "delete" => array(
@@ -185,7 +196,7 @@ if ($menu === "utilizatori") {
                         global $author_controller;
                         $author_controller->delete($id);
                     },
-                    "confirm_message" => "Ești sigur că vrei să ștergi autorul selectat?"
+                    "confirm_message" => "Ești sigur că vrei să ștergi autorul selectat? Cărțile acestui autor vor rămâne in bibliotecă, dar nu îl vor mai avea drept autor."
                 )
             )
         );
@@ -212,7 +223,13 @@ if ($menu === "utilizatori") {
             "new_button_label" => "Adaugă publisher",
             "columns" => $columns,
             "modify_url" => "/dashboard.php?meniu=publisheri&actiune=modifica&id=",
-            "delete_url" => "/dashboard.php?meniu=publisheri&actiune=sterge",
+            "source" => "publisheri",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "delete" => array(
+                    "confirm_message" => "Ești sigur că vrei să ștergi publisherul selectat?"
+                )
+            )
         );
         $table_view->render_table($publisher_controller->get_all(), $metadata);
     } else {
@@ -237,7 +254,13 @@ if ($menu === "utilizatori") {
             "new_button_label" => "Adaugă categorie",
             "columns" => $columns,
             "modify_url" => "/dashboard.php?meniu=categorii&actiune=modifica&id=",
-            "delete_url" => "/dashboard.php?meniu=categorii&actiune=sterge",
+            "source" => "categorii",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "delete" => array(
+                    "confirm_message" => "Ești sigur că vrei să ștergi categoria selectată?"
+                )
+            )
         );
         $table_view->render_table($category_controller->get_all(), $metadata);
     } else {

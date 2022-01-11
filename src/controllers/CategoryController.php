@@ -47,6 +47,18 @@ class CategoryController implements AbstractController
 
         return $categories_array;
     }
+
+    public function delete($id)
+    {
+        // Query
+        $query = $this->db->prepare("
+            DELETE FROM categories
+            WHERE category_id = ?;
+        ");
+        $query->bind_param("i", $id);
+        $query->execute();
+        $query->close();
+    }
 }
 
 ?>

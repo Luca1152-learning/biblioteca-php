@@ -47,6 +47,18 @@ class PublisherController implements AbstractController
 
         return $publishers_array;
     }
+
+    public function delete($id)
+    {
+        // Query
+        $query = $this->db->prepare("
+            DELETE FROM publishers
+            WHERE publisher_id = ?;
+        ");
+        $query->bind_param("i", $id);
+        $query->execute();
+        $query->close();
+    }
 }
 
 ?>

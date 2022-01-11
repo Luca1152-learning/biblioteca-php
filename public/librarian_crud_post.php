@@ -1,6 +1,9 @@
 <?php
 include_once __DIR__ . '/../src/utils/security/SecurityHelper.php';
+include_once __DIR__ . '/../src/controllers/BookController.php';
 include_once __DIR__ . '/../src/controllers/AuthorController.php';
+include_once __DIR__ . '/../src/controllers/PublisherController.php';
+include_once __DIR__ . '/../src/controllers/CategoryController.php';
 
 session_start();
 
@@ -15,15 +18,57 @@ $data = json_decode(file_get_contents('php://input'), true);
 $source = $data["source"];
 $action = $data["action"];
 
-if ($source === "autori") {
-    $author_controller = new AuthorController();
-    $id = $data["id"];
+if ($source === "carti") {
+    $book_controller = new BookController();
 
-    try {
-        $author_controller->delete($id);
-    } catch (Exception $e) {
-        http_response_code(400); // Bad Request
-        exit();
+    if ($action === "sterge") {
+        $id = $data["id"];
+
+        try {
+            $book_controller->delete($id);
+        } catch (Exception $e) {
+            http_response_code(400); // Bad Request
+            exit();
+        }
+    }
+} else if ($source === "autori") {
+    $author_controller = new AuthorController();
+
+    if ($action === "sterge") {
+        $id = $data["id"];
+
+        try {
+            $author_controller->delete($id);
+        } catch (Exception $e) {
+            http_response_code(400); // Bad Request
+            exit();
+        }
+    }
+} else if ($source === "publisheri") {
+    $publisher_controller = new PublisherController();
+
+    if ($action === "sterge") {
+        $id = $data["id"];
+
+        try {
+            $publisher_controller->delete($id);
+        } catch (Exception $e) {
+            http_response_code(400); // Bad Request
+            exit();
+        }
+    }
+} else if ($source === "categorii") {
+    $category_controller = new CategoryController();
+
+    if ($action === "sterge") {
+        $id = $data["id"];
+
+        try {
+            $category_controller->delete($id);
+        } catch (Exception $e) {
+            http_response_code(400); // Bad Request
+            exit();
+        }
     }
 }
 
