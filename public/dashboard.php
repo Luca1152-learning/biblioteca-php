@@ -5,6 +5,7 @@ include_once __DIR__ . '/../src/controllers/UserController.php';
 include_once __DIR__ . '/../src/controllers/AuthorController.php';
 include_once __DIR__ . '/../src/controllers/BookController.php';
 include_once __DIR__ . '/../src/controllers/CategoryController.php';
+include_once __DIR__ . '/../src/controllers/PublisherController.php';
 include_once __DIR__ . '/../src/views/dashboard/TableView.php';
 include_once __DIR__ . '/../src/views/dashboard/EditView.php';
 
@@ -170,6 +171,31 @@ if ($menu === "utilizatori") {
             "delete_url" => "/dashboard.php?meniu=autori&actiune=sterge",
         );
         $table_view->render_table($author_controller->get_all(), $metadata);
+    } else {
+        SecurityHelper::redirect_to_404();
+    }
+} else if ($menu === "publisheri") {
+    // Authors
+    $publisher_controller = new PublisherController();
+    $columns = array(
+        "publisher_id" => array(
+            "label" => "ID",
+            "width" => 60
+        ),
+        "name" => array(
+            "label" => "Nume"
+        )
+    );
+
+    if ($action === "vezi") {
+        $metadata = array(
+            "page_title" => "Listă publisheri",
+            "new_button_label" => "Adaugă publisher",
+            "columns" => $columns,
+            "modify_url" => "/dashboard.php?meniu=publisheri&actiune=modifica&id=",
+            "delete_url" => "/dashboard.php?meniu=publisheri&actiune=sterge",
+        );
+        $table_view->render_table($publisher_controller->get_all(), $metadata);
     } else {
         SecurityHelper::redirect_to_404();
     }
