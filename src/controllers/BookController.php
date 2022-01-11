@@ -136,6 +136,60 @@ class BookController implements AbstractController
         $query->execute();
         $query->close();
     }
+
+    public function insert($data)
+    {
+        // Adauga cartea
+        $query = $this->db->prepare("
+            INSERT INTO books(title, description, cover_url, publisher_id, first_publication_year, pages_count)
+            VALUES (?, ?, ?, ?, ?, ?);
+        ");
+        $query->bind_param(
+            "sssiii",
+            $data["title"], $data["description"], $data["cover_url"],
+            $data["publisher"]["publisher_id"], $data["publication_year"], $data["pages_count"]
+        );
+        $query->execute();
+        $query->close();
+
+        // Gaseste ID-ul cartii nou adaugate
+        $query = $this->db->prepare("
+            SELECT book_id
+            FROM books
+            WHERE title = ?;
+        ");
+        $query->bind_param("s", $data["title"]);
+        $query->execute();
+        $query->store_result();
+        $query->bind_result($book_id);
+        $query->fetch();
+        $query->close();
+
+        // Adauga-i autorii
+        foreach ($data["authors"] as $index => $author) {
+            $query = $this->db->prepare("
+                INSERT INTO books_authors(book_id, author_id, is_main_author)
+                VALUES (?, ?, ?);
+            ");
+            $is_main_author = $index == 0;
+            $query->bind_param("iib", $book_id, $author["author_id"], $is_main_author);
+            $query->execute();
+            $query->close();
+        }
+
+
+        // Adauga-i categoriile
+        foreach ($data["categories"] as $index => $category) {
+            $query = $this->db->prepare("
+                INSERT INTO books_categories(book_id, category_id, votes)
+                VALUES (?, ?, ?);
+            ");
+            $votes = count($data["categories"]) - $index;
+            $query->bind_param("iii", $book_id, $category["category_id"], $votes);
+            $query->execute();
+            $query->close();
+        }
+    }
 }
 
 ?>

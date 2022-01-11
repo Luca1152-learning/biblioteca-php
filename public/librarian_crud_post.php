@@ -18,10 +18,18 @@ $data = json_decode(file_get_contents('php://input'), true);
 $source = $data["source"];
 $action = $data["action"];
 
+// ---------------------------------------- CARTI ----------------------------------------
 if ($source === "carti") {
     $book_controller = new BookController();
 
-    if ($action === "sterge") {
+    if ($action === "adauga") {
+        try {
+            $book_controller->insert($data["data"]);
+        } catch (Exception $e) {
+            http_response_code(404); // Not Found
+            exit();
+        }
+    } else if ($action === "sterge") {
         $id = $data["id"];
 
         try {
@@ -34,7 +42,8 @@ if ($source === "carti") {
         http_response_code(404); // Not Found
         exit();
     }
-} else if ($source === "autori") {
+} // ---------------------------------------- AUTORI ----------------------------------------
+else if ($source === "autori") {
     $author_controller = new AuthorController();
 
     if ($action === "adauga") {
@@ -57,7 +66,8 @@ if ($source === "carti") {
         http_response_code(404); // Not Found
         exit();
     }
-} else if ($source === "publisheri") {
+} // ---------------------------------------- PUBLISHERI ----------------------------------------
+else if ($source === "publisheri") {
     $publisher_controller = new PublisherController();
 
     if ($action === "sterge") {
@@ -73,7 +83,8 @@ if ($source === "carti") {
         http_response_code(404); // Not Found
         exit();
     }
-} else if ($source === "categorii") {
+} // ---------------------------------------- CATEGORII ----------------------------------------
+else if ($source === "categorii") {
     $category_controller = new CategoryController();
 
     if ($action === "sterge") {

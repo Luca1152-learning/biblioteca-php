@@ -26,6 +26,7 @@ class AddView
                                             @typing="getFilteredTags($event, '<?php echo $field; ?>', '<?php echo $info["field_name"]; ?>')"
                                             type="is-success"
                                             icon="plus-thick"
+                                            :open-on-focus="true"
                                             autocomplete
                                             ellipsis
                                             placeholder="<?php echo $info["add_label"]; ?>">
@@ -80,12 +81,10 @@ class AddView
                 },
                 methods: {
                     onSubmit() {
-                        const dataParams = this.instance;
-
                         const params = {
                             source: "<?php echo $metadata["source"]; ?>",
                             action: "adauga",
-                            data: dataParams
+                            data: this.instance
                         };
                         fetch("<?php echo $metadata["crud"]["url"];?>", {
                             method: "POST",
@@ -96,8 +95,9 @@ class AddView
                                 throw response.text()
                             }
 
+                            response.text().then(console.log);
                             // Redirect on success
-                            window.location.replace("<?php echo $metadata["crud"]["after_add_url"];?>");
+                            // window.location.replace("<?php echo $metadata["crud"]["after_add_url"];?>");
                         }).catch(x => x.then(console.log))
                     },
                     getFilteredTags(text, obj, fieldName) {

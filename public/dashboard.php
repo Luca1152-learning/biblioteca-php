@@ -31,6 +31,7 @@ $edit_view = new EditView();
 $add_view = new AddView();
 
 create_header("Lib - Dashboard");
+//---------------------------------------- UTILIZATORI ----------------------------------------
 if ($menu === "utilizatori") {
     // Users
     $user_controller = new UserController();
@@ -74,7 +75,8 @@ if ($menu === "utilizatori") {
     } else {
         SecurityHelper::redirect_to_404();
     }
-} else if ($menu === "carti") {
+} //---------------------------------------- CARTI ----------------------------------------
+else if ($menu === "carti") {
     // Books
     $book_controller = new BookController();
     $author_controller = new AuthorController();
@@ -104,6 +106,7 @@ if ($menu === "utilizatori") {
             "new_button_label" => "Adaugă carte",
             "columns" => $columns,
             "modify_url" => "/dashboard.php?meniu=carti&actiune=modifica&id=",
+            "new_url" => "/dashboard.php?meniu=carti&actiune=adauga",
             "source" => "carti",
             "crud" => array(
                 "url" => "/librarian_crud_post.php",
@@ -147,18 +150,21 @@ if ($menu === "utilizatori") {
                 "label" => "URL Copertă",
                 "type" => "text"
             ),
+            "publication_year" => array(
+                "label" => "Anul publicării",
+                "type" => "number",
+                "min_value_number" => 1,
+            ),
             "pages_count" => array(
                 "label" => "Număr pagini",
                 "type" => "number",
                 "min_value_number" => 1,
-                "required" => true
             ),
         );
         $metadata = array(
             "page_title" => "Editează carte",
             "fields" => $fields
         );
-
         $data = array(
             "instance" => $book_controller->get_by_id($id),
             "all" => array(
@@ -168,10 +174,85 @@ if ($menu === "utilizatori") {
             )
         );
         $edit_view->render($data, $metadata);
+    } else if ($action === "adauga") {
+        $fields = array(
+            "title" => array(
+                "label" => "Titlu",
+                "type" => "text",
+                "required" => true,
+            ),
+            "authors" => array(
+                "label" => "Autori",
+                "add_label" => "Adaugă autor",
+                "type" => "list",
+                "field_name" => "name",
+            ),
+            "publisher" => array(
+                "label" => "Publisher",
+                "type" => "text-autocomplete",
+                "field_name" => "name",
+                "required" => true
+            ),
+            "description" => array(
+                "label" => "Descriere",
+                "type" => "textarea"
+            ),
+            "categories" => array(
+                "label" => "Categorii",
+                "add_label" => "Adaugă categorie",
+                "type" => "list",
+                "field_name" => "name",
+            ),
+            "cover_url" => array(
+                "label" => "URL Copertă",
+                "type" => "text"
+            ),
+            "publication_year" => array(
+                "label" => "Anul publicării",
+                "type" => "number",
+                "min_value_number" => 1,
+            ),
+            "pages_count" => array(
+                "label" => "Număr pagini",
+                "type" => "number",
+                "min_value_number" => 1,
+            ),
+        );
+        $metadata = array(
+            "page_title" => "Adaugă carte",
+            "fields" => $fields,
+            "source" => "carti",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "after_add_url" => "/dashboard.php?meniu=carti&actiune=vezi"
+            )
+        );
+        $data = array(
+            "instance" => array(
+                "title" => "",
+                "authors" => [],
+                "publisher" => array(
+                    "publisher_id" => null,
+                    "name" => ""
+                ),
+                "description" => "",
+                "categories" => [],
+                "cover_url" => "",
+                "pages_count" => null,
+                "publication_year" => null,
+            ),
+            "all" => array(
+                "authors" => $author_controller->get_all(),
+                "categories" => $category_controller->get_all(),
+                "publisher" => $publisher_controller->get_all()
+            )
+        );
+        $add_view->render($data, $metadata);
     } else {
         SecurityHelper::redirect_to_404();
     }
-} else if ($menu === "autori") {
+} //---------------------------------------- AUTORI ----------------------------------------
+else if ($menu === "autori") {
     // Authors
     $author_controller = new AuthorController();
     $columns = array(
@@ -241,7 +322,8 @@ if ($menu === "utilizatori") {
     } else {
         SecurityHelper::redirect_to_404();
     }
-} else if ($menu === "publisheri") {
+} //---------------------------------------- PUBLISHERI ----------------------------------------
+else if ($menu === "publisheri") {
     // Authors
     $publisher_controller = new PublisherController();
     $columns = array(
@@ -272,7 +354,8 @@ if ($menu === "utilizatori") {
     } else {
         SecurityHelper::redirect_to_404();
     }
-} else if ($menu === "categorii") {
+} //---------------------------------------- CATEGORII ----------------------------------------
+else if ($menu === "categorii") {
     // Authors
     $category_controller = new CategoryController();
     $columns = array(

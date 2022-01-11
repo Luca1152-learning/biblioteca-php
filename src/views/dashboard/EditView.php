@@ -27,6 +27,7 @@ class EditView
                                             @typing="getFilteredTags($event, '<?php echo $field; ?>', '<?php echo $info["field_name"]; ?>')"
                                             type="is-success"
                                             icon="plus-thick"
+                                            :open-on-focus="true"
                                             autocomplete
                                             ellipsis
                                             placeholder="<?php echo $info["add_label"]; ?>">
