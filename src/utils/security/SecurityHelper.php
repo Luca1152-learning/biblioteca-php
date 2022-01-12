@@ -91,7 +91,7 @@ class SecurityHelper
         $mail->Subject = "Biblioteca Lib - Verifica-ti adresa de mail";
         $mail->Body = nl2br(
             "Salut {$first_name},\n\nÎți poți verifica adresa de email apăsând " .
-            "<a href='/verifica-mail.php?cod={$code}'>aici</a>.\n\nMulțumim,\nEchipa Biblioteca Lib"
+            "<a href='https://biblioteca-php.herokuapp.com/verifica-mail.php?cod={$code}'>aici</a>.\n\nMulțumim,\nEchipa Biblioteca Lib"
         );
         $mail->AddAddress($email_address);
         $mail->Send();
