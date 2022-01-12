@@ -28,17 +28,18 @@ CREATE TABLE users
     last_name        VARCHAR(64)        NOT NULL,
     role             VARCHAR(64)        NOT NULL DEFAULT 'user',
     sign_up_date     DATETIME           NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    last_online_date DATETIME           NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    verified_email   BOOL               NOT NULL DEFAULT FALSE,
+    verify_email_url VARCHAR(128)       NOT NULL,
     PRIMARY KEY (user_id),
     FOREIGN KEY (role) REFERENCES roles (role)
 );
 
 -- Admin user
-INSERT INTO users(email, password, first_name, last_name, role)
+INSERT INTO users(email, password, first_name, last_name, role, verified_email, verify_email_url)
 VALUES ('admin@lib.ro', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin', 'admin',
-        'administrator'),
+        'administrator', TRUE, ''),
        ('bibliotecar@lib.ro', '7c18cce240a62e5f56a4edc713b57ce141a52faca57174dad75db8454b4f3b94', 'bibliotecar',
-        'bibliotecar', 'bibliotecar');
+        'bibliotecar', 'bibliotecar', TRUE, '');
 
 CREATE TABLE authors
 (
@@ -77,7 +78,6 @@ CREATE TABLE books_authors
     book_id        INT  NOT NULL,
     author_id      INT  NOT NULL,
     is_main_author BOOL NOT NULL DEFAULT FALSE,
-    qualifier      VARCHAR(64),
     PRIMARY KEY (book_id, author_id),
     FOREIGN KEY (book_id)
         REFERENCES books (book_id)
@@ -118,8 +118,8 @@ CREATE TABLE borrows
     borrow_id       INT NOT NULL AUTO_INCREMENT,
     user_id         INT NOT NULL,
     copy_id         INT NOT NULL,
-    borrow_date     DATE,
-    return_due_date DATE,
+    borrow_date     DATE DEFAULT NULL,
+    return_due_date DATE DEFAULT NULL,
     return_date     DATE DEFAULT NULL,
     PRIMARY KEY (borrow_id),
     FOREIGN KEY (user_id)

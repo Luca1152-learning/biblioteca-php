@@ -44,14 +44,10 @@ use InvalidArgumentException;
  */
 class ClassLoader
 {
-    /**
-     * @var self[]
-     */
-    private static $registeredLoaders = array();
-
-    // PSR-4
     /** @var ?string */
     private $vendorDir;
+
+    // PSR-4
     /**
      * @var array[]
      * @psalm-var array<string, array<string, int>>
@@ -62,13 +58,13 @@ class ClassLoader
      * @psalm-var array<string, array<int, string>>
      */
     private $prefixDirsPsr4 = array();
-
-    // PSR-0
     /**
      * @var array[]
      * @psalm-var array<string, string>
      */
     private $fallbackDirsPsr4 = array();
+
+    // PSR-0
     /**
      * @var array[]
      * @psalm-var array<string, array<string, string[]>>
@@ -79,22 +75,32 @@ class ClassLoader
      * @psalm-var array<string, string>
      */
     private $fallbackDirsPsr0 = array();
+
     /** @var bool */
     private $useIncludePath = false;
+
     /**
      * @var string[]
      * @psalm-var array<string, string>
      */
     private $classMap = array();
+
     /** @var bool */
     private $classMapAuthoritative = false;
+
     /**
      * @var bool[]
      * @psalm-var array<string, bool>
      */
     private $missingClasses = array();
+
     /** @var ?string */
     private $apcuPrefix;
+
+    /**
+     * @var self[]
+     */
+    private static $registeredLoaders = array();
 
     /**
      * @param ?string $vendorDir
@@ -102,16 +108,6 @@ class ClassLoader
     public function __construct($vendorDir = null)
     {
         $this->vendorDir = $vendorDir;
-    }
-
-    /**
-     * Returns the currently registered loaders indexed by their corresponding vendor directories.
-     *
-     * @return self[]
-     */
-    public static function getRegisteredLoaders()
-    {
-        return self::$registeredLoaders;
     }
 
     /**
@@ -318,17 +314,6 @@ class ClassLoader
     }
 
     /**
-     * Can be used to check if the autoloader uses the include path to check
-     * for classes.
-     *
-     * @return bool
-     */
-    public function getUseIncludePath()
-    {
-        return $this->useIncludePath;
-    }
-
-    /**
      * Turns on searching the include path for class files.
      *
      * @param bool $useIncludePath
@@ -341,13 +326,14 @@ class ClassLoader
     }
 
     /**
-     * Should class lookup fail if not found in the current class map?
+     * Can be used to check if the autoloader uses the include path to check
+     * for classes.
      *
      * @return bool
      */
-    public function isClassMapAuthoritative()
+    public function getUseIncludePath()
     {
-        return $this->classMapAuthoritative;
+        return $this->useIncludePath;
     }
 
     /**
@@ -364,13 +350,13 @@ class ClassLoader
     }
 
     /**
-     * The APCu prefix in use, or null if APCu caching is not enabled.
+     * Should class lookup fail if not found in the current class map?
      *
-     * @return string|null
+     * @return bool
      */
-    public function getApcuPrefix()
+    public function isClassMapAuthoritative()
     {
-        return $this->apcuPrefix;
+        return $this->classMapAuthoritative;
     }
 
     /**
@@ -383,6 +369,16 @@ class ClassLoader
     public function setApcuPrefix($apcuPrefix)
     {
         $this->apcuPrefix = function_exists('apcu_fetch') && filter_var(ini_get('apc.enabled'), FILTER_VALIDATE_BOOLEAN) ? $apcuPrefix : null;
+    }
+
+    /**
+     * The APCu prefix in use, or null if APCu caching is not enabled.
+     *
+     * @return string|null
+     */
+    public function getApcuPrefix()
+    {
+        return $this->apcuPrefix;
     }
 
     /**
@@ -482,8 +478,18 @@ class ClassLoader
     }
 
     /**
-     * @param  string       $class
-     * @param  string       $ext
+     * Returns the currently registered loaders indexed by their corresponding vendor directories.
+     *
+     * @return self[]
+     */
+    public static function getRegisteredLoaders()
+    {
+        return self::$registeredLoaders;
+    }
+
+    /**
+     * @param string $class
+     * @param string $ext
      * @return string|false
      */
     private function findFileWithExtension($class, $ext)

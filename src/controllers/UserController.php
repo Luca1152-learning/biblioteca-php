@@ -73,7 +73,7 @@ class UserController implements AbstractController
 
         // Query
         $query = $this->db->prepare("
-            SELECT user_id, email, role, first_name, last_name, sign_up_date, last_online_date
+            SELECT user_id, email, role, first_name, last_name, sign_up_date
             FROM users;
         ");
         $query->execute();
@@ -83,7 +83,7 @@ class UserController implements AbstractController
         $query->store_result();
         $query->bind_result(
             $user->user_id, $user->email, $user->role, $user->first_name,
-            $user->last_name, $user->sign_up_date, $user->last_online_date
+            $user->last_name, $user->sign_up_date
         );
 
         // Fetch all rows
@@ -112,12 +112,13 @@ class UserController implements AbstractController
         try {
             // Insert the user
             $query = $this->db->prepare("
-                INSERT INTO users(email, password, first_name, last_name)
-                VALUES (?, ?, ?, ?)
+                INSERT INTO users(email, password, first_name, last_name, verify_email_url)
+                VALUES (?, ?, ?, ?, ?)
             ");
+            $verify_email_url = hash("sha256", $user->email . time());
             $query->bind_param(
-                "ssss",
-                $user->email, $user->hashedPassword, $user->first_name, $user->last_name
+                "sssss",
+                $user->email, $user->hashedPassword, $user->first_name, $user->last_name, $verify_email_url
             );
             $query->execute();
             $query->close();
@@ -133,7 +134,7 @@ class UserController implements AbstractController
     {
         try {
             $query = $this->db->prepare("
-                SELECT user_id, email, role, first_name, last_name, sign_up_date, last_online_date
+                SELECT user_id, email, role, first_name, last_name, sign_up_date
                 FROM users
                 WHERE email = ? AND password = ?;
             ");
@@ -151,8 +152,7 @@ class UserController implements AbstractController
 
             $query->bind_result(
                 $_SESSION["user_id"], $_SESSION["user_email"], $_SESSION["user_role"],
-                $_SESSION["user_first_name"], $_SESSION["user_last_name"], $_SESSION["user_sign_up_date"],
-                $_SESSION["user_last_online_date"]
+                $_SESSION["user_first_name"], $_SESSION["user_last_name"], $_SESSION["user_sign_up_date"]
             );
             $query->fetch();
 

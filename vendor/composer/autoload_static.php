@@ -8,17 +8,21 @@ use Closure;
 
 class ComposerStaticInit72d1c86c2e318f4281e8a764119f59e3
 {
-    public static $prefixLengthsPsr4 = array (
-        'F' => 
-        array (
-            'Fpdf\\' => 5,
-        ),
-        'A' => 
-        array (
-            'Amenadiel\\JpGraph\\Util\\' => 23,
-            'Amenadiel\\JpGraph\\Themes\\' => 25,
-            'Amenadiel\\JpGraph\\Text\\' => 23,
-            'Amenadiel\\JpGraph\\Plot\\' => 23,
+    public static $prefixLengthsPsr4 = array(
+        'P' =>
+            array(
+                'PHPMailer\\PHPMailer\\' => 20,
+            ),
+        'F' =>
+            array(
+                'Fpdf\\' => 5,
+            ),
+        'A' =>
+            array(
+                'Amenadiel\\JpGraph\\Util\\' => 23,
+                'Amenadiel\\JpGraph\\Themes\\' => 25,
+                'Amenadiel\\JpGraph\\Text\\' => 23,
+                'Amenadiel\\JpGraph\\Plot\\' => 23,
             'Amenadiel\\JpGraph\\Image\\' => 24,
             'Amenadiel\\JpGraph\\Graph\\Tick\\' => 29,
             'Amenadiel\\JpGraph\\Graph\\Scale\\' => 30,
@@ -28,17 +32,21 @@ class ComposerStaticInit72d1c86c2e318f4281e8a764119f59e3
         ),
     );
 
-    public static $prefixDirsPsr4 = array (
-        'Fpdf\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/fpdf/fpdf/src/Fpdf',
-        ),
-        'Amenadiel\\JpGraph\\Util\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/amenadiel/jpgraph/src/util',
-        ),
-        'Amenadiel\\JpGraph\\Themes\\' => 
-        array (
+    public static $prefixDirsPsr4 = array(
+        'PHPMailer\\PHPMailer\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+            ),
+        'Fpdf\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/fpdf/fpdf/src/Fpdf',
+            ),
+        'Amenadiel\\JpGraph\\Util\\' =>
+            array(
+                0 => __DIR__ . '/..' . '/amenadiel/jpgraph/src/util',
+            ),
+        'Amenadiel\\JpGraph\\Themes\\' =>
+            array(
             0 => __DIR__ . '/..' . '/amenadiel/jpgraph/src/themes',
         ),
         'Amenadiel\\JpGraph\\Text\\' => 

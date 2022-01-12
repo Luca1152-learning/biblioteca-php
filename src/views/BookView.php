@@ -5,9 +5,12 @@ class BookView
 {
     private function render_borrow_button_for_book($book, $css_classes)
     {
-        $filtered_borrows = array_filter($_SESSION["borrows"], function ($it) use ($book) {
-            return $it->book_id == $book->book_id;
-        });
+        $filtered_borrows = null;
+        if (SecurityHelper::is_logged_in()) {
+            array_filter($_SESSION["borrows"], function ($it) use ($book) {
+                return $it->book_id == $book->book_id;
+            });
+        }
         if ($filtered_borrows == null) {
             // The book wasn't borrowed
 

@@ -6,6 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'Fpdf\\' => array($vendorDir . '/fpdf/fpdf/src/Fpdf'),
     'Amenadiel\\JpGraph\\Util\\' => array($vendorDir . '/amenadiel/jpgraph/src/util'),
     'Amenadiel\\JpGraph\\Themes\\' => array($vendorDir . '/amenadiel/jpgraph/src/themes'),
