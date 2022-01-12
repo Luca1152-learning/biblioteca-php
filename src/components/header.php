@@ -77,10 +77,13 @@ function create_header($title)
                 <div class="navbar-end">
                     <div class="navbar-item">
                         <div class="field is-grouped">
-                            <p class="control">
+                            <div class="control is-flex is-align-items-center">
                                 <?php
                                 // Utilizatorul e logat => afiseaza "Iesire [nume]"
                                 if (SecurityHelper::is_logged_in()) { ?>
+                                    <?php if (!$_SESSION["user_verified_email"]) { ?>
+                                        <span class="tag is-warning">Email neverificat</span>
+                                    <?php } ?>
                                     <a href="/iesire.php" class="button is-text is-rounded">
                                         <?php echo 'Ieșire ' . $_SESSION["user_first_name"] ?>
                                     </a>
@@ -91,7 +94,7 @@ function create_header($title)
                                         <span>Înregistrare</span>
                                     </a>
                                 <?php } ?>
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </div>

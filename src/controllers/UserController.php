@@ -73,7 +73,7 @@ class UserController implements AbstractController
 
         // Query
         $query = $this->db->prepare("
-            SELECT user_id, email, role, first_name, last_name, sign_up_date
+            SELECT user_id, email, role, first_name, last_name, sign_up_date, verified_email, verify_email_url
             FROM users;
         ");
         $query->execute();
@@ -83,7 +83,7 @@ class UserController implements AbstractController
         $query->store_result();
         $query->bind_result(
             $user->user_id, $user->email, $user->role, $user->first_name,
-            $user->last_name, $user->sign_up_date
+            $user->last_name, $user->sign_up_date, $user->verified_email, $user->verify_email_url
         );
 
         // Fetch all rows

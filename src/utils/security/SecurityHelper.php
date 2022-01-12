@@ -26,6 +26,8 @@ class SecurityHelper
         $_SESSION["user_first_name"] = $current_user->first_name;
         $_SESSION["user_last_name"] = $current_user->last_name;
         $_SESSION["user_sign_up_date"] = $current_user->sign_up_date;
+        $_SESSION["user_verified_email"] = $current_user->verified_email;
+        $_SESSION["user_verify_email_url"] = $current_user->verify_email_url;
         $_SESSION["borrows"] = $current_user->borrows;
     }
 
