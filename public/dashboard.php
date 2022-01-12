@@ -6,6 +6,7 @@ include_once __DIR__ . '/../src/controllers/AuthorController.php';
 include_once __DIR__ . '/../src/controllers/BookController.php';
 include_once __DIR__ . '/../src/controllers/CategoryController.php';
 include_once __DIR__ . '/../src/controllers/PublisherController.php';
+include_once __DIR__ . '/../src/controllers/CopyController.php';
 include_once __DIR__ . '/../src/views/dashboard/TableView.php';
 include_once __DIR__ . '/../src/views/dashboard/EditView.php';
 include_once __DIR__ . '/../src/views/dashboard/AddView.php';
@@ -547,6 +548,108 @@ else if ($menu === "categorii") {
         );
         $data = array(
             "instance" => $category_controller->get_by_id($id)
+        );
+        $edit_view->render($data, $metadata);
+    } else {
+        SecurityHelper::redirect_to_404();
+    }
+} //---------------------------------------- COPII ----------------------------------------
+else if ($menu === "copii") {
+    $copy_controller = new CopyController();
+    $book_controller = new BookController();
+
+    // ********************** TABEL **********************
+    if ($action === "vezi") {
+        $columns = array(
+            "copy_id" => array(
+                "label" => "ID",
+                "width" => 60
+            ),
+            "book.title" => array(
+                "label" => "Nume"
+            ),
+            "date_added" => array(
+                "label" => "Adăugată la",
+                "type" => "date"
+            ),
+            "comments" => array(
+                "label" => "Comentarii"
+            ),
+        );
+
+        $metadata = array(
+            "page_title" => "Listă copii",
+            "new_button_label" => "Adaugă copii",
+            "columns" => $columns,
+            "modify_url" => "/dashboard.php?meniu=copii&actiune=modifica&id=",
+            "new_url" => "/dashboard.php?meniu=copii&actiune=adauga",
+            "source" => "copii",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "delete" => array(
+                    "confirm_message" => "Ești sigur că vrei să ștergi copia selectată?"
+                )
+            )
+        );
+        $table_view->render_table($copy_controller->get_all(), $metadata);
+    } // ********************** INSERT **********************
+    else if ($action === "adauga") {
+        $fields = array(
+            "book" => array(
+                "label" => "Carte",
+                "type" => "text-autocomplete",
+                "field_name" => "title",
+                "required" => true
+            ),
+            "number" => array(
+                "label" => "Număr copii",
+                "type" => "number",
+                "min_value_number" => 1,
+                "required" => true
+            )
+        );
+        $metadata = array(
+            "page_title" => "Adaugă copii",
+            "fields" => $fields,
+            "source" => "copii",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "after_add_url" => "/dashboard.php?meniu=copii&actiune=vezi"
+            )
+        );
+        $data = array(
+            "instance" => array(
+                "book" => array(
+                    "book_id" => null,
+                    "title" => ""
+                ),
+                "number" => 1,
+            ),
+            "all" => array(
+                "book" => $book_controller->get_all()
+            )
+        );
+        $add_view->render($data, $metadata);
+    } // ********************** UPDATE **********************
+    else if ($action === "modifica") {
+        $id = $_GET["id"];
+        $fields = array(
+            "comments" => array(
+                "label" => "Comentarii",
+                "type" => "text",
+            ),
+        );
+        $metadata = array(
+            "page_title" => "Editează copie",
+            "fields" => $fields,
+            "source" => "copii",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "after_update_url" => "/dashboard.php?meniu=copii&actiune=vezi"
+            )
+        );
+        $data = array(
+            "instance" => $copy_controller->get_by_id($id)
         );
         $edit_view->render($data, $metadata);
     } else {

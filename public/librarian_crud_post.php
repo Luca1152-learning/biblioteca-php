@@ -4,6 +4,7 @@ include_once __DIR__ . '/../src/controllers/BookController.php';
 include_once __DIR__ . '/../src/controllers/AuthorController.php';
 include_once __DIR__ . '/../src/controllers/PublisherController.php';
 include_once __DIR__ . '/../src/controllers/CategoryController.php';
+include_once __DIR__ . '/../src/controllers/CopyController.php';
 
 session_start();
 
@@ -64,6 +65,9 @@ if ($source === "carti") {
 } else if ($source === "categorii") {
     $category_controller = new CategoryController();
     handle_crud_requests($category_controller, $data);
+} else if ($source === "copii") {
+    $copy_controller = new CopyController();
+    handle_crud_requests($copy_controller, $data);
 } else {
     http_response_code(404); // Not Found
     exit();
