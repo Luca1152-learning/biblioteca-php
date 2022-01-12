@@ -7,7 +7,7 @@ class BookView
     {
         $filtered_borrows = null;
         if (SecurityHelper::is_logged_in()) {
-            array_filter($_SESSION["borrows"], function ($it) use ($book) {
+            $filtered_borrows = array_filter($_SESSION["borrows"], function ($it) use ($book) {
                 return $it->book_id == $book->book_id;
             });
         }
@@ -26,10 +26,10 @@ class BookView
                                   }).then(response => {
                                   if (response.status !== 200) {
                                   if (response.status === 403){
-                                  window.location.replace('/conectare.php');
+                                  window.location.href = '/conectare.php';
                                   return;
                                   } else if (response.status === 405){
-                                  window.location.replace('/eroare-verifica-mail.php');
+                                  window.location.href = '/eroare-verifica-mail.php';
                                   return;
                                   } else {
                                   location.reload(); // Refresh page
