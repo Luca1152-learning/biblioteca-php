@@ -48,6 +48,29 @@ class CategoryController implements AbstractController
         return $categories_array;
     }
 
+    public function insert($data)
+    {
+        $query = $this->db->prepare("
+            INSERT INTO categories(name)
+            VALUES (?);
+        ");
+        $query->bind_param("s", $data["name"]);
+        $query->execute();
+        $query->close();
+    }
+
+    public function update($data)
+    {
+        $query = $this->db->prepare("
+            UPDATE categories
+            SET name=?
+            WHERE category_id = ?;
+        ");
+        $query->bind_param("si", $data["name"], $data["category_id"]);
+        $query->execute();
+        $query->close();
+    }
+
     public function delete($id)
     {
         // Query

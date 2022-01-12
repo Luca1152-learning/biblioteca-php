@@ -273,6 +273,7 @@ else if ($menu === "autori") {
         )
     );
 
+    // ********************** TABEL **********************
     if ($action === "vezi") {
         $metadata = array(
             "source" => "autori",
@@ -289,7 +290,8 @@ else if ($menu === "autori") {
             )
         );
         $table_view->render_table($author_controller->get_all(), $metadata);
-    } else if ($action === "modifica") {
+    } // ********************** UPDATE **********************
+    else if ($action === "modifica") {
         $id = $_GET["id"];
         $fields = array(
             "name" => array(
@@ -299,14 +301,20 @@ else if ($menu === "autori") {
             )
         );
         $metadata = array(
-            "page_title" => "Editează autor",
-            "fields" => $fields
+            "page_title" => "Modifică autor",
+            "fields" => $fields,
+            "source" => "autori",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "after_update_url" => "/dashboard.php?meniu=autori&actiune=vezi"
+            )
         );
         $data = array(
             "instance" => $author_controller->get_by_id($id)
         );
         $edit_view->render($data, $metadata);
-    } else if ($action === "adauga") {
+    } // ********************** INSERT **********************
+    else if ($action === "adauga") {
         $fields = array(
             "name" => array(
                 "label" => "Nume",
@@ -344,12 +352,14 @@ else if ($menu === "publisheri") {
         )
     );
 
+    // ********************** TABEL **********************
     if ($action === "vezi") {
         $metadata = array(
             "page_title" => "Listă publisheri",
             "new_button_label" => "Adaugă publisher",
             "columns" => $columns,
             "modify_url" => "/dashboard.php?meniu=publisheri&actiune=modifica&id=",
+            "new_url" => "/dashboard.php?meniu=publisheri&actiune=adauga",
             "source" => "publisheri",
             "crud" => array(
                 "url" => "/librarian_crud_post.php",
@@ -357,14 +367,59 @@ else if ($menu === "publisheri") {
                     "confirm_message" => "Ești sigur că vrei să ștergi publisherul selectat?"
                 )
             )
+
         );
         $table_view->render_table($publisher_controller->get_all(), $metadata);
+    } // ********************** INSERT **********************
+    else if ($action === "adauga") {
+        $fields = array(
+            "name" => array(
+                "label" => "Nume",
+                "type" => "text",
+                "required" => true,
+            )
+        );
+        $metadata = array(
+            "page_title" => "Adaugă publisher",
+            "fields" => $fields,
+            "source" => "publisheri",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "after_add_url" => "/dashboard.php?meniu=publisheri&actiune=vezi"
+            )
+        );
+        $data = array(
+            "instance" => new stdClass()
+        );
+        $add_view->render($data, $metadata);
+    } // ********************** UPDATE **********************
+    else if ($action === "modifica") {
+        $id = $_GET["id"];
+        $fields = array(
+            "name" => array(
+                "label" => "Nume",
+                "type" => "text",
+                "required" => true,
+            )
+        );
+        $metadata = array(
+            "page_title" => "Modifică publisher",
+            "fields" => $fields,
+            "source" => "publisheri",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "after_update_url" => "/dashboard.php?meniu=publisheri&actiune=vezi"
+            )
+        );
+        $data = array(
+            "instance" => $publisher_controller->get_by_id($id)
+        );
+        $edit_view->render($data, $metadata);
     } else {
         SecurityHelper::redirect_to_404();
     }
 } //---------------------------------------- CATEGORII ----------------------------------------
 else if ($menu === "categorii") {
-    // Authors
     $category_controller = new CategoryController();
     $columns = array(
         "category_id" => array(
@@ -376,12 +431,14 @@ else if ($menu === "categorii") {
         )
     );
 
+    // ********************** TABEL **********************
     if ($action === "vezi") {
         $metadata = array(
             "page_title" => "Listă categorii",
             "new_button_label" => "Adaugă categorie",
             "columns" => $columns,
             "modify_url" => "/dashboard.php?meniu=categorii&actiune=modifica&id=",
+            "new_url" => "/dashboard.php?meniu=categorii&actiune=adauga",
             "source" => "categorii",
             "crud" => array(
                 "url" => "/librarian_crud_post.php",
@@ -391,6 +448,51 @@ else if ($menu === "categorii") {
             )
         );
         $table_view->render_table($category_controller->get_all(), $metadata);
+    } // ********************** INSERT **********************
+    else if ($action === "adauga") {
+        $fields = array(
+            "name" => array(
+                "label" => "Nume",
+                "type" => "text",
+                "required" => true,
+            )
+        );
+        $metadata = array(
+            "page_title" => "Adaugă categorie",
+            "fields" => $fields,
+            "source" => "categorii",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "after_add_url" => "/dashboard.php?meniu=categorii&actiune=vezi"
+            )
+        );
+        $data = array(
+            "instance" => new stdClass()
+        );
+        $add_view->render($data, $metadata);
+    } // ********************** UPDATE **********************
+    else if ($action === "modifica") {
+        $id = $_GET["id"];
+        $fields = array(
+            "name" => array(
+                "label" => "Nume",
+                "type" => "text",
+                "required" => true,
+            )
+        );
+        $metadata = array(
+            "page_title" => "Editează categorie",
+            "fields" => $fields,
+            "source" => "categorii",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "after_update_url" => "/dashboard.php?meniu=categorii&actiune=vezi"
+            )
+        );
+        $data = array(
+            "instance" => $category_controller->get_by_id($id)
+        );
+        $edit_view->render($data, $metadata);
     } else {
         SecurityHelper::redirect_to_404();
     }

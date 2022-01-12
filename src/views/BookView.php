@@ -52,7 +52,7 @@ class BookView
                     de
                     <?php foreach ($book->authors as $index => $author) { ?>
                         <span>
-                            <a href="/autor.php?id=<?php echo $author->id; ?>">
+                            <a href="/autor.php?id=<?php echo $author->author_id; ?>">
                                 <?php echo $author->name; ?>
                             </a>
                             <?php if ($index != count($book->authors) - 1)
@@ -77,7 +77,7 @@ class BookView
                 foreach ($book->categories as $category) {
                     ?>
                     <p class="mb-2">
-                        <a href="/categorie.php?id=<?php echo $category->id; ?>"
+                        <a href="/categorie.php?id=<?php echo $category->category_id; ?>"
                            class="is-flex is-justify-content-space-between is-align-content-baseline">
                             <span class="is-align-self-baseline"><?php echo $category->name; ?></span>
                             <span class="has-text-grey-light is-size-7 is-align-self-baseline"

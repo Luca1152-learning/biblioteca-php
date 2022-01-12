@@ -63,6 +63,18 @@ class AuthorController implements AbstractController
         $query->close();
     }
 
+    public function update($data)
+    {
+        $query = $this->db->prepare("
+            UPDATE authors
+            SET name=?
+            WHERE author_id = ?;
+        ");
+        $query->bind_param("si", $data["name"], $data["author_id"]);
+        $query->execute();
+        $query->close();
+    }
+
     public function delete($id)
     {
         // Query
@@ -73,11 +85,6 @@ class AuthorController implements AbstractController
         $query->bind_param("i", $id);
         $query->execute();
         $query->close();
-    }
-
-    public function update($new_data)
-    {
-
     }
 }
 

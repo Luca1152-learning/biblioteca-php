@@ -12,26 +12,26 @@ if (!SecurityHelper::is_librarian()) {
     exit();
 }
 
-
 // Receive JSON input
 $data = json_decode(file_get_contents('php://input'), true);
 $source = $data["source"];
 $action = $data["action"];
 
-// ---------------------------------------- CARTI ----------------------------------------
-if ($source === "carti") {
-    $book_controller = new BookController();
+// Generalized function
+function handle_crud_requests($controller, $data)
+{
+    global $action;
 
     if ($action === "adauga") {
         try {
-            $book_controller->insert($data["data"]);
+            $controller->insert($data["data"]);
         } catch (Exception $e) {
             http_response_code(404); // Not Found
             exit();
         }
     } else if ($action === "modifica") {
         try {
-            $book_controller->update($data["data"]);
+            $controller->update($data["data"]);
         } catch (Exception $e) {
             http_response_code(400); // Bad Request
             exit();
@@ -40,7 +40,7 @@ if ($source === "carti") {
         $id = $data["id"];
 
         try {
-            $book_controller->delete($id);
+            $controller->delete($id);
         } catch (Exception $e) {
             http_response_code(400); // Bad Request
             exit();
@@ -49,64 +49,21 @@ if ($source === "carti") {
         http_response_code(404); // Not Found
         exit();
     }
-} // ---------------------------------------- AUTORI ----------------------------------------
-else if ($source === "autori") {
+}
+
+// Handle CRUD requests with appropriate controllers
+if ($source === "carti") {
+    $book_controller = new BookController();
+    handle_crud_requests($book_controller, $data);
+} else if ($source === "autori") {
     $author_controller = new AuthorController();
-
-    if ($action === "adauga") {
-        try {
-            $author_controller->insert($data["data"]);
-        } catch (Exception $e) {
-            http_response_code(400); // Bad Request
-            exit();
-        }
-    } else if ($action === "sterge") {
-        $id = $data["id"];
-
-        try {
-            $author_controller->delete($id);
-        } catch (Exception $e) {
-            http_response_code(400); // Bad Request
-            exit();
-        }
-    } else {
-        http_response_code(404); // Not Found
-        exit();
-    }
-} // ---------------------------------------- PUBLISHERI ----------------------------------------
-else if ($source === "publisheri") {
+    handle_crud_requests($author_controller, $data);
+} else if ($source === "publisheri") {
     $publisher_controller = new PublisherController();
-
-    if ($action === "sterge") {
-        $id = $data["id"];
-
-        try {
-            $publisher_controller->delete($id);
-        } catch (Exception $e) {
-            http_response_code(400); // Bad Request
-            exit();
-        }
-    } else {
-        http_response_code(404); // Not Found
-        exit();
-    }
-} // ---------------------------------------- CATEGORII ----------------------------------------
-else if ($source === "categorii") {
+    handle_crud_requests($publisher_controller, $data);
+} else if ($source === "categorii") {
     $category_controller = new CategoryController();
-
-    if ($action === "sterge") {
-        $id = $data["id"];
-
-        try {
-            $category_controller->delete($id);
-        } catch (Exception $e) {
-            http_response_code(400); // Bad Request
-            exit();
-        }
-    } else {
-        http_response_code(404); // Not Found
-        exit();
-    }
+    handle_crud_requests($category_controller, $data);
 } else {
     http_response_code(404); // Not Found
     exit();

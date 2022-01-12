@@ -59,6 +59,29 @@ class PublisherController implements AbstractController
         $query->execute();
         $query->close();
     }
+
+    public function insert($data)
+    {
+        $query = $this->db->prepare("
+            INSERT INTO publishers(name)
+            VALUES (?);
+        ");
+        $query->bind_param("s", $data["name"]);
+        $query->execute();
+        $query->close();
+    }
+
+    public function update($data)
+    {
+        $query = $this->db->prepare("
+            UPDATE publishers
+            SET name=?
+            WHERE publisher_id = ?;
+        ");
+        $query->bind_param("si", $data["name"], $data["publisher_id"]);
+        $query->execute();
+        $query->close();
+    }
 }
 
 ?>

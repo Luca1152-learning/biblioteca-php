@@ -12,6 +12,16 @@ class UserController implements AbstractController
         $this->db = (new Database())->get_handle();
     }
 
+    public function insert($data)
+    {
+        // TODO: Implement insert() method.
+    }
+
+    public function update($data)
+    {
+        // TODO: Implement update() method.
+    }
+
     public function get_by_id(int $id)
     {
         $filtered_user = array_filter($this->get_all(), function ($it) use ($id) {
