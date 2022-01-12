@@ -190,6 +190,18 @@ class UserController implements AbstractController
         $query->execute();
         $query->close();
     }
+
+    public function confirm_mail($code)
+    {
+        $query = $this->db->prepare("
+            UPDATE users
+            SET verified_email = TRUE
+            WHERE verify_email_url = ?;
+        ");
+        $query->bind_param("i", $code);
+        $query->execute();
+        $query->close();
+    }
 }
 
 ?>
