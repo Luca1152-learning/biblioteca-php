@@ -9,6 +9,11 @@ if (!SecurityHelper::is_logged_in()) {
     exit();
 }
 
+if (!SecurityHelper::is_mail_verified()) {
+    http_response_code(405);
+    exit();
+}
+
 // Receive JSON input
 $data = json_decode(file_get_contents('php://input'), true);
 $data["user_id"] = $_SESSION["user_id"];

@@ -25,9 +25,16 @@ class BookView
                                   body: JSON.stringify({book_id: <?php echo json_encode($book->book_id); ?>})
                                   }).then(response => {
                                   if (response.status !== 200) {
+                                  if (response.status === 403){
+                                  window.location.replace('/conectare.php');
+                                  return;
+                                  } else if (response.status === 405){
+                                  window.location.replace('/eroare-verifica-mail.php');
+                                  return;
+                                  } else {
                                   location.reload(); // Refresh page
                                   throw response;
-                                  }
+                                  }}
 
                                   // Refresh on success
                                   location.reload(); // Refresh page

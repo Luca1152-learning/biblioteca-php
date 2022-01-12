@@ -96,6 +96,11 @@ class SecurityHelper
         $mail->AddAddress($email_address);
         $mail->Send();
     }
+
+    public static function is_mail_verified()
+    {
+        return self::is_logged_in() && $_SESSION["user_verified_email"] == true;
+    }
 }
 
 ?>
