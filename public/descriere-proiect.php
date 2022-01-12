@@ -1,7 +1,6 @@
 <?php
-include '../src/utils/database/database.php';
-include '../src/components/header.php';
-include '../src/components/footer.php';
+include_once '../src/components/header.php';
+include_once '../src/components/footer.php';
 
 create_header("Lib - Descriere proiect");
 ?>

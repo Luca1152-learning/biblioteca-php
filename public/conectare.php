@@ -1,9 +1,8 @@
 <?php
-    include '../src/components/header.php';
-    include '../src/components/footer.php';
-    include '../src/utils/database/database.php';
+include_once '../src/components/header.php';
+include_once '../src/components/footer.php';
 
-    create_header("Lib - Biblioteca ta");
+create_header("Lib - Biblioteca ta");
 ?>
 
     <main class="section">
@@ -40,5 +39,5 @@
     </main>
 
 <?php
-    create_footer();
+create_footer();
 ?>

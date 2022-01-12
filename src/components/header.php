@@ -2,6 +2,7 @@
 include_once __DIR__ . "/../utils/security/SecurityHelper.php";
 
 session_start();
+SecurityHelper::update_session();
 
 function create_header($title)
 { ?>
