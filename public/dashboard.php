@@ -154,7 +154,7 @@ else if ($menu === "carti") {
                 "label" => "Categorii",
                 "type" => "list"
             ),
-            "available_copies_count" => array(
+            "total_copies_count" => array(
                 "label" => "Copii",
                 "type" => "number",
                 "centered" => true,

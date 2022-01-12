@@ -44,7 +44,13 @@ class BookController implements AbstractController
                    (SELECT GROUP_CONCAT(bc.votes ORDER BY bc.votes DESC)
                     FROM books_categories bc
                     JOIN categories c on bc.category_id = c.category_id
-                    WHERE bc.book_id = b.book_id) categories_votes
+                    WHERE bc.book_id = b.book_id) categories_votes,
+                   (SELECT COUNT(*)
+                    FROM copies c
+                    JOIN borrows b ON c.copy_id = b.copy_id
+                    WHERE c.book_id = b.book_id AND (borrow_date IS NULL OR 
+                        (borrow_date IS NOT NULL AND return_date IS NULL))
+                   ) borrowed_books_count
             FROM books b
             LEFT JOIN publishers p ON b.publisher_id = p.publisher_id;
         ");
@@ -55,9 +61,9 @@ class BookController implements AbstractController
         $query->store_result();
         $query->bind_result(
             $book->book_id, $book->title, $book->description, $book->cover_url, $publisher_id,
-            $publisher_name, $book->publication_year, $book->pages_count, $book->available_copies_count,
+            $publisher_name, $book->publication_year, $book->pages_count, $book->total_copies_count,
             $authors_ids_string, $authors_names_string, $categories_ids_string, $categories_names_string,
-            $categories_votes_string
+            $categories_votes_string, $borrowed_books_count
         );
 
         // Fetch all rows
@@ -102,6 +108,9 @@ class BookController implements AbstractController
                     "votes" => $categories_votes[$index]]
                 );
             }
+
+            // Set available copies count
+            $book->available_copies_count = $book->total_copies_count - $borrowed_books_count;
 
             // unserialize(serialize(book)) = deep copy
             array_push($books_array, unserialize(serialize($book)));

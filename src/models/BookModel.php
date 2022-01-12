@@ -6,6 +6,7 @@ class BookModel
     public ?string $title;
     public ?string $description;
     public ?array $authors;
+    public ?int $total_copies_count;
     public ?int $available_copies_count;
     public ?array $categories;
     public ?string $cover_url;

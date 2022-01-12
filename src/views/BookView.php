@@ -13,7 +13,7 @@ class BookView
                     </figure>
                     <p class="is-size-5 has-text-black has-text-weight-medium is-child pt-1 has-text-centered"><?php echo $book->title ?></p>
                     <p class="is-size-6 is-child has-text-centered has-text-grey-dark"><?php echo $book->authors[0]->name ?></p>
-                    <?php if ($book->available_copies_count > 0) { // TODO: counts copies and not available copies ?>
+                    <?php if ($book->available_copies_count > 0) { ?>
                         <button class="is-child button is-rounded is-primary mt-3" style="align-self: center;">
                             Împrumută
                         </button>
@@ -34,7 +34,7 @@ class BookView
                 <figure class="image">
                     <img src="<?php echo $book->cover_url ?>" alt="<?php echo $book->title ?> cover">
                 </figure>
-                <?php if ($book->available_copies_count > 0) { // TODO: counts copies and not available copies ?>
+                <?php if ($book->available_copies_count > 0) { ?>
                     <button class="button is-rounded is-primary mt-3 is-align-self-stretch" style="align-self: center;">
                         Împrumută
                     </button>
