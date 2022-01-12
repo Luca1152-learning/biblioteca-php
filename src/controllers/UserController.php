@@ -17,9 +17,32 @@ class UserController implements AbstractController
         throw new Error("STUB");
     }
 
+    private function get_user_role($id)
+    {
+        // Query
+        $query = $this->db->prepare("
+            SELECT role
+            FROM users
+            WHERE user_id = ?;
+        ");
+        $query->bind_param("i", $id);
+        $query->execute();
+
+        // Result
+        $query->store_result();
+        $query->bind_result($user_role);
+        $query->fetch();
+        $query->close();
+
+        return $user_role;
+    }
+
     public function update($data)
     {
-        print_r($data);
+        if ($this->get_user_role($data["user_id"]) === "administrator") {
+            throw new Error("Can't update administrators!");
+        }
+
         $query = $this->db->prepare("
             UPDATE users
             SET last_name=?, first_name=?, email=?, role=?
@@ -138,6 +161,10 @@ class UserController implements AbstractController
 
     public function delete($id)
     {
+        if ($this->get_user_role($id) === "administrator") {
+            throw new Error("Can't delete administrators!");
+        }
+
         // Query
         $query = $this->db->prepare("
             DELETE FROM users
