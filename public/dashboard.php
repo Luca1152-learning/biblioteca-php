@@ -7,6 +7,7 @@ include_once __DIR__ . '/../src/controllers/BookController.php';
 include_once __DIR__ . '/../src/controllers/CategoryController.php';
 include_once __DIR__ . '/../src/controllers/PublisherController.php';
 include_once __DIR__ . '/../src/controllers/CopyController.php';
+include_once __DIR__ . '/../src/controllers/BorrowController.php';
 include_once __DIR__ . '/../src/views/dashboard/TableView.php';
 include_once __DIR__ . '/../src/views/dashboard/EditView.php';
 include_once __DIR__ . '/../src/views/dashboard/AddView.php';
@@ -650,6 +651,83 @@ else if ($menu === "copii") {
         );
         $data = array(
             "instance" => $copy_controller->get_by_id($id)
+        );
+        $edit_view->render($data, $metadata);
+    } else {
+        SecurityHelper::redirect_to_404();
+    }
+}  //---------------------------------------- IMPRUMUTURI ----------------------------------------
+else if ($menu === "imprumuturi") {
+    $borrow_controller = new BorrowController();
+
+    // ********************** TABEL **********************
+    if ($action === "vezi") {
+        $columns = array(
+            "borrow_id" => array(
+                "label" => "ID",
+                "width" => 60
+            ),
+            "user_full_name" => array(
+                "label" => "Utilizator",
+            ),
+            "book_title" => array(
+                "label" => "Carte"
+            ),
+            "borrow_date" => array(
+                "label" => "Împrumutată la",
+                "type" => "date",
+            ),
+            "return_due_date" => array(
+                "label" => "De returnat la",
+                "type" => "date",
+            ),
+            "return_date" => array(
+                "label" => "Returnată la",
+                "type" => "date",
+            ),
+        );
+
+        $metadata = array(
+            "page_title" => "Listă împrumuturi",
+            "columns" => $columns,
+            "modify_url" => "/dashboard.php?meniu=imprumuturi&actiune=modifica&id=",
+            "source" => "imprumuturi",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "delete" => array(
+                    "confirm_message" => "Ești sigur că vrei să ștergi împrumutul selectat?"
+                )
+            )
+        );
+        $table_view->render_table($borrow_controller->get_all(), $metadata);
+    } // ********************** UPDATE **********************
+    else if ($action === "modifica") {
+        $id = $_GET["id"];
+        $fields = array(
+            "borrow_date" => array(
+                "label" => "Împrumutată la",
+                "type" => "date"
+            ),
+            "return_due_date" => array(
+                "label" => "De returnat la",
+                "type" => "date"
+            ),
+            "return_date" => array(
+                "label" => "Returnată la",
+                "type" => "date"
+            )
+        );
+        $metadata = array(
+            "page_title" => "Editează împrumut",
+            "fields" => $fields,
+            "source" => "imprumuturi",
+            "crud" => array(
+                "url" => "/librarian_crud_post.php",
+                "after_update_url" => "/dashboard.php?meniu=imprumuturi&actiune=vezi"
+            )
+        );
+        $data = array(
+            "instance" => $borrow_controller->get_by_id($id)
         );
         $edit_view->render($data, $metadata);
     } else {

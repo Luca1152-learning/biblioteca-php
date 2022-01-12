@@ -120,7 +120,7 @@ CREATE TABLE borrows
     copy_id         INT NOT NULL,
     borrow_date     DATE,
     return_due_date DATE,
-    return_date     DATE,
+    return_date     DATE DEFAULT NULL,
     PRIMARY KEY (borrow_id),
     FOREIGN KEY (user_id)
         REFERENCES users (user_id)

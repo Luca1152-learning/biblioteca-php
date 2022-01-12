@@ -34,9 +34,9 @@ class TableView
                                     <?php if (isset($info["width"])) echo " width=\"" . $info["width"] . "\""; ?>
                                 >
                                     <?php if (isset($info["type"]) && $info["type"] === "date") { ?>
-                                        <span class="tag is-success">
+                                        <span v-if="props.row.<?php echo $field ?> != null" class="tag is-success">
                                         {{ props.row.<?php echo $field ?> }}
-                                    </span>
+                                        </span>
                                     <?php } else if (isset($info["type"]) && $info["type"] === "list") { ?>
                                         <b-taglist>
                                             <b-tag v-for="item in props.row.<?php echo $field; ?>.slice(0,2)"
