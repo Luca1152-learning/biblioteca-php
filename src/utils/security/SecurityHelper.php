@@ -1,5 +1,8 @@
 <?php
 include_once __DIR__ . "/../../controllers/UserController.php";
+require_once __DIR__ . '/../../../vendor/autoload.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
 
 class SecurityHelper
 {
@@ -71,6 +74,27 @@ class SecurityHelper
     public static function assert_is_librarian()
     {
         if (!self::is_librarian()) self::redirect_to_403();
+    }
+
+    public static function send_mail_verification_email($first_name, $email_address, $code)
+    {
+        $mail = new PHPMailer();
+        $mail->IsSMTP();
+        $mail->SMTPAuth = true;
+        $mail->SMTPSecure = 'ssl';
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465;
+        $mail->IsHTML(true);
+        $mail->Username = "biblioteca.php.2022@gmail.com";
+        $mail->Password = "Jjnss2X&YadrEkD^JVRW";
+        $mail->SetFrom("biblioteca.php.2022@gmail.com");
+        $mail->Subject = "Biblioteca Lib - Verifica-ti adresa de mail";
+        $mail->Body = nl2br(
+            "Salut {$first_name},\n\nÎți poți verifica adresa de email apăsând " .
+            "<a href='/verifica-mail.php?cod={$code}'>aici</a>.\n\nMulțumim,\nEchipa Biblioteca Lib"
+        );
+        $mail->AddAddress($email_address);
+        $mail->Send();
     }
 }
 

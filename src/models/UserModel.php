@@ -9,7 +9,7 @@ class UserModel
     public ?string $last_name;
     public ?string $sign_up_date;
     public ?bool $verified_email;
-    public ?bool $verify_email_url;
+    public ?string $verify_email_url;
     public $role;
     public $borrows;
 

@@ -3,6 +3,7 @@ include_once __DIR__ . '/AbstractController.php';
 include_once __DIR__ . '/../models/UserModel.php';
 include_once __DIR__ . '/../utils/database/Database.php';
 include_once __DIR__ . '/BorrowController.php';
+include_once __DIR__ . '/../utils/security/SecurityHelper.php';
 
 class UserController implements AbstractController
 {
@@ -91,7 +92,6 @@ class UserController implements AbstractController
             // unserialize(serialize(book)) = deep copy
             array_push($users_array, unserialize(serialize($user)));
         }
-
         $query->close();
 
         // Get all borrows
@@ -124,7 +124,12 @@ class UserController implements AbstractController
             $query->close();
 
             // If successful, log in (altering the session)
-            return $this->sign_in($user);
+            $did_sign_in = $this->sign_in($user);
+            SecurityHelper::update_session();
+            SecurityHelper::send_mail_verification_email(
+                $_SESSION["user_first_name"], $_SESSION["user_email"], $_SESSION["user_verify_email_url"]
+            );
+            return $did_sign_in;
         } catch (Exception $e) {
             return false;
         }
