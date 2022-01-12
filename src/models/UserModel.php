@@ -7,7 +7,7 @@ class UserModel
     public ?string $hashedPassword;
     public ?string $first_name;
     public ?string $last_name;
-    public ?string $role;
+    public $role;
     public ?string $sign_up_date;
     public ?string $last_online_date;
 

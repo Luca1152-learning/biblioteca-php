@@ -33,32 +33,33 @@ $add_view = new AddView();
 create_header("Lib - Dashboard");
 //---------------------------------------- UTILIZATORI ----------------------------------------
 if ($menu === "utilizatori") {
-    // Users
     $user_controller = new UserController();
-    $columns = array(
-        "user_id" => array(
-            "label" => "ID"
-        ),
-        "last_name" => array(
-            "label" => "Nume",
-        ),
-        "first_name" => array(
-            "label" => "Prenume"
-        ),
-        "email" => array(
-            "label" => "Email"
-        ),
-        "role" => array(
-            "label" => "Rol"
-        ),
-        "sign_up_date" => array(
-            "label" => "Dată înregistrare",
-            "centered" => true,
-            "type" => "date"
-        )
-    );
 
+    // ********************** TABEL **********************
     if ($action === "vezi") {
+        $columns = array(
+            "user_id" => array(
+                "label" => "ID"
+            ),
+            "last_name" => array(
+                "label" => "Nume",
+            ),
+            "first_name" => array(
+                "label" => "Prenume"
+            ),
+            "email" => array(
+                "label" => "Email"
+            ),
+            "role" => array(
+                "label" => "Rol"
+            ),
+            "sign_up_date" => array(
+                "label" => "Dată înregistrare",
+                "centered" => true,
+                "type" => "date"
+            )
+        );
+
         $metadata = array(
             "page_title" => "Listă utilizatori",
             "columns" => $columns,
@@ -72,6 +73,52 @@ if ($menu === "utilizatori") {
             )
         );
         $table_view->render_table($user_controller->get_all(), $metadata);
+    } // ********************** UPDATE **********************
+    else if ($action === "modifica") {
+        $id = $_GET["id"];
+        $fields = array(
+            "last_name" => array(
+                "label" => "Nume",
+                "type" => "text",
+            ),
+            "first_name" => array(
+                "label" => "Prenume",
+                "type" => "text",
+            ),
+            "email" => array(
+                "label" => "Email",
+                "type" => "text",
+            ),
+            "role" => array(
+                "label" => "Rol",
+                "type" => "text-autocomplete",
+                "field_name" => "name",
+                "required" => true
+            ),
+        );
+        $metadata = array(
+            "page_title" => "Editează utilizator",
+            "fields" => $fields,
+            "source" => "utilizatori",
+            "crud" => array(
+                "url" => "/admin_crud_post.php",
+                "after_update_url" => "/dashboard.php?meniu=utilizatori&actiune=vezi"
+            )
+        );
+
+        // Work-around to make the interface work with the current View structure
+        $instance = $user_controller->get_by_id($id);
+        $instance->role = array(
+            "name" => $instance->role
+        );
+
+        $data = array(
+            "instance" => $instance,
+            "all" => array(
+                "role" => [array("name" => "user"), array("name" => "bibliotecar"), array("name" => "administrator")]
+            )
+        );
+        $edit_view->render($data, $metadata);
     } else {
         SecurityHelper::redirect_to_404();
     }

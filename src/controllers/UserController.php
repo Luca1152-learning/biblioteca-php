@@ -14,12 +14,25 @@ class UserController implements AbstractController
 
     public function insert($data)
     {
-        // TODO: Implement insert() method.
+        throw new Error("STUB");
     }
 
     public function update($data)
     {
-        // TODO: Implement update() method.
+        print_r($data);
+        $query = $this->db->prepare("
+            UPDATE users
+            SET last_name=?, first_name=?, email=?, role=?
+            WHERE user_id = ?;
+        ");
+        $role = $data["role"]["name"];
+        $query->bind_param(
+            "ssssi",
+            $data["last_name"], $data["first_name"],
+            $data["email"], $role, $data["user_id"]
+        );
+        $query->execute();
+        $query->close();
     }
 
     public function get_by_id(int $id)
