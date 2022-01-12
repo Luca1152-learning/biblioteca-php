@@ -706,11 +706,13 @@ else if ($menu === "imprumuturi") {
         $fields = array(
             "borrow_date" => array(
                 "label" => "Împrumutată la",
-                "type" => "date"
+                "type" => "date",
+                "required" => true,
             ),
             "return_due_date" => array(
                 "label" => "De returnat la",
-                "type" => "date"
+                "type" => "date",
+                "required" => true,
             ),
             "return_date" => array(
                 "label" => "Returnată la",

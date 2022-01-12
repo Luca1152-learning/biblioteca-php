@@ -42,7 +42,4 @@ if ($source === "utilizatori") {
     exit();
 }
 
-echo json_encode($data);
-
-
 ?>

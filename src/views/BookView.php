@@ -14,7 +14,22 @@ class BookView
             if ($book->available_copies_count > 0) {
                 // The book is available ?>
                 <b-button class="<?php echo $css_classes; ?> is-primary" style="align-self: center;"
-                          onclick="function hi(){alert('Hi!')}hi()" )()>
+                          onclick="
+                                  function imprumuta(){
+                                  fetch('/imprumuta_post.php', {
+                                  method: 'POST',
+                                  headers: {'Content-Type': 'application/json'},
+                                  body: JSON.stringify({book_id: <?php echo json_encode($book->book_id); ?>})
+                                  }).then(response => {
+                                  if (response.status !== 200) {
+                                  location.reload(); // Refresh page
+                                  throw response;
+                                  }
+
+                                  // Refresh on success
+                                  location.reload(); // Refresh page
+                                  }).catch(console.log)}
+                                  imprumuta()">
                     Împrumută
                 </b-button>
             <?php } else {
@@ -25,7 +40,7 @@ class BookView
             <?php }
         } else {
             // The book was borrowed
-            $borrow = $filtered_borrows[0];
+            $borrow = reset($filtered_borrows);
 
             if ($borrow->borrow_date == null) {
                 // The book was reserved (not yet picked up) ?>

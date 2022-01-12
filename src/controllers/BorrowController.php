@@ -62,14 +62,34 @@ class BorrowController implements AbstractController
 
     public function insert($data)
     {
-        // TODO
-//        $query = $this->db->prepare("
-//            INSERT INTO copies(book_id)
-//            VALUES (?);
-//        ");
-//        $query->bind_param("s", $data["book"]["book_id"]);
-//        $query->execute();
-//        $query->close();
+        // data = book_id + user_id
+
+        // Find a copy that isn't borrowed
+        $query = $this->db->prepare("
+            SELECT c.copy_id
+            FROM copies c
+            LEFT JOIN borrows b ON c.copy_id = b.copy_id
+            WHERE c.book_id = ? AND (b.borrow_id IS NULL OR return_date IS NOT NULL)
+            LIMIT 1
+        ");
+        $query->bind_param("i", $data["book_id"]);
+        $query->execute();
+        $query->store_result();
+        $query->bind_result($copy_id);
+        $query->fetch();
+        if ($query->num_rows == 0) {
+            throw new Error("No available copies.");
+        }
+        $query->close();
+
+        // Insert the copy in the borrows database
+        $query = $this->db->prepare("
+            INSERT INTO borrows(user_id, copy_id)
+            VALUES (?, ?);
+        ");
+        $query->bind_param("ii", $data["user_id"], $copy_id);
+        $query->execute();
+        $query->close();
     }
 
     public function update($data)
