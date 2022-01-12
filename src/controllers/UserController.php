@@ -2,6 +2,7 @@
 include_once __DIR__ . '/AbstractController.php';
 include_once __DIR__ . '/../models/UserModel.php';
 include_once __DIR__ . '/../utils/database/Database.php';
+include_once __DIR__ . '/BorrowController.php';
 
 class UserController implements AbstractController
 {
@@ -92,6 +93,16 @@ class UserController implements AbstractController
         }
 
         $query->close();
+
+        // Get all borrows
+        $borrow_controller = new BorrowController();
+        $borrows = $borrow_controller->get_all();
+        // For each users, get its borrows
+        foreach ($users_array as $user) {
+            $user->borrows = array_filter($borrows, function ($borrow) use ($user) {
+                return $borrow->user_id === $user->user_id;
+            });
+        }
 
         return $users_array;
     }

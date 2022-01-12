@@ -6,6 +6,7 @@ class BorrowModel
     public ?int $user_id;
     public ?string $user_full_name;
     public ?int $copy_id;
+    public ?string $book_id;
     public ?string $book_title;
     public ?string $borrow_date;
     public ?string $return_due_date;

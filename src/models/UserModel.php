@@ -10,6 +10,7 @@ class UserModel
     public $role;
     public ?string $sign_up_date;
     public ?string $last_online_date;
+    public $borrows;
 
     public function __construct(
         string $email = null, string $password = null,

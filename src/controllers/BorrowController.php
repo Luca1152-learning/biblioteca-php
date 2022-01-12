@@ -32,7 +32,7 @@ class BorrowController implements AbstractController
         // Query
         $query = $this->db->prepare("
             SELECT borrow_id, b.user_id, CONCAT(first_name, ' ', last_name) AS user_name, 
-                   b.copy_id, title, borrow_date, return_due_date, return_date 
+                   b.copy_id, c.book_id, title, borrow_date, return_due_date, return_date 
             FROM borrows b
             JOIN users u ON b.user_id = u.user_id
             JOIN copies c ON b.copy_id = c.copy_id
@@ -45,7 +45,8 @@ class BorrowController implements AbstractController
         $query->store_result();
         $query->bind_result(
             $borrow->borrow_id, $borrow->user_id, $borrow->user_full_name, $borrow->copy_id,
-            $borrow->book_title, $borrow->borrow_date, $borrow->return_due_date, $borrow->return_date
+            $borrow->book_id, $borrow->book_title, $borrow->borrow_date, $borrow->return_due_date,
+            $borrow->return_date
         );
 
         // Fetch all rows

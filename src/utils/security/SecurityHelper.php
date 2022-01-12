@@ -27,7 +27,7 @@ class SecurityHelper
         $_SESSION["user_last_name"] = $current_user->last_name;
         $_SESSION["user_sign_up_date"] = $current_user->sign_up_date;
         $_SESSION["user_last_online_date"] = $current_user->last_online_date;
-
+        $_SESSION["borrows"] = $current_user->borrows;
     }
 
     public static function is_librarian()

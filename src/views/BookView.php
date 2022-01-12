@@ -3,27 +3,62 @@ include_once __DIR__ . '/../models/BookModel.php';
 
 class BookView
 {
+    private function render_borrow_button_for_book($book, $css_classes)
+    {
+        $filtered_borrows = array_filter($_SESSION["borrows"], function ($it) use ($book) {
+            return $it->book_id == $book->book_id;
+        });
+        if ($filtered_borrows == null) {
+            // The book wasn't borrowed
+
+            if ($book->available_copies_count > 0) {
+                // The book is available ?>
+                <b-button class="<?php echo $css_classes; ?> is-primary" style="align-self: center;"
+                          onclick="function hi(){alert('Hi!')}hi()" )()>
+                    Împrumută
+                </b-button>
+            <?php } else {
+                // The book isn't available ?>
+                <b-button class="<?php echo $css_classes; ?> is-disabled" style="align-self: center;" disabled>
+                    Indisponibilă
+                </b-button>
+            <?php }
+        } else {
+            // The book was borrowed
+            $borrow = $filtered_borrows[0];
+
+            if ($borrow->borrow_date == null) {
+                // The book was reserved (not yet picked up) ?>
+                <b-button class="<?php echo $css_classes; ?> is-disabled" style="align-self: center;" disabled>
+                    Rezervată
+                </b-button>
+            <?php } else if ($borrow->return_date == null) {
+                // The book was borrowed, but not returned ?>
+                <b-button class="<?php echo $css_classes; ?> is-disabled" style="align-self: center;" disabled>
+                    Împrumutată
+                </b-button>
+            <?php } else {
+                // The book was borrowed in the past ?>
+                <b-button class="<?php echo $css_classes; ?> is-disabled" style="align-self: center;" disabled>
+                    Returnată
+                </b-button>
+            <?php }
+        }
+    }
+
     public function render_tile(BookModel $book)
     { ?>
         <div class="tile is-3 is-parent">
-            <a href="/carte.php?id=<?php echo $book->book_id ?>">
-                <div class="tile is-parent is-vertical p-1">
+            <div class="tile is-parent is-vertical p-1">
+                <a href="/carte.php?id=<?php echo $book->book_id ?>">
                     <figure class="is-child image">
                         <img src="<?php echo $book->cover_url ?>" alt="<?php echo $book->title ?> cover">
                     </figure>
                     <p class="is-size-5 has-text-black has-text-weight-medium is-child pt-1 has-text-centered"><?php echo $book->title ?></p>
                     <p class="is-size-6 is-child has-text-centered has-text-grey-dark"><?php echo $book->authors[0]->name ?></p>
-                    <?php if ($book->available_copies_count > 0) { ?>
-                        <button class="is-child button is-rounded is-primary mt-3" style="align-self: center;">
-                            Împrumută
-                        </button>
-                    <?php } else { ?>
-                        <button class="is-child button is-rounded mt-3" style="align-self: center;" disabled>
-                            Indisponibilă
-                        </button>
-                    <?php } ?>
-                </div>
-            </a>
+                </a>
+                <?php $this->render_borrow_button_for_book($book, "is-child button is-rounded mt-3"); ?>
+            </div>
         </div>
     <?php }
 
@@ -34,15 +69,7 @@ class BookView
                 <figure class="image">
                     <img src="<?php echo $book->cover_url ?>" alt="<?php echo $book->title ?> cover">
                 </figure>
-                <?php if ($book->available_copies_count > 0) { ?>
-                    <button class="button is-rounded is-primary mt-3 is-align-self-stretch" style="align-self: center;">
-                        Împrumută
-                    </button>
-                <?php } else { ?>
-                    <button class="button is-rounded mt-3 is-align-self-stretch" style="align-self: center;" disabled>
-                        Indisponibilă
-                    </button>
-                <?php } ?>
+                <?php $this->render_borrow_button_for_book($book, "button is-rounded mt-3 is-align-self-stretch"); ?>
             </div>
             <div class="column">
                 <p class="is-size-4 has-text-black has-text-weight-bold">
