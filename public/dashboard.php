@@ -72,7 +72,11 @@ if ($menu === "utilizatori") {
                 )
             )
         );
-        $table_view->render_table($user_controller->get_all(), $metadata);
+        $users = $user_controller->get_all();
+        $filtered_users = array_filter($users, function ($it) {
+            return $it->role !== "administrator";
+        });
+        $table_view->render_table($filtered_users, $metadata);
     } // ********************** UPDATE **********************
     else if ($action === "modifica") {
         $id = $_GET["id"];
