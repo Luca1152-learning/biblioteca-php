@@ -22,7 +22,7 @@ $category_name = $category->name;
 $books = $book_controller->get_all();
 $books_by_category = array_filter($books, function ($book) use ($category_id) {
     foreach ($book->categories as $category) {
-        if ($category->id === $category_id) {
+        if ($category->category_id == $category_id) {
             return true;
         }
     }
