@@ -10,7 +10,7 @@ create_header("Lib - Statistici");
         <p class="is-size-4 has-text-black has-text-weight-semibold pb-2">
             Statistici site
         </p>
-        <p>TODO</p>
+        <img src="/sign_ups_graph.php">
     </main>
 <?php
 create_footer();
