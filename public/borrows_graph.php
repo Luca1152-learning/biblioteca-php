@@ -1,7 +1,10 @@
 <?php
 
-include_once __DIR__ . '/../src/components/header.php';
+include_once __DIR__ . '/../src/utils/database/Database.php';
+include_once __DIR__ . '/../src/utils/security/SecurityHelper.php';
 require __DIR__ . '/../vendor/autoload.php';
+
+session_start();
 
 use Amenadiel\JpGraph\Graph;
 use Amenadiel\JpGraph\Plot;

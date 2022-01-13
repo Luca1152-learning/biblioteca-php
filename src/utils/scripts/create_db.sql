@@ -204,3 +204,16 @@ VALUES (25),
        (25);
 
 COMMIT;
+
+-- Stats
+CREATE TABLE page_views
+(
+    ip   VARCHAR(64),
+    date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE visits
+(
+    ip     VARCHAR(64) PRIMARY KEY,
+    number INT NOT NULL DEFAULT 0
+);

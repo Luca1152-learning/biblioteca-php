@@ -1,9 +1,14 @@
 <?php
 require_once __DIR__ . '/../../vendor/autoload.php';
 include_once __DIR__ . "/../utils/security/SecurityHelper.php";
+include_once __DIR__ . "/../utils/stats/StatsHelper.php";
 
 session_start();
 SecurityHelper::update_session();
+
+// Site stats
+$stats_helper = new StatsHelper();
+$stats_helper->add_view();
 
 function create_header($title)
 { ?>
