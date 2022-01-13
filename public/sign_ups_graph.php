@@ -10,32 +10,46 @@ SecurityHelper::assert_is_admin();
 
 $db = (new Database())->get_handle();
 $query = $db->prepare("
-        SELECT sign_up_date, COUNT(*)
+        SELECT DAY(sign_up_date) zi, COUNT(*) nr
         FROM users u
-        GROUP BY sign_up_date;
+        WHERE MONTH(sign_up_date) = MONTH(CURRENT_DATE) AND YEAR(sign_up_date) = YEAR(CURRENT_DATE)
+        GROUP BY DAY(sign_up_date)
+        ORDER BY DAY(sign_up_date)
     ");
 $query->execute();
+
+$values = array();
+$query->bind_result($zi, $nr);
+while ($query->fetch()) {
+    $values[$zi] = $nr;
+}
 
 $plot_legend = array();
 $plot_values = array();
 
-$query->bind_result($id, $nr);
-while ($query->fetch()) {
-    array_push($plot_legend, $id);
-    array_push($plot_values, $nr);
+for ($i = 1; $i <= date("t"); $i++) {
+    array_push($plot_legend, $i);
+    if (!isset($values[$i])) {
+        array_push($plot_values, 0);
+    } else {
+        array_push($plot_values, $values[$i]);
+    }
 }
 
-// Create the Pie Graph.
-$graph = new Graph\PieGraph(400, 450);
-$graph->title->Set("Utilizatori noi per zile");
-$graph->SetBox(true);
+// Create the graph
+$graph = new Graph\Graph(600, 200, 'auto');
+$graph->SetShadow();
+$graph->SetScale('textlin');
+$graph->xaxis->SetTickLabels($plot_legend);
+$current_month = date('M');
+$graph->title->Set("Utilizatori inregistrati in luna {$current_month}");
+$graph->title->SetFont(FF_FONT1, FS_BOLD);
 
-$p1 = new Plot\PiePlot($plot_values);
-$p1->SetLegends($plot_legend);
-$p1->ShowBorder();
-$p1->SetColor('black');
+// Create the bar plot
+$b1 = new Plot\BarPlot($plot_values);
+$b1->SetLegend('Număr utilizatori');
+$graph->Add($b1);
 
-$graph->Add($p1);
+// Display the graph
 $graph->Stroke();
-
 ?>
