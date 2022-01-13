@@ -116,7 +116,7 @@ class BookView
                     <?php } ?>
                 </p>
                 <p class="is-size-6 has-text-black">
-                    <?php echo htmlspecialchars(nl2br($book->description), ENT_QUOTES); ?>
+                    <?php echo nl2br(htmlspecialchars($book->description, ENT_QUOTES)); ?>
                 </p>
                 <p class="is-size-7 has-text-weight-bold has-text-gray mt-2">
                     <?php echo htmlspecialchars($book->publisher->name . ', ', ENT_QUOTES); ?>
