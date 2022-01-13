@@ -47,7 +47,6 @@ $graph->SetScale('textlin');
 $graph->xaxis->SetTickLabels($plot_legend);
 $current_month = date('M');
 $graph->title->Set("Imprumuturi in luna {$current_month}");
-$graph->title->SetFont(FF_FONT1, FS_BOLD);
 
 // Create the bar plot
 $b1 = new Plot\BarPlot($plot_values);
