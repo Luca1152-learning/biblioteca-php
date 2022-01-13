@@ -17,5 +17,6 @@ create_header("Lib - Statistici");
 create_footer();
 
 $stats_helper = new StatsHelper();
-echo $stats_helper->get_views_count_today() . ' ' . $stats_helper->get_unique_visitors_today();
+echo $stats_helper->get_views_count_today() . ' ' . $stats_helper->get_unique_visitors_today() . ' ' .
+    $stats_helper->get_visits_count_today();
 ?>

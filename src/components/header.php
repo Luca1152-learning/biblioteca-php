@@ -9,6 +9,7 @@ SecurityHelper::update_session();
 // Site stats
 $stats_helper = new StatsHelper();
 $stats_helper->add_view();
+$stats_helper->add_visit_if_necessary();
 
 function create_header($title)
 { ?>
