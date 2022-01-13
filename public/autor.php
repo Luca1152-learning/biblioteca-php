@@ -32,12 +32,17 @@ create_header("Lib - Cărți de " . $author_name);
 ?>
     <main class="section">
         <p class="is-size-4 has-text-black has-text-weight-semibold pb-2">
-            Cărți scrise de <span class="has-text-primary"><?php echo $author_name ?></span>
+            Cărți scrise de <span
+                    class="has-text-primary"><?php echo htmlspecialchars($author_name, ENT_QUOTES); ?></span>
         </p>
         <div class="tile is-ancestor">
             <?php
-            foreach ($books_by_author as $book) {
-                (new BookView())->render_tile($book);
+            if (count($books_by_author) === 0) {
+                ?><p class="ml-3">Acest autor nu a publicat nicio carte.</p><?php
+            } else {
+                foreach ($books_by_author as $book) {
+                    (new BookView())->render_tile($book);
+                }
             }
             ?>
         </div>

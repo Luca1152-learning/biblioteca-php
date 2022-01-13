@@ -23,9 +23,9 @@ create_header("Lib - Statistici");
             </thead>
             <tbody>
             <tr class="has-text-centered">
-                <td><?php echo $stats_helper->get_views_count_today(); ?></td>
-                <td><?php echo $stats_helper->get_unique_visitors_today(); ?></td>
-                <td><?php echo $stats_helper->get_visits_count_today(); ?></td>
+                <td><?php echo htmlspecialchars($stats_helper->get_views_count_today(), ENT_QUOTES); ?></td>
+                <td><?php echo htmlspecialchars($stats_helper->get_unique_visitors_today(), ENT_QUOTES); ?></td>
+                <td><?php echo htmlspecialchars($stats_helper->get_visits_count_today(), ENT_QUOTES); ?></td>
             </tr>
             </tbody>
         </table>

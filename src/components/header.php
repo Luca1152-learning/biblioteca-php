@@ -29,7 +29,7 @@ function create_header($title)
         <!-- Iconify -->
         <script src="https://code.iconify.design/2/2.1.0/iconify.min.js"></script>
 
-        <title><?php echo $title ?></title>
+        <title><?php echo htmlspecialchars($title, ENT_QUOTES); ?></title>
     </head>
 
 <body>
@@ -92,7 +92,7 @@ function create_header($title)
                                         <span class="tag is-warning">Email neverificat</span>
                                     <?php } ?>
                                     <a href="/iesire.php" class="button is-text is-rounded">
-                                        <?php echo 'Ieșire ' . $_SESSION["user_first_name"] ?>
+                                        <?php echo htmlspecialchars('Ieșire ' . $_SESSION["user_first_name"], ENT_QUOTES); ?>
                                     </a>
                                     <?php
                                 } else {

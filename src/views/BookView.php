@@ -22,7 +22,7 @@ class BookView
                                   fetch('/imprumuta_post.php', {
                                   method: 'POST',
                                   headers: {'Content-Type': 'application/json'},
-                                  body: JSON.stringify({book_id: <?php echo json_encode($book->book_id); ?>})
+                                  body: JSON.stringify({book_id: <?php echo htmlspecialchars(json_encode($book->book_id), ENT_QUOTES); ?>})
                                   }).then(response => {
                                   if (response.status !== 200) {
                                   if (response.status === 403){
@@ -75,12 +75,13 @@ class BookView
     { ?>
         <div class="tile is-3 is-parent">
             <div class="tile is-parent is-vertical p-1">
-                <a href="/carte.php?id=<?php echo $book->book_id ?>">
+                <a href="/carte.php?id=<?php echo htmlspecialchars($book->book_id, ENT_QUOTES); ?>">
                     <figure class="is-child image">
-                        <img src="<?php echo $book->cover_url ?>" alt="<?php echo $book->title ?> cover">
+                        <img src="<?php echo htmlspecialchars($book->cover_url, ENT_QUOTES); ?>"
+                             alt="<?php echo htmlspecialchars($book->title, ENT_QUOTES); ?> cover">
                     </figure>
-                    <p class="is-size-5 has-text-black has-text-weight-medium is-child pt-1 has-text-centered"><?php echo $book->title ?></p>
-                    <p class="is-size-6 is-child has-text-centered has-text-grey-dark"><?php echo $book->authors[0]->name ?></p>
+                    <p class="is-size-5 has-text-black has-text-weight-medium is-child pt-1 has-text-centered"><?php echo htmlspecialchars($book->title, ENT_QUOTES); ?></p>
+                    <p class="is-size-6 is-child has-text-centered has-text-grey-dark"><?php echo htmlspecialchars($book->authors[0]->name, ENT_QUOTES); ?></p>
                 </a>
                 <?php $this->render_borrow_button_for_book($book, "is-child button is-rounded mt-3"); ?>
             </div>
@@ -92,34 +93,35 @@ class BookView
         <div class="columns">
             <div class="column is-one-quarter is-flex is-flex-direction-column">
                 <figure class="image">
-                    <img src="<?php echo $book->cover_url ?>" alt="<?php echo $book->title ?> cover">
+                    <img src="<?php echo htmlspecialchars($book->cover_url, ENT_QUOTES); ?>"
+                         alt="<?php echo htmlspecialchars($book->title, ENT_QUOTES); ?> cover">
                 </figure>
                 <?php $this->render_borrow_button_for_book($book, "button is-rounded mt-3 is-align-self-stretch"); ?>
             </div>
             <div class="column">
                 <p class="is-size-4 has-text-black has-text-weight-bold">
-                    <?php echo $book->title ?>
+                    <?php echo htmlspecialchars($book->title, ENT_QUOTES); ?>
                 </p>
                 <p class="is-size-5 has-text-grey-dark has-text-weight-medium mb-2">
                     de
                     <?php foreach ($book->authors as $index => $author) { ?>
                         <span>
-                            <a href="/autor.php?id=<?php echo $author->author_id; ?>">
-                                <?php echo $author->name; ?>
+                            <a href="/autor.php?id=<?php echo htmlspecialchars($author->author_id, ENT_QUOTES); ?>">
+                                <?php echo htmlspecialchars($author->name, ENT_QUOTES); ?>
                             </a>
                             <?php if ($index != count($book->authors) - 1)
-                                echo ", ";
+                                echo htmlspecialchars(", ", ENT_QUOTES);
                             ?>
                         </span>
                     <?php } ?>
                 </p>
                 <p class="is-size-6 has-text-black">
-                    <?php echo nl2br($book->description); ?>
+                    <?php echo htmlspecialchars(nl2br($book->description), ENT_QUOTES); ?>
                 </p>
                 <p class="is-size-7 has-text-weight-bold has-text-gray mt-2">
-                    <?php echo $book->publisher->name, ', '; ?>
-                    <?php echo $book->publication_year, ', '; ?>
-                    <?php echo $book->pages_count, ' pagini' ?>
+                    <?php echo htmlspecialchars($book->publisher->name . ', ', ENT_QUOTES); ?>
+                    <?php echo htmlspecialchars($book->publication_year . ', ', ENT_QUOTES); ?>
+                    <?php echo htmlspecialchars($book->pages_count . ' pagini', ENT_QUOTES); ?>
                 </p>
             </div>
             <div class="column is-one-quarter">
@@ -129,11 +131,11 @@ class BookView
                 foreach ($book->categories as $category) {
                     ?>
                     <p class="mb-2">
-                        <a href="/categorie.php?id=<?php echo $category->category_id; ?>"
+                        <a href="/categorie.php?id=<?php echo htmlspecialchars($category->category_id, ENT_QUOTES); ?>"
                            class="is-flex is-justify-content-space-between is-align-content-baseline">
-                            <span class="is-align-self-baseline"><?php echo $category->name; ?></span>
+                            <span class="is-align-self-baseline"><?php echo htmlspecialchars($category->name, ENT_QUOTES); ?></span>
                             <span class="has-text-grey-light is-size-7 is-align-self-baseline"
-                                  style="white-space: nowrap;"><?php echo $category->votes; ?> voturi</span>
+                                  style="white-space: nowrap;"><?php echo htmlspecialchars($category->votes, ENT_QUOTES); ?> voturi</span>
                         </a>
                     </p>
                     <?php

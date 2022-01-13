@@ -33,7 +33,8 @@ create_header("Lib - Cărți din categoria " . $category_name);
 ?>
     <main class="section">
         <p class="is-size-4 has-text-black has-text-weight-semibold pb-2">
-            Cărți din categoria <span class="has-text-primary"><?php echo $category_name ?></span>
+            Cărți din categoria <span
+                    class="has-text-primary"><?php echo htmlspecialchars($category_name, ENT_QUOTES); ?></span>
         </p>
         <div class="tile is-ancestor">
             <?php
