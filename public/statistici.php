@@ -11,6 +11,7 @@ create_header("Lib - Statistici");
             Statistici site
         </p>
         <img src="/sign_ups_graph.php">
+        <img src="/borrows_graph.php">
     </main>
 <?php
 create_footer();
